@@ -35,10 +35,10 @@ export default function PrivacyPage() {
         <div className="rounded-2xl border border-accent/40 bg-[var(--accent-glass)] p-6 backdrop-blur-md">
           <div className="flex flex-col gap-2">
             <span className="font-mono text-xs uppercase tracking-wider font-bold text-accent">
-              ✦ Transparency Guarantee
+              ✦ Data Privacy Commitment
             </span>
             <p className="text-sm leading-relaxed text-foreground/90">
-              We collect only essential information necessary to respond to your project enquiries and deliver our web design, AI assistant, and lead automation services. We never sell, rent, or trade your data to third parties.
+              We collect essential information required to respond to your project enquiries and deliver agreed web design, AI assistant, and lead automation services. We do not sell, rent, or trade personal data to third parties.
             </p>
           </div>
         </div>
@@ -134,25 +134,25 @@ export default function PrivacyPage() {
             </span>
             <h2 className="text-xl md:text-2xl font-bold tracking-tight">Data Processors & Infrastructure</h2>
             <p className="text-sm md:text-base leading-relaxed text-muted-foreground">
-              To deliver our high-performance website and secure enquiry workflows, we work with trusted, GDPR-compliant service providers:
+              To deliver our digital services and handle form interactions, we utilize established third-party infrastructure providers:
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
               <div className="rounded-xl border border-border/50 bg-card/40 p-4">
                 <h3 className="font-mono text-xs font-bold uppercase text-foreground">FormSubmit.co</h3>
                 <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
-                  Secure form processing and honeypot anti-spam relaying. Encrypts and forwards visitor form submissions directly to our business email.
+                  Third-party form processing endpoint used to transmit visitor form submissions over HTTPS to our business email, incorporating honeypot spam filtering.
                 </p>
               </div>
               <div className="rounded-xl border border-border/50 bg-card/40 p-4">
                 <h3 className="font-mono text-xs font-bold uppercase text-foreground">Google Workspace</h3>
                 <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
-                  Encrypted business Gmail infrastructure hosting our inbox (`admin@arivelunestudio.com`), ensuring secure retention of client communications.
+                  Enterprise business email infrastructure hosting our inbox (<code className="text-accent font-semibold">admin@arivelunestudio.com</code>), employing standard access controls and TLS encryption for client communications.
                 </p>
               </div>
               <div className="rounded-xl border border-border/50 bg-card/40 p-4">
-                <h3 className="font-mono text-xs font-bold uppercase text-foreground">Vercel Web Hosting</h3>
+                <h3 className="font-mono text-xs font-bold uppercase text-foreground">Vercel</h3>
                 <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
-                  Global edge hosting network providing SSL/TLS encrypted web delivery and high-speed infrastructure.
+                  Cloud hosting platform serving our website static assets over standard HTTPS/TLS encrypted edge network delivery protocols.
                 </p>
               </div>
             </div>
@@ -163,14 +163,14 @@ export default function PrivacyPage() {
             <span className="font-mono text-xs font-bold uppercase tracking-wider text-accent">
               5. Data Retention & Security
             </span>
-            <h2 className="text-xl md:text-2xl font-bold tracking-tight">How Long We Keep Your Data</h2>
+            <h2 className="text-xl md:text-2xl font-bold tracking-tight">Data Retention & Protection Measures</h2>
             <p className="text-sm md:text-base leading-relaxed text-muted-foreground">
-              We store personal information only for as long as necessary to fulfill the purposes for which it was collected:
+              We retain personal information for reasonable operational periods necessary to fulfill project requests or satisfy legal compliance obligations:
             </p>
             <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1.5 pl-1">
-              <li><strong className="text-foreground">Enquiry Communications:</strong> Retained for up to 12 months for prospective clients who do not proceed to a active contract.</li>
-              <li><strong className="text-foreground">Active Client Contracts:</strong> Retained for the duration of the commercial agreement plus 6 years for legal compliance and accounting requirements.</li>
-              <li><strong className="text-foreground">Security Measures:</strong> All data transmissions are encrypted in transit via SSL/TLS (HTTPS). Form submissions include honeypot anti-spam filters.</li>
+              <li><strong className="text-foreground">Enquiry Communications:</strong> Typically retained for up to 12 months for prospective clients who do not proceed to an active contract, or until deletion is requested.</li>
+              <li><strong className="text-foreground">Active Client Contracts:</strong> Retained for the duration of the engagement and up to 6 years thereafter to satisfy UK accounting, tax, and legal requirements.</li>
+              <li><strong className="text-foreground">Security Measures:</strong> Web data transmissions use standard HTTPS/TLS encryption protocols managed by Vercel and FormSubmit.co. Email records in Google Workspace are managed with standard enterprise security controls. While we apply reasonable safeguards, no internet transmission method can be guaranteed completely immune from all risks.</li>
             </ul>
           </section>
 
