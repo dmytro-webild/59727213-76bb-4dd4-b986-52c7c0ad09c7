@@ -103,23 +103,23 @@ export default function HomePage() {
           items={[
             {
               title: "Bespoke Web Design",
-              description: "High-end editorial websites engineered to turn passive visitors into qualified commercial enquiries."
+              description: "High-end editorial websites engineered to elevate brand authority and convert passive visitors into qualified commercial enquiries."
             },
             {
               title: "24/7 AI Enquiry Systems",
-              description: "Intelligent automated chatbots that answer prospect questions, qualify leads, and book intake calls around the clock."
+              description: "Intelligent automated chatbots and virtual assistants that answer prospect questions, qualify leads, and book intake calls around the clock."
             },
             {
               title: "Lead Automation",
-              description: "Instant notification workflows delivering new client details directly to your inbox and Google Workspace fast."
+              description: "Instant notification workflows delivering structured client enquiries directly to your Google Workspace inbox with zero delay."
             },
             {
-              title: "Local SEO Optimization",
-              description: "Local search optimization, schema markup, and geo-targeted keywords designed to dominate Berkshire and UK search."
+              title: "Local SEO Optimisation",
+              description: "Geo-targeted keyword architecture, schema markup, and Google Business optimization designed to dominate local search across Berkshire and the UK."
             },
             {
               title: "Website Care & Support",
-              description: "Ongoing performance monitoring, security updates, and technical support to keep your site growing.",
+              description: "Ongoing performance monitoring, security updates, speed patches, and dedicated technical care to keep your digital platform growing.",
               button: {
                 text: "Start Your Project",
                 href: "#contact"
@@ -431,11 +431,11 @@ export default function HomePage() {
           ]}
           servicesLabel="Service required"
           services={[
-            "Web Design",
-            "AI Chatbots",
+            "Bespoke Web Design",
+            "24/7 AI Enquiry Systems",
             "Lead Automation",
-            "Local SEO",
-            "Full System"
+            "Local SEO Optimisation",
+            "Website Care & Support"
           ]}
           button={{
             text: "Get Free Review"

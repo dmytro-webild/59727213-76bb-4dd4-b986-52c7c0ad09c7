@@ -56,8 +56,12 @@ export default function Layout() {
               href: "#contact"
             },
             {
+              text: "admin@arivelunestudio.com",
+              href: "mailto:admin@arivelunestudio.com"
+            },
+            {
               text: "Privacy Policy",
-              href: "#"
+              href: "/privacy"
             }
           ]}
           tagline="Exceptional design. Intelligent growth."
