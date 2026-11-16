@@ -133,7 +133,7 @@ function Panel({
   x: MotionValue<number>;
   kit: KitMotion;
   reduce: boolean | null;
-  onOpenPreview: (item: Work) => void;
+  onOpenPreview: (item: Work, index: number) => void;
 }) {
   const rowRef = useRef<HTMLDivElement>(null);
   const geo = useRef({ base: 0, width: 1, view: 1 });
@@ -201,7 +201,7 @@ function Panel({
         <div className="relative z-10 flex flex-wrap items-end justify-between gap-[var(--gap)]">
           <button
             type="button"
-            onClick={() => onOpenPreview(item)}
+            onClick={() => onOpenPreview(item, index)}
             className="group/preview focus-visible:outline-accent relative w-[clamp(9rem,18vw,17rem)] shrink-0 text-left"
             aria-label={`Open website preview for ${item.title}`}
           >
@@ -227,7 +227,7 @@ function Panel({
             <div className="flex items-center gap-3">
               <button
                 type="button"
-                onClick={() => onOpenPreview(item)}
+                onClick={() => onOpenPreview(item, index)}
                 className="btn-secondary !px-4 !py-2 text-xs"
               >
                 <span className="btn-label">Launch Design Preview</span>
@@ -243,7 +243,218 @@ function Panel({
   );
 }
 
-function PortfolioPreviewModal({ item, onClose }: { item: Work; onClose: () => void }) {
+function getProjectAnimationConfig(item: Work, index: number) {
+  const titleLower = item.title.toLowerCase();
+
+  if (titleLower.includes("apex") || index === 0) {
+    return {
+      accentColor: "#c4af8a",
+      accentBg: "rgba(196, 175, 138, 0.15)",
+      accentBorder: "rgba(196, 175, 138, 0.4)",
+      badgeText: "✦ Architectural Build • Berkshire",
+      heroTitle: "Bespoke Architectural Build & Commercial Development",
+      heroSubtext: "Engineering luxury commercial foundations and high-conversion client intake systems across Berkshire.",
+      baseDuration: 14,
+      desktopKeyframes: ["0%", "-26%", "-26%", "-62%", "-62%", "0%"],
+      mobileKeyframes: ["0%", "-30%", "-30%", "-68%", "-68%", "0%"],
+      times: [0, 0.38, 0.50, 0.84, 0.93, 1],
+      ease: "easeInOut" as const,
+      sections: [
+        {
+          tag: "01 // SITE ESTIMATE CALCULATOR",
+          heading: "Interactive Project Estimation & Site Bids",
+          content: (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {[
+                { title: "Commercial Build", spec: "Up to 15,000 sq ft", time: "3-4 Months" },
+                { title: "Executive Renovation", spec: "Bespoke Specs", time: "2 Months" },
+                { title: "Site Infrastructure", spec: "Full Turnkey", time: "Scoped" },
+              ].map((card, i) => (
+                <div key={i} className="rounded-xl border border-[#c4af8a]/30 bg-[#191917] p-4 flex flex-col gap-2">
+                  <span className="font-mono text-xs text-[#c4af8a]">TIER 0{i + 1}</span>
+                  <h6 className="font-semibold text-sm text-white">{card.title}</h6>
+                  <p className="text-xs text-gray-400">{card.spec} • {card.time}</p>
+                </div>
+              ))}
+            </div>
+          ),
+        },
+        {
+          tag: "02 // 24/7 SITE INTAKE CHATBOT",
+          heading: "Automated Commercial Qualification",
+          content: (
+            <div className="rounded-xl border border-[#c4af8a]/30 bg-[#161614] p-4 flex flex-col gap-2">
+              <div className="flex items-center gap-2 text-xs font-mono text-emerald-400">
+                <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>Apex Intake Bot: "3 new project tenders received today"</span>
+              </div>
+              <p className="text-xs text-gray-300">
+                Incoming clients submit structural specs and receive instant consultation schedules.
+              </p>
+            </div>
+          ),
+        },
+      ],
+    };
+  }
+
+  if (titleLower.includes("verve") || index === 1) {
+    return {
+      accentColor: "#ef4444",
+      accentBg: "rgba(239, 68, 68, 0.15)",
+      accentBorder: "rgba(239, 68, 68, 0.4)",
+      badgeText: "⚡ Precision Detailing • Reading",
+      heroTitle: "High-Performance Vehicle Care & Paint Protection",
+      heroSubtext: "High-contrast digital portal and automated instant slot booking engine for premium sports cars.",
+      baseDuration: 10,
+      desktopKeyframes: ["0%", "-22%", "-22%", "-54%", "-54%", "-78%", "-78%", "0%"],
+      mobileKeyframes: ["0%", "-25%", "-25%", "-58%", "-58%", "-82%", "-82%", "0%"],
+      times: [0, 0.22, 0.32, 0.52, 0.62, 0.82, 0.90, 1],
+      ease: "easeInOut" as const,
+      sections: [
+        {
+          tag: "01 // CERAMIC & PPF PACKAGES",
+          heading: "Precision Coating & Paint Protection",
+          content: (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {[
+                { title: "Ceramic Pro 9H", spec: "5-Year Guarantee", price: "From £795" },
+                { title: "Full Frontal PPF", spec: "Self-Healing Film", price: "From £1,295" },
+                { title: "Ultimate Track Pack", spec: "Full Body Shield", price: "From £2,495" },
+              ].map((card, i) => (
+                <div key={i} className="rounded-xl border border-[#ef4444]/30 bg-[#1c1212] p-4 flex flex-col gap-2">
+                  <span className="font-mono text-xs text-[#ef4444]">STAGE 0{i + 1}</span>
+                  <h6 className="font-semibold text-sm text-white">{card.title}</h6>
+                  <p className="text-xs text-gray-300 font-bold">{card.price} • {card.spec}</p>
+                </div>
+              ))}
+            </div>
+          ),
+        },
+        {
+          tag: "02 // AUTOMATED BOOKING TICKER",
+          heading: "24/7 Instant Reservation Engine",
+          content: (
+            <div className="rounded-xl border border-[#ef4444]/40 bg-[#221313] p-4 flex flex-col gap-2">
+              <div className="flex items-center justify-between text-xs font-mono text-red-400">
+                <span>⚡ Live Calendar Status</span>
+                <span className="bg-red-500/20 text-red-300 px-2 py-0.5 rounded">2 Slots Remaining This Week</span>
+              </div>
+              <p className="text-xs text-gray-300">
+                Clients select detailing packages and confirm dates with instant deposit routing.
+              </p>
+            </div>
+          ),
+        },
+      ],
+    };
+  }
+
+  if (titleLower.includes("crest") || index === 2) {
+    return {
+      accentColor: "#38bdf8",
+      accentBg: "rgba(56, 189, 248, 0.15)",
+      accentBorder: "rgba(56, 189, 248, 0.4)",
+      badgeText: "✦ Corporate Wealth & Advisory • Slough",
+      heroTitle: "Strategic Advisory & Wealth Preservation Platform",
+      heroSubtext: "Cinematic layout with corporate compliance, client portal, and local search visibility for regional firms.",
+      baseDuration: 16,
+      desktopKeyframes: ["0%", "-30%", "-30%", "-66%", "-66%", "0%"],
+      mobileKeyframes: ["0%", "-34%", "-34%", "-72%", "-72%", "0%"],
+      times: [0, 0.40, 0.52, 0.85, 0.94, 1],
+      ease: "easeInOut" as const,
+      sections: [
+        {
+          tag: "01 // ADVISORY DISCIPLINES",
+          heading: "Institutional Grade Corporate Guidance",
+          content: (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {[
+                { title: "Corporate Restructuring", spec: "Cross-border Tax", pipeline: "3.8x Pipeline" },
+                { title: "Wealth Preservation", spec: "Private Estates", pipeline: "Audited System" },
+                { title: "M&A Strategic Advisory", spec: "Transaction Portal", pipeline: "Confidential" },
+              ].map((card, i) => (
+                <div key={i} className="rounded-xl border border-[#38bdf8]/30 bg-[#0f172a] p-4 flex flex-col gap-2">
+                  <span className="font-mono text-xs text-[#38bdf8]">SECTOR 0{i + 1}</span>
+                  <h6 className="font-semibold text-sm text-white">{card.title}</h6>
+                  <p className="text-xs text-gray-300">{card.spec} • {card.pipeline}</p>
+                </div>
+              ))}
+            </div>
+          ),
+        },
+        {
+          tag: "02 // CONFIDENTIAL CLIENT PORTAL",
+          heading: "Secure Prospect Intake Workspace",
+          content: (
+            <div className="rounded-xl border border-[#38bdf8]/40 bg-[#0c1e38] p-4 flex flex-col gap-2">
+              <div className="flex items-center gap-2 text-xs font-mono text-sky-400">
+                <span className="size-2 rounded-full bg-sky-400 animate-pulse" />
+                <span>Encrypted Discovery Portal Active</span>
+              </div>
+              <p className="text-xs text-gray-300">
+                Prospective clients securely submit financial parameters for direct executive review.
+              </p>
+            </div>
+          ),
+        },
+      ],
+    };
+  }
+
+  // Slate or default salon item
+  return {
+    accentColor: "#f472b6",
+    accentBg: "rgba(244, 114, 182, 0.15)",
+    accentBorder: "rgba(244, 114, 182, 0.4)",
+    badgeText: "✦ Boutique Salon Workspace • Windsor",
+    heroTitle: "Luxury Salon Experience & Reservation System",
+    heroSubtext: "Automated reservation workspace and mobile VIP intake engine built for premium beauty studios.",
+    baseDuration: 12,
+    desktopKeyframes: ["0%", "-34%", "-34%", "-70%", "-70%", "0%"],
+    mobileKeyframes: ["0%", "-38%", "-38%", "-75%", "-75%", "0%"],
+    times: [0, 0.32, 0.44, 0.80, 0.90, 1],
+    ease: "easeInOut" as const,
+    sections: [
+      {
+        tag: "01 // BOUTIQUE SERVICES MENU",
+        heading: "Tailored Styling & Beauty Rituals",
+        content: (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            {[
+              { title: "Bespoke Balayage", spec: "Colour Masterclass", price: "From £165" },
+              { title: "Precision Sculpting", spec: "Stylist Direct", price: "From £95" },
+              { title: "VIP Hair Treatment", spec: "Hydration Ritual", price: "From £75" },
+            ].map((card, i) => (
+              <div key={i} className="rounded-xl border border-[#f472b6]/30 bg-[#21111c] p-4 flex flex-col gap-2">
+                <span className="font-mono text-xs text-[#f472b6]">RITUAL 0{i + 1}</span>
+                <h6 className="font-semibold text-sm text-white">{card.title}</h6>
+                <p className="text-xs text-gray-300 font-bold">{card.price} • {card.spec}</p>
+              </div>
+            ))}
+          </div>
+        ),
+      },
+      {
+        tag: "02 // AUTOMATED SMS APPOINTMENT REMINDERS",
+        heading: "Mobile Reservation & SMS Confirmation Engine",
+        content: (
+          <div className="rounded-xl border border-[#f472b6]/40 bg-[#2d1427] p-4 flex flex-col gap-2">
+            <div className="flex items-center justify-between text-xs font-mono text-pink-300">
+              <span>📱 Instant Mobile Reservation</span>
+              <span className="bg-pink-500/20 text-pink-200 px-2 py-0.5 rounded">+210% Booking Rate</span>
+            </div>
+            <p className="text-xs text-gray-300">
+              Clients book treatments online and receive instant SMS confirmations with automatic reminders.
+            </p>
+          </div>
+        ),
+      },
+    ],
+  };
+}
+
+function PortfolioPreviewModal({ item, index = 0, onClose }: { item: Work; index?: number; onClose: () => void }) {
   const modalRef = useRef<HTMLDivElement>(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [device, setDevice] = useState<"desktop" | "mobile">("desktop");
@@ -251,7 +462,8 @@ function PortfolioPreviewModal({ item, onClose }: { item: Work; onClose: () => v
   const [replayKey, setReplayKey] = useState<number>(0);
   const [elapsedSeconds, setElapsedSeconds] = useState<number>(0);
 
-  const cycleDuration = 12 / speed;
+  const config = getProjectAnimationConfig(item, index);
+  const cycleDuration = config.baseDuration / speed;
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -308,7 +520,10 @@ function PortfolioPreviewModal({ item, onClose }: { item: Work; onClose: () => v
                 <h3 id="preview-modal-title" className="font-bold text-base md:text-lg text-foreground truncate">
                   {item.title} — Website Scroll Video Preview
                 </h3>
-                <span className="hidden sm:inline-block rounded-full bg-accent/15 px-2.5 py-0.5 font-mono text-[10px] text-accent uppercase tracking-wider">
+                <span
+                  className="hidden sm:inline-block rounded-full px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider"
+                  style={{ backgroundColor: config.accentBg, color: config.accentColor }}
+                >
                   {item.category}
                 </span>
               </div>
@@ -431,12 +646,12 @@ function PortfolioPreviewModal({ item, onClose }: { item: Work; onClose: () => v
                 !isPlaying && "overflow-y-auto"
               )}
             >
-              {/* Simulated Website Content Canvas */}
+              {/* Simulated Website Content Canvas with Distinct Animation */}
               <motion.div
                 key={`${replayKey}-${device}`}
                 animate={
                   isPlaying
-                    ? { y: device === "mobile" ? ["0%", "-68%", "-68%", "0%", "0%"] : ["0%", "-60%", "-60%", "0%", "0%"] }
+                    ? { y: device === "mobile" ? config.mobileKeyframes : config.desktopKeyframes }
                     : undefined
                 }
                 transition={
@@ -444,18 +659,21 @@ function PortfolioPreviewModal({ item, onClose }: { item: Work; onClose: () => v
                     ? {
                         duration: cycleDuration,
                         repeat: Infinity,
-                        ease: "easeInOut",
-                        times: [0, 0.44, 0.54, 0.94, 1],
+                        ease: config.ease,
+                        times: config.times,
                       }
                     : undefined
                 }
                 className="w-full flex flex-col gap-0 select-none pointer-events-auto"
               >
-                {/* Section 1: Simulated Website Navigation & Hero */}
+                {/* Section 1: Simulated Website Navigation & Unique Hero */}
                 <div className="relative border-b border-border/40 bg-[#161614] p-5 md:p-8 flex flex-col gap-6">
                   <div className="flex items-center justify-between border-b border-border/30 pb-4">
                     <div className="flex items-center gap-2">
-                      <div className="size-6 rounded bg-accent flex items-center justify-center font-bold text-black text-xs">
+                      <div
+                        className="size-6 rounded flex items-center justify-center font-bold text-black text-xs"
+                        style={{ backgroundColor: config.accentColor }}
+                      >
                         {item.title.charAt(0)}
                       </div>
                       <span className="font-bold tracking-tight text-white">{item.title}</span>
@@ -466,20 +684,26 @@ function PortfolioPreviewModal({ item, onClose }: { item: Work; onClose: () => v
                       <span>About</span>
                       <span>Contact</span>
                     </div>
-                    <span className="rounded bg-accent/20 border border-accent/40 px-2.5 py-1 text-[11px] text-accent font-mono">
+                    <span
+                      className="rounded border px-2.5 py-1 text-[11px] font-mono"
+                      style={{ backgroundColor: config.accentBg, borderColor: config.accentBorder, color: config.accentColor }}
+                    >
                       Enquire →
                     </span>
                   </div>
 
                   <div className="flex flex-col gap-3">
-                    <div className="inline-flex items-center gap-1.5 rounded-full bg-accent/10 border border-accent/30 px-3 py-1 font-mono text-[10px] text-accent w-fit uppercase tracking-widest">
-                      ✦ Bespoke Website Architecture • {item.clientLocation ?? "UK Business"}
+                    <div
+                      className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 font-mono text-[10px] w-fit uppercase tracking-widest"
+                      style={{ backgroundColor: config.accentBg, borderColor: config.accentBorder, color: config.accentColor }}
+                    >
+                      {config.badgeText}
                     </div>
                     <h4 className="text-xl md:text-3xl font-extrabold text-white leading-tight tracking-tight">
-                      Next-Generation Digital Platform for {item.title}
+                      {config.heroTitle}
                     </h4>
                     <p className="text-xs md:text-sm text-gray-300 max-w-xl leading-relaxed">
-                      {item.description}
+                      {config.heroSubtext}
                     </p>
                   </div>
 
@@ -492,7 +716,9 @@ function PortfolioPreviewModal({ item, onClose }: { item: Work; onClose: () => v
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent p-4 flex items-end justify-between">
                       <div className="flex flex-col gap-1">
-                        <span className="font-mono text-[10px] text-accent uppercase">Live Platform Status</span>
+                        <span className="font-mono text-[10px] uppercase" style={{ color: config.accentColor }}>
+                          Live Platform Status
+                        </span>
                         <span className="text-sm font-bold text-white">Interactive Client Booking System</span>
                       </div>
                       {item.results && (
@@ -504,59 +730,26 @@ function PortfolioPreviewModal({ item, onClose }: { item: Work; onClose: () => v
                   </div>
                 </div>
 
-                {/* Section 2: Key Deliverables & System Capabilities */}
-                <div className="bg-[#121210] p-5 md:p-8 border-b border-border/40 flex flex-col gap-5">
-                  <div className="flex flex-col gap-1">
-                    <span className="font-mono text-[10px] uppercase text-accent tracking-widest">Architectural Features</span>
-                    <h5 className="text-lg font-bold text-white">Engineered for High Conversion & Automation</h5>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                    {(item.deliverables ?? ["Bespoke UI Design", "24/7 AI Lead Assistant", "Local SEO Engine"]).map((del, i) => (
-                      <div key={i} className="rounded-xl border border-border/50 bg-[#191917] p-4 flex flex-col gap-2">
-                        <span className="font-mono text-xs text-accent">0{i + 1} //</span>
-                        <h6 className="font-semibold text-sm text-white">{del}</h6>
-                        <p className="text-xs text-gray-400">
-                          Tailored performance module built to automate customer intake and drive verified conversions.
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Section 3: Simulated AI Lead Assistant Widget */}
-                <div className="bg-[#171715] p-5 md:p-8 border-b border-border/40 flex flex-col md:flex-row items-center gap-6 justify-between">
-                  <div className="flex flex-col gap-2 max-w-md">
-                    <div className="inline-flex items-center gap-2 font-mono text-xs text-emerald-400">
-                      <span className="size-2 rounded-full bg-emerald-400 animate-ping" />
-                      <span>24/7 AI Intake Assistant Active</span>
+                {/* Section 2 & 3: Custom Domain-Specific Sections */}
+                {config.sections.map((sec, idx) => (
+                  <div key={idx} className="bg-[#121210] p-5 md:p-8 border-b border-border/40 flex flex-col gap-5">
+                    <div className="flex flex-col gap-1">
+                      <span className="font-mono text-[10px] uppercase tracking-widest" style={{ color: config.accentColor }}>
+                        {sec.tag}
+                      </span>
+                      <h5 className="text-lg font-bold text-white">{sec.heading}</h5>
                     </div>
-                    <h5 className="text-lg font-bold text-white">Instant Customer Qualification</h5>
-                    <p className="text-xs text-gray-300">
-                      Visitors receive immediate answers, personalized recommendations, and instant booking options.
-                    </p>
+                    {sec.content}
                   </div>
-
-                  <div className="w-full md:w-72 rounded-xl border border-accent/30 bg-[#10100f] p-3.5 flex flex-col gap-2 shadow-lg">
-                    <div className="flex items-center gap-2 border-b border-border/30 pb-2">
-                      <span className="size-2.5 rounded-full bg-accent" />
-                      <span className="font-mono text-xs font-semibold text-white">{item.title} Concierge</span>
-                    </div>
-                    <p className="text-xs text-gray-300 italic">
-                      &quot;Hello! How can we assist you with {item.category.toLowerCase()} inquiries today?&quot;
-                    </p>
-                    <div className="flex gap-2 pt-1">
-                      <span className="rounded bg-accent/20 px-2 py-1 font-mono text-[10px] text-accent">Book Call</span>
-                      <span className="rounded bg-card border border-border/50 px-2 py-1 font-mono text-[10px] text-muted-foreground">View Rates</span>
-                    </div>
-                  </div>
-                </div>
+                ))}
 
                 {/* Section 4: Client Outcome & Footer */}
                 <div className="bg-[#10100e] p-6 md:p-8 flex flex-col gap-6">
                   <div className="rounded-xl border border-border/40 bg-[#161614] p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
                     <div>
-                      <span className="font-mono text-[10px] text-accent uppercase">Client Success Story</span>
+                      <span className="font-mono text-[10px] uppercase" style={{ color: config.accentColor }}>
+                        Client Success Story
+                      </span>
                       <p className="text-sm font-semibold text-gray-200 mt-1">
                         &quot;Arivelune Studio delivered a high-converting digital experience that elevated our brand.&quot;
                       </p>
@@ -578,14 +771,14 @@ function PortfolioPreviewModal({ item, onClose }: { item: Work; onClose: () => v
                 <div className="flex items-center justify-between text-[10px] font-mono text-gray-300">
                   <span className="flex items-center gap-1.5">
                     <span className="size-2 rounded-full bg-red-500 animate-pulse" />
-                    <span>Auto-Scroll Video Playback</span>
+                    <span>Auto-Scroll Video Playback ({config.baseDuration}s cycle)</span>
                   </span>
                   <span>{Math.round(progressPercent)}%</span>
                 </div>
                 <div className="h-1 w-full bg-white/20 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-accent transition-all duration-300"
-                    style={{ width: `${progressPercent}%` }}
+                    className="h-full transition-all duration-300"
+                    style={{ width: `${progressPercent}%`, backgroundColor: config.accentColor }}
                   />
                 </div>
               </div>
@@ -596,14 +789,20 @@ function PortfolioPreviewModal({ item, onClose }: { item: Work; onClose: () => v
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="rounded-xl border border-border/60 bg-[#1a1a18] p-4 flex flex-col justify-between">
               <div>
-                <h5 className="font-mono text-xs uppercase text-accent tracking-wider mb-2">Project Specifications</h5>
+                <h5 className="font-mono text-xs uppercase tracking-wider mb-2" style={{ color: config.accentColor }}>
+                  Project Specifications
+                </h5>
                 <p className="text-xs text-muted-foreground">
                   Custom scroll-driven technology built for {item.title} ({item.clientLocation ?? "UK"}), engineered to turn website visitors into high-value client enquiries.
                 </p>
               </div>
               <div className="mt-3 flex flex-wrap items-center gap-2">
                 {(item.deliverables ?? ["Bespoke Editorial Website", "AI Lead Assistant"]).map((del, i) => (
-                  <span key={i} className="rounded-md bg-accent/10 border border-accent/20 px-2.5 py-1 font-mono text-[11px] text-accent">
+                  <span
+                    key={i}
+                    className="rounded-md border px-2.5 py-1 font-mono text-[11px]"
+                    style={{ backgroundColor: config.accentBg, borderColor: config.accentBorder, color: config.accentColor }}
+                  >
                     ✓ {del}
                   </span>
                 ))}
@@ -612,7 +811,9 @@ function PortfolioPreviewModal({ item, onClose }: { item: Work; onClose: () => v
 
             <div className="rounded-xl border border-border/60 bg-[#1a1a18] p-4 flex flex-col justify-between gap-3">
               <div>
-                <h5 className="font-mono text-xs uppercase text-accent tracking-wider mb-1">Interested in this format?</h5>
+                <h5 className="font-mono text-xs uppercase tracking-wider mb-1" style={{ color: config.accentColor }}>
+                  Interested in this format?
+                </h5>
                 <p className="text-xs text-muted-foreground">
                   We create tailored, high-converting digital experiences with automated intake systems for your business.
                 </p>
@@ -651,7 +852,11 @@ export default function GalleryWordPanels({
   const reduce = useReducedMotion();
   const kit = useKitMotion();
   const x = useMotionValue(0);
-  const [activePreview, setActivePreview] = useState<Work | null>(null);
+  const [activePreview, setActivePreview] = useState<{ item: Work; index: number } | null>(null);
+
+  const handleOpenPreview = (item: Work, index: number) => {
+    setActivePreview({ item, index });
+  };
 
   return (
     <section aria-label={ariaLabel ?? "Selected work"} className={cn("relative overflow-x-clip text-foreground", className)}>
@@ -665,11 +870,26 @@ export default function GalleryWordPanels({
         className="py-0"
       >
         {items.map((item, index) => (
-          <Panel key={index} item={item} index={index} total={items.length} x={x} kit={kit} reduce={reduce} onOpenPreview={setActivePreview} />
+          <Panel
+            key={index}
+            item={item}
+            index={index}
+            total={items.length}
+            x={x}
+            kit={kit}
+            reduce={reduce}
+            onOpenPreview={handleOpenPreview}
+          />
         ))}
       </HorizontalScrollSection>
 
-      {activePreview && <PortfolioPreviewModal item={activePreview} onClose={() => setActivePreview(null)} />}
+      {activePreview && (
+        <PortfolioPreviewModal
+          item={activePreview.item}
+          index={activePreview.index}
+          onClose={() => setActivePreview(null)}
+        />
+      )}
     </section>
   );
 }
