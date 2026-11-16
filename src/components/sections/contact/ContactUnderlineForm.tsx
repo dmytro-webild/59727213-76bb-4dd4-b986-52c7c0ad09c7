@@ -9,6 +9,8 @@ const cn = (...inputs: ClassValue[]) => twMerge(clsx(inputs));
 type Field = { name: string; label: string; type?: "text" | "email" | "tel" | "textarea"; placeholder?: string; required?: boolean };
 
 type ContactUnderlineFormProps = {
+  id?: string;
+  "data-section"?: string;
   title?: string;
   fields?: Field[];
   servicesLabel?: string;
@@ -20,6 +22,8 @@ type ContactUnderlineFormProps = {
 };
 
 const ContactUnderlineForm = ({
+  id,
+  "data-section": dataSection,
   title = "Tell us what you're building.",
   fields = [
     { name: "name", label: "Your name", placeholder: "Your full name", required: true },
@@ -30,6 +34,7 @@ const ContactUnderlineForm = ({
   servicesLabel = "Service",
   services = ["Brand identity", "Website", "Product design", "Motion", "Other"],
   button = { text: "Send message" },
+  recipientEmail = "admin@arivelunestudio.com",
   ariaLabel,
   className,
 }: ContactUnderlineFormProps) => {
@@ -37,19 +42,54 @@ const ContactUnderlineForm = ({
   const live = !reduce;
   const { ease, base, slow } = useKitMotion();
   const [active, setActive] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const words = title.trim().split(/\s+/);
   const rise = (i: number) => ({ hidden: { opacity: 0, y: 24 }, shown: { opacity: 1, y: 0, transition: { duration: slow * 0.7, ease, delay: 0.1 + i * 0.06 } } });
   const wipe = (i: number) => ({ hidden: { clipPath: "inset(0 100% 0 0)" }, shown: { clipPath: "inset(0 0% 0 0)", transition: { duration: slow, ease, delay: 0.15 + i * 0.06 } } });
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setIsSubmitted(true);
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const payload: Record<string, string> = {};
+
+    formData.forEach((value, key) => {
+      payload[key] = value.toString();
+    });
+
+    if (services && services[active]) {
+      payload["selected_service"] = services[active];
+    }
+
+    const targetEmail = recipientEmail || "admin@arivelunestudio.com";
+    payload["_subject"] = `New Free Review Request from ${payload.name || payload.email || "Website Visitor"}`;
+    payload["_replyto"] = payload.email || "";
+
+    try {
+      await fetch(`https://formsubmit.co/ajax/${targetEmail}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+    } catch (err) {
+      console.error("Form submission error:", err);
+    } finally {
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+    }
   };
 
   return (
-    <section aria-label={ariaLabel ?? title} className={cn("relative py-[var(--section-space)] text-foreground", className)}>
+    <section id={id} data-section={dataSection} aria-label={ariaLabel ?? title} className={cn("relative py-[var(--section-space)] text-foreground", className)}>
       <div className="kit-glass mx-auto flex w-[var(--container)] flex-col gap-[clamp(1.5rem,3vw,3rem)] p-[1.375rem] lg:p-[clamp(2rem,3.5vw,3.5rem)]">
         <motion.h2
           aria-label={title}
@@ -165,8 +205,8 @@ const ContactUnderlineForm = ({
                   transition={{ duration: slow * 0.5, ease }}
                   className="pt-[0.5rem]"
                 >
-                  <button type="submit" className="btn-primary w-full lg:w-auto lg:min-w-[15rem]">
-                    <p className="btn-label">{button.text}</p>
+                  <button type="submit" disabled={isSubmitting} className="btn-primary w-full lg:w-auto lg:min-w-[15rem] disabled:opacity-60 disabled:cursor-not-allowed">
+                    <p className="btn-label">{isSubmitting ? "Sending..." : button.text}</p>
                   </button>
                 </motion.div>
               )}
