@@ -14,6 +14,7 @@ type ContactUnderlineFormProps = {
   servicesLabel?: string;
   services?: string[];
   button?: { text: string };
+  recipientEmail?: string;
   ariaLabel?: string;
   className?: string;
 };
@@ -29,6 +30,7 @@ const ContactUnderlineForm = ({
   servicesLabel = "Service",
   services = ["Brand identity", "Website", "Product design", "Motion", "Other"],
   button = { text: "Send message" },
+  recipientEmail = "admin@arivelunestudio.com",
   ariaLabel,
   className,
 }: ContactUnderlineFormProps) => {
@@ -36,9 +38,43 @@ const ContactUnderlineForm = ({
   const live = !reduce;
   const { ease, base, slow } = useKitMotion();
   const [active, setActive] = useState(0);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [lastSubmittedEmail, setLastSubmittedEmail] = useState("");
+
   const words = title.trim().split(/\s+/);
   const rise = (i: number) => ({ hidden: { opacity: 0, y: 24 }, shown: { opacity: 1, y: 0, transition: { duration: slow * 0.7, ease, delay: 0.1 + i * 0.06 } } });
   const wipe = (i: number) => ({ hidden: { clipPath: "inset(0 100% 0 0)" }, shown: { clipPath: "inset(0 0% 0 0)", transition: { duration: slow, ease, delay: 0.15 + i * 0.06 } } });
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const data: Record<string, string> = {};
+    formData.forEach((value, key) => {
+      data[key] = value.toString();
+    });
+
+    const selectedService = services[active] ?? "";
+    const subject = `${title}${data.name ? ` from ${data.name}` : ""}`;
+    const lines: string[] = [
+      title,
+      "----------------------------------------",
+    ];
+    if (data.name) lines.push(`Name: ${data.name}`);
+    if (data.email) lines.push(`Email: ${data.email}`);
+    if (data.phone) lines.push(`Phone: ${data.phone}`);
+    if (data.website) lines.push(`Website: ${data.website}`);
+    if (data.company) lines.push(`Company / Website: ${data.company}`);
+    if (selectedService) lines.push(`Service Selected: ${selectedService}`);
+    if (data.message) lines.push(`\nProject Details:\n${data.message}`);
+
+    const body = lines.join("\n");
+    const mailtoUrl = `mailto:${recipientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    setLastSubmittedEmail(mailtoUrl);
+    setIsSubmitted(true);
+
+    window.location.href = mailtoUrl;
+  };
 
   return (
     <section aria-label={ariaLabel ?? title} className={cn("relative py-[var(--section-space)] text-foreground", className)}>
@@ -60,83 +96,119 @@ const ContactUnderlineForm = ({
         </motion.h2>
 
         <div className="grid gap-[clamp(1.5rem,3vw,3rem)] lg:grid-cols-12 lg:gap-[var(--gap)]">
-
-          <motion.form
-            onSubmit={(event) => event.preventDefault()}
-            initial={live ? "hidden" : false}
-            whileInView="shown"
-            viewport={{ once: true }}
-            className="flex flex-col gap-[clamp(1.5rem,2.4vw,2rem)] lg:col-span-8"
-          >
-            {fields.map((field, i) => (
-              <motion.label key={field.name} variants={rise(i)} className="group flex flex-col gap-[0.75rem]">
-                <p className="font-mono text-[length:var(--text-label)] uppercase leading-[1.2] tracking-[var(--label-tracking)]">
-                  {field.required ? `${field.label} *` : field.label}
-                </p>
-                {field.type === "textarea" ? (
-                  <textarea
-                    name={field.name}
-                    placeholder={field.placeholder}
-                    required={field.required}
-                    rows={3}
-                    className="w-full resize-none bg-transparent pb-[0.75rem] text-[length:var(--text-body-lg)] leading-[1.3] tracking-[-0.03em] text-foreground outline-none placeholder:text-foreground/90"
-                  />
-                ) : (
-                  <input
-                    name={field.name}
-                    type={field.type ?? "text"}
-                    placeholder={field.placeholder}
-                    required={field.required}
-                    className="w-full bg-transparent pb-[0.75rem] text-[length:var(--text-body-lg)] leading-[1.3] tracking-[-0.03em] text-foreground outline-none placeholder:text-foreground/90"
-                  />
+          {isSubmitted ? (
+            <motion.div
+              initial={live ? { opacity: 0, y: 16 } : false}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: slow * 0.5, ease }}
+              className="flex flex-col gap-6 lg:col-span-8 py-4"
+            >
+              <div className="flex items-center gap-3 text-foreground">
+                <svg className="size-6 shrink-0 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                <h3 className="text-[length:var(--text-h3)] font-medium">Thank you! Your request is ready.</h3>
+              </div>
+              <p className="text-[length:var(--text-body)] text-muted-foreground leading-relaxed">
+                Your request details have been formatted for sending to <span className="text-foreground font-semibold">{recipientEmail}</span>.
+                If your email application didn't launch automatically, click the button below to send your request directly.
+              </p>
+              <div className="flex flex-wrap gap-4 pt-2">
+                {lastSubmittedEmail && (
+                  <a
+                    href={lastSubmittedEmail}
+                    className="btn-primary inline-flex items-center justify-center px-6 py-3"
+                  >
+                    <p className="btn-label">Open Email App ({recipientEmail})</p>
+                  </a>
                 )}
-                <motion.div variants={wipe(i)} aria-hidden="true" className="-mt-[0.75rem] h-px w-full bg-input transition-colors duration-300 group-focus-within:bg-foreground" />
-              </motion.label>
-            ))}
-
-            {services.length > 0 && (
-              <motion.fieldset
-                initial={live ? { opacity: 0, y: 24 } : false}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: slow * 0.5, ease }}
-                className="flex flex-col gap-[1rem]"
-              >
-                <legend className="mb-[1rem] text-[length:var(--text-body-lg)] leading-[1.2] tracking-[-0.03em]">{servicesLabel}</legend>
-                <div className="flex flex-wrap gap-[0.5rem]">
-                  {services.map((service, i) => (
-                    <button
-                      key={`${service}-${i}`}
-                      type="button"
-                      aria-pressed={active === i}
-                      onClick={() => setActive(i)}
-                      className={cn(
-                        "min-h-[2.75rem] whitespace-nowrap border px-[0.875rem] font-mono text-[length:var(--text-label)] uppercase tracking-[var(--label-tracking)] transition-colors",
-                        active === i ? "border-accent text-foreground" : "border-input text-muted-foreground hover:border-foreground hover:text-foreground",
-                      )}
-                      style={{ transitionDuration: `${base * 0.5}s` }}
-                    >
-                      {service}
-                    </button>
-                  ))}
-                </div>
-              </motion.fieldset>
-            )}
-
-            {button && (
-              <motion.div
-                initial={live ? { opacity: 0, y: 24 } : false}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: slow * 0.5, ease }}
-                className="pt-[0.5rem]"
-              >
-                <button type="submit" className="btn-primary w-full lg:w-auto lg:min-w-[15rem]">
-                  <p className="btn-label">{button.text}</p>
+                <button
+                  type="button"
+                  onClick={() => setIsSubmitted(false)}
+                  className="min-h-[2.75rem] border border-input px-5 font-mono text-[length:var(--text-label)] uppercase tracking-[var(--label-tracking)] text-muted-foreground hover:border-foreground hover:text-foreground transition-colors"
+                >
+                  Send Another Request
                 </button>
-              </motion.div>
-            )}
-          </motion.form>
+              </div>
+            </motion.div>
+          ) : (
+            <motion.form
+              onSubmit={handleSubmit}
+              initial={live ? "hidden" : false}
+              whileInView="shown"
+              viewport={{ once: true }}
+              className="flex flex-col gap-[clamp(1.5rem,2.4vw,2rem)] lg:col-span-8"
+            >
+              {fields.map((field, i) => (
+                <motion.label key={field.name} variants={rise(i)} className="group flex flex-col gap-[0.75rem]">
+                  <p className="font-mono text-[length:var(--text-label)] uppercase leading-[1.2] tracking-[var(--label-tracking)]">
+                    {field.required ? `${field.label} *` : field.label}
+                  </p>
+                  {field.type === "textarea" ? (
+                    <textarea
+                      name={field.name}
+                      placeholder={field.placeholder}
+                      required={field.required}
+                      rows={3}
+                      className="w-full resize-none bg-transparent pb-[0.75rem] text-[length:var(--text-body-lg)] leading-[1.3] tracking-[-0.03em] text-foreground outline-none placeholder:text-foreground/90"
+                    />
+                  ) : (
+                    <input
+                      name={field.name}
+                      type={field.type ?? "text"}
+                      placeholder={field.placeholder}
+                      required={field.required}
+                      className="w-full bg-transparent pb-[0.75rem] text-[length:var(--text-body-lg)] leading-[1.3] tracking-[-0.03em] text-foreground outline-none placeholder:text-foreground/90"
+                    />
+                  )}
+                  <motion.div variants={wipe(i)} aria-hidden="true" className="-mt-[0.75rem] h-px w-full bg-input transition-colors duration-300 group-focus-within:bg-foreground" />
+                </motion.label>
+              ))}
+
+              {services.length > 0 && (
+                <motion.fieldset
+                  initial={live ? { opacity: 0, y: 24 } : false}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: slow * 0.5, ease }}
+                  className="flex flex-col gap-[1rem]"
+                >
+                  <legend className="mb-[1rem] text-[length:var(--text-body-lg)] leading-[1.2] tracking-[-0.03em]">{servicesLabel}</legend>
+                  <div className="flex flex-wrap gap-[0.5rem]">
+                    {services.map((service, i) => (
+                      <button
+                        key={`${service}-${i}`}
+                        type="button"
+                        aria-pressed={active === i}
+                        onClick={() => setActive(i)}
+                        className={cn(
+                          "min-h-[2.75rem] whitespace-nowrap border px-[0.875rem] font-mono text-[length:var(--text-label)] uppercase tracking-[var(--label-tracking)] transition-colors",
+                          active === i ? "border-accent text-foreground" : "border-input text-muted-foreground hover:border-foreground hover:text-foreground",
+                        )}
+                        style={{ transitionDuration: `${base * 0.5}s` }}
+                      >
+                        {service}
+                      </button>
+                    ))}
+                  </div>
+                </motion.fieldset>
+              )}
+
+              {button && (
+                <motion.div
+                  initial={live ? { opacity: 0, y: 24 } : false}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: slow * 0.5, ease }}
+                  className="pt-[0.5rem]"
+                >
+                  <button type="submit" className="btn-primary w-full lg:w-auto lg:min-w-[15rem]">
+                    <p className="btn-label">{button.text}</p>
+                  </button>
+                </motion.div>
+              )}
+            </motion.form>
+          )}
         </div>
       </div>
     </section>

@@ -381,6 +381,7 @@ export default function HomePage() {
           button={{
             text: "Get Free Review"
           }}
+          recipientEmail="admin@arivelunestudio.com"
         />
       </div>
     </>
