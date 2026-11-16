@@ -317,7 +317,7 @@ const ContactUnderlineForm = ({
                 <span className="text-accent text-base">⚡</span>
                 <div>
                   <h4 className="font-bold text-foreground">Fast Turnaround</h4>
-                  <p className="text-muted-foreground text-[11px] mt-0.5">Guaranteed initial response within 24 business hours.</p>
+                  <p className="text-muted-foreground text-[11px] mt-0.5">Target initial response within 24 business hours.</p>
                 </div>
               </div>
               <div className="flex items-start gap-3 border-t border-border/40 pt-3">

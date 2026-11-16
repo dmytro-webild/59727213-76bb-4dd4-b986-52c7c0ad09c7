@@ -225,7 +225,7 @@ export default function HomePage() {
                 },
                 {
                   label: "Timeline",
-                  value: "3 to 4 weeks"
+                  value: "3 to 4 weeks target"
                 },
                 {
                   label: "AI & Leads",
@@ -237,13 +237,13 @@ export default function HomePage() {
                 },
                 {
                   label: "Support",
-                  value: "30 days included"
+                  value: "30 days post-launch care"
                 }
               ],
               benefits: [
-                "Establishes immediate dark-luxury brand authority",
-                "Captures & routes incoming visitor details safely",
-                "Optimized for fast mobile loading speed"
+                "Designed to establish premium dark-luxury brand authority",
+                "Configured to capture & route incoming visitor details",
+                "Optimized for responsive mobile performance and speed"
               ],
               button: {
                 text: "Start Essential Build",
@@ -258,7 +258,7 @@ export default function HomePage() {
               title: "Professional",
               badge: "MOST POPULAR • BEST VALUE",
               featured: true,
-              description: "For growing businesses ready to automate client intake and turn visitors into booked leads 24/7.",
+              description: "For growing businesses aiming to automate client intake and convert qualified visitors into leads.",
               price: "£2,000",
               period: "GBP / Full digital system",
               specs: [
@@ -268,11 +268,11 @@ export default function HomePage() {
                 },
                 {
                   label: "Timeline",
-                  value: "4 to 6 weeks"
+                  value: "4 to 6 weeks target"
                 },
                 {
                   label: "AI & Leads",
-                  value: "24/7 AI enquiry chatbot & lead routing"
+                  value: "24/7 AI chatbot & lead routing integration"
                 },
                 {
                   label: "Local SEO",
@@ -280,13 +280,13 @@ export default function HomePage() {
                 },
                 {
                   label: "Support",
-                  value: "90 days priority care"
+                  value: "90 days priority technical care"
                 }
               ],
               benefits: [
-                "24/7 AI assistant answers visitor questions & qualifies prospects",
-                "Instant lead notification directly to your Google Workspace inbox",
-                "Drives higher conversion rate with interactive portfolio & CTAs"
+                "24/7 AI assistant integration configured to answer FAQs & assist lead qualification",
+                "Direct lead notification workflow delivered to your Google Workspace inbox",
+                "Tailored layout & interactive demonstration features aimed at supporting conversions"
               ],
               button: {
                 text: "Start Professional System",
@@ -299,7 +299,7 @@ export default function HomePage() {
             },
             {
               title: "Bespoke",
-              description: "Tailored multi-location architecture, custom AI workflows, and lead-generation automation.",
+              description: "Tailored multi-location architecture, custom AI integration workflows, and bespoke lead automation design.",
               price: "£5,000+",
               period: "GBP / Scoped to brief",
               specs: [
@@ -313,7 +313,7 @@ export default function HomePage() {
                 },
                 {
                   label: "AI & Leads",
-                  value: "Custom AI workflows & CRM pipeline"
+                  value: "Custom AI workflows & CRM integration deliverables"
                 },
                 {
                   label: "Local SEO",
@@ -321,13 +321,13 @@ export default function HomePage() {
                 },
                 {
                   label: "Support",
-                  value: "Ongoing priority care & optimization"
+                  value: "Ongoing priority technical care & maintenance options"
                 }
               ],
               benefits: [
-                "Fully tailored architecture built around your complex workflows",
-                "Advanced custom AI models trained on your proprietary data",
-                "Dedicated technical director and monthly growth reviews"
+                "Bespoke digital architecture tailored to your operational workflows",
+                "Custom AI model integration configured to reflect your specified business domain",
+                "Dedicated technical guidance with scheduled monthly growth reviews"
               ],
               button: {
                 text: "Discuss Bespoke Brief",
@@ -356,15 +356,15 @@ export default function HomePage() {
           items={[
             {
               title: "How long does a website project take?",
-              description: "Most bespoke builds are completed within four to six weeks following our initial strategy call and project kickoff."
+              description: "Most bespoke builds are delivered within a four to six week target following our initial strategy call and project kickoff."
             },
             {
               title: "How does the AI enquiry assistant work?",
-              description: "We train the custom AI assistant on your specific services so it can answer visitor questions 24/7 and capture qualified lead details."
+              description: "We configure the custom AI assistant around your specific services so it can address prospect questions 24/7 and help capture qualified lead details."
             },
             {
               title: "Is local SEO included with every build?",
-              description: "Yes, standard technical SEO, schema markups, and local keyword structures are built into every website we deliver for maximum visibility."
+              description: "Yes, standard technical SEO, schema markups, and local keyword structures are integrated into every website we deliver to support search visibility."
             },
             {
               title: "Will I be able to edit my own content?",
@@ -372,7 +372,7 @@ export default function HomePage() {
             },
             {
               title: "Do you provide ongoing site maintenance?",
-              description: "We offer ongoing support packages covering security checks, speed monitoring, and regular performance improvements."
+              description: "We offer ongoing support packages covering security checks, speed monitoring, and regular performance maintenance."
             }
           ]}
         />
