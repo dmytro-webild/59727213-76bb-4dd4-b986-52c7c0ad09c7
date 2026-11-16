@@ -22,7 +22,7 @@ const ContactUnderlineForm = ({
   title = "Tell us what you're building.",
   fields = [
     { name: "name", label: "Your name", placeholder: "Your full name", required: true },
-    { name: "email", label: "Your email", type: "email", placeholder: "you@company.com", required: true },
+    { name: "email", label: "Your email", type: "email", placeholder: "Business Email", required: true },
     { name: "company", label: "Company or website", placeholder: "Optional" },
     { name: "message", label: "Project details", type: "textarea", placeholder: "What are you building, and what should change?", required: true },
   ],
