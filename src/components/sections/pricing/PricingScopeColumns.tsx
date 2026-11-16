@@ -10,11 +10,15 @@ type Spec = { label: string; value: string };
 
 type Plan = {
   title: string;
+  badge?: string;
+  featured?: boolean;
   description?: string;
   price: string;
   period?: string;
   specs?: Spec[];
+  benefits?: string[];
   button?: { text: string; href: string };
+  secondaryButton?: { text: string; href: string };
 };
 
 type PricingScopeColumnsProps = {
@@ -145,32 +149,70 @@ const PricingScopeColumns = ({
                   hide: { clipPath: "inset(100% 0% 0% 0%)" },
                   show: { clipPath: "inset(0% 0% 0% 0%)", transition: { duration: kit.slow, ease: kit.ease, delay: index * 0.08 } },
                 }}
-                className="kit-card flex h-full flex-col p-[clamp(1.25rem,1.8vw,1.5rem)] [container-type:inline-size]"
+                className={cn(
+                  "kit-card relative flex h-full flex-col p-[clamp(1.25rem,1.8vw,1.5rem)] [container-type:inline-size]",
+                  item.featured && "border-2 border-accent bg-[var(--accent-glass)] backdrop-blur-md"
+                )}
               >
+                {item.badge && (
+                  <span className="mb-3 inline-block w-fit rounded-full bg-accent/20 border border-accent/40 px-3 py-1 font-mono text-[10px] uppercase tracking-wider font-semibold text-accent">
+                    {item.badge}
+                  </span>
+                )}
                 <h3 className="text-balance text-[length:var(--text-h3)] leading-[1.1] [overflow-wrap:anywhere]">{item.title}</h3>
-                {item.description && <p className="mt-[1rem] text-[length:var(--text-body)] leading-[1.5] text-muted-foreground">{item.description}</p>}
-                <p className="mt-[clamp(2rem,3vw,3rem)] whitespace-nowrap text-[length:min(var(--text-h2),17cqi)] leading-[1] tracking-[var(--heading-tracking)]">{item.price}</p>
-                {item.period && <p className="mt-[0.75rem] whitespace-nowrap font-[family-name:var(--font-label)] text-[length:var(--text-label)] uppercase leading-[1.5] text-muted-foreground">{item.period}</p>}
+                {item.description && <p className="mt-[0.75rem] text-[length:var(--text-body)] leading-[1.5] text-muted-foreground">{item.description}</p>}
+                <p className="mt-[clamp(1.5rem,2.5vw,2.5rem)] whitespace-nowrap text-[length:min(var(--text-h2),17cqi)] leading-[1] tracking-[var(--heading-tracking)]">{item.price}</p>
+                {item.period && <p className="mt-[0.5rem] whitespace-nowrap font-[family-name:var(--font-label)] text-[length:var(--text-label)] uppercase leading-[1.5] text-muted-foreground">{item.period}</p>}
+
                 {item.specs && item.specs.length > 0 && (
-                  <ul className="mt-[clamp(1.75rem,2.5vw,2.5rem)] flex flex-col gap-[1.5rem] border-t border-border pt-[1.5rem]">
+                  <ul className="mt-[clamp(1.5rem,2vw,2rem)] flex flex-col gap-[1.25rem] border-t border-border/80 pt-[1.25rem]">
                     {item.specs.map((spec, s) => (
-                      <li key={s} className="flex flex-col gap-[0.5rem]">
+                      <li key={s} className="flex flex-col gap-[0.25rem]">
                         <p className="font-[family-name:var(--font-label)] text-[length:var(--text-label)] uppercase leading-[1.5] text-muted-foreground">{spec.label}</p>
-                        <p className="text-[length:var(--text-body)] leading-[1.4] [overflow-wrap:anywhere]">{spec.value}</p>
+                        <p className="text-[length:var(--text-body)] leading-[1.4] [overflow-wrap:anywhere] font-medium">{spec.value}</p>
                       </li>
                     ))}
                   </ul>
                 )}
-                {item.button && (
-                  <div className="mt-auto pt-[clamp(2rem,3vw,2.5rem)]">
-                    <a href={item.button.href} className="btn-secondary w-full justify-between !px-[1.25rem] !py-[1rem]">
+
+                {item.benefits && item.benefits.length > 0 && (
+                  <div className="mt-4 flex flex-col gap-2 border-t border-border/60 pt-4">
+                    <p className="font-mono text-[10px] uppercase tracking-wider text-accent font-semibold">Key Business Outcomes:</p>
+                    <ul className="flex flex-col gap-1.5 text-xs text-muted-foreground">
+                      {item.benefits.map((b, bi) => (
+                        <li key={bi} className="flex items-start gap-1.5">
+                          <span className="text-accent shrink-0 font-bold">✓</span>
+                          <span>{b}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                <div className="mt-auto pt-[clamp(1.5rem,2.5vw,2rem)] flex flex-col gap-2">
+                  {item.button && (
+                    <a
+                      href={item.button.href}
+                      className={cn(
+                        "w-full justify-between !px-[1.25rem] !py-[0.875rem]",
+                        item.featured ? "btn-primary" : "btn-secondary"
+                      )}
+                    >
                       <p className="btn-label">{item.button.text}</p>
                       <svg aria-hidden="true" viewBox="0 0 12 12" className="size-[0.75rem]" fill="none" stroke="currentColor" strokeWidth="1.3">
                         <path d="M2.5 9.5l7-7M4 2.5h5.5V8" />
                       </svg>
                     </a>
-                  </div>
-                )}
+                  )}
+                  {item.secondaryButton && (
+                    <a
+                      href={item.secondaryButton.href}
+                      className="btn-link justify-center text-xs text-muted-foreground hover:text-foreground py-1 font-mono uppercase tracking-wider"
+                    >
+                      {item.secondaryButton.text} →
+                    </a>
+                  )}
+                </div>
               </motion.div>
             </motion.li>
           ))}
