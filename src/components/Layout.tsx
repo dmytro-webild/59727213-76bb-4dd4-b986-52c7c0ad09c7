@@ -31,8 +31,8 @@ export default function Layout() {
             }
           ]}
           contact={{
-            text: "hello@arivelune.studio",
-            href: "mailto:hello@arivelune.studio"
+            text: "admin@arivelunestudio.com",
+            href: "mailto:admin@arivelunestudio.com"
           }}
         />
       </header>
