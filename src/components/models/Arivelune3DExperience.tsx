@@ -663,9 +663,8 @@ export default function Arivelune3DExperience() {
   // Frame animation loop
   useFrame(() => {
     const scrollY = window.scrollY;
-    // Animate laptop lid opening dynamically in Scene 1
-    // Smooth angle: screen tilts elegantly into ideal laptop viewing angle (~ -0.38 rad / ~112° open angle)
-    const scrollProgress = Math.min(1, Math.max(0, scrollY / 600));
+    // Animate laptop lid opening dynamically only once user begins scrolling
+    const scrollProgress = Math.min(1, Math.max(0, (scrollY - 10) / 600));
     const targetLidAngle = -0.36 - scrollProgress * 0.12; // Smooth backward angle from -0.36 to -0.48 rad
 
     if (laptopLidRef.current) {
@@ -675,17 +674,17 @@ export default function Arivelune3DExperience() {
     // Gentle ambient floating
     const time = performance.now() * 0.0015;
     if (laptopGroupRef.current) {
-      laptopGroupRef.current.position.y = Math.sin(time) * 0.03;
+      laptopGroupRef.current.position.y = Math.sin(time) * 0.025;
     }
     if (phoneGroupRef.current) {
-      phoneGroupRef.current.position.y = Math.cos(time * 1.2) * 0.03;
+      phoneGroupRef.current.position.y = Math.cos(time * 1.2) * 0.025;
     }
   });
 
   return (
     <group name="arivelune-cinematic-experience">
       {/* LAPTOP PART */}
-      <group name="part-laptop" ref={laptopGroupRef} position={[-0.35, -0.15, 0]}>
+      <group name="part-laptop" ref={laptopGroupRef} position={[-0.45, -0.15, 0]}>
         {/* Base Unibody Chassis */}
         <mesh geometry={g.laptopBase} material={f.paint} castShadow receiveShadow />
 
@@ -737,7 +736,7 @@ export default function Arivelune3DExperience() {
       </group>
 
       {/* SMARTPHONE PART */}
-      <group name="part-phone" ref={phoneGroupRef} position={[2.1, -0.1, 0.45]} rotation={[0.12, -0.28, 0.05]}>
+      <group name="part-phone" ref={phoneGroupRef} position={[1.9, -0.12, 0.22]} rotation={[0.1, -0.26, 0.03]}>
         {/* Titanium Body Frame */}
         <mesh geometry={g.phoneBody} material={f.paint} castShadow receiveShadow />
 

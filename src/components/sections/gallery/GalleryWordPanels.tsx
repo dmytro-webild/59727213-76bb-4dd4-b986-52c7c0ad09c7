@@ -243,6 +243,405 @@ function Panel({
   );
 }
 
+function ApexWebsiteView({ item }: { item: Work }) {
+  return (
+    <div className="w-full flex flex-col gap-0 select-none bg-[#f4f1ea] text-[#1f1d19] font-sans">
+      {/* Header */}
+      <div className="bg-[#1a1917] px-6 py-4 text-white flex items-center justify-between border-b-2 border-[#8c6d46]">
+        <div className="flex items-center gap-3">
+          <div className="size-8 rounded bg-[#8c6d46] text-white flex items-center justify-center font-bold font-serif text-sm">
+            A
+          </div>
+          <span className="font-serif tracking-wide font-bold text-base text-[#f4f1ea]">APEX ARCHITECTURAL & COMMERCIAL</span>
+        </div>
+        <div className="hidden sm:flex items-center gap-5 text-xs font-mono text-[#d6cbb5]">
+          <span>Projects</span>
+          <span>Estimator</span>
+          <span>Safety & Specs</span>
+          <span>Intake Portal</span>
+        </div>
+        <span className="rounded bg-[#8c6d46] text-white px-3 py-1 font-mono text-xs uppercase tracking-wider font-semibold">
+          Request Proposal →
+        </span>
+      </div>
+
+      {/* Hero */}
+      <div className="p-6 md:p-8 flex flex-col gap-5 border-b border-[#d8ccb8] bg-[#f9f7f2]">
+        <span className="inline-flex items-center gap-2 rounded bg-[#8c6d46]/15 border border-[#8c6d46]/40 px-3 py-1 font-mono text-xs font-semibold text-[#8c6d46] w-fit">
+          ✦ LUXURY ARCHITECTURAL & COMMERCIAL BUILDER • BERKSHIRE
+        </span>
+        <h4 className="font-serif text-2xl md:text-4xl font-extrabold text-[#1a1917] leading-tight">
+          Engineering Exceptional Structural Architecture Across Berkshire.
+        </h4>
+        <p className="text-xs md:text-sm text-[#524d45] max-w-xl leading-relaxed">
+          Turnkey commercial developments, executive structural renovations, and 24/7 lead intake routing for high-value tenders.
+        </p>
+        <div className="relative overflow-hidden rounded-lg border-2 border-[#8c6d46]/40 h-52 w-full bg-[#1c1b18]">
+          <img src={item.imageSrc} alt={item.imageAlt ?? item.title} className="size-full object-cover opacity-90" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent p-4 flex items-end justify-between">
+            <div className="flex flex-col">
+              <span className="font-mono text-[10px] text-[#c4af8a] uppercase">3D BIM Model Loaded</span>
+              <span className="text-sm font-bold text-white font-serif">Structural Engineering Specifications</span>
+            </div>
+            <span className="rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/50 px-2.5 py-1 font-mono text-xs">
+              +340% Lead Conversion
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Section 2: Interactive Bidding & Project Estimator */}
+      <div className="p-6 md:p-8 flex flex-col gap-4 border-b border-[#d8ccb8] bg-white">
+        <div className="flex flex-col gap-1">
+          <span className="font-mono text-xs font-bold text-[#8c6d46] uppercase tracking-wider">
+            01 // INTERACTIVE PROJECT ESTIMATOR & BIDDING
+          </span>
+          <h5 className="font-serif text-xl font-bold text-[#1a1917]">Turnkey Structural Bidding Options</h5>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          {[
+            { title: "Commercial Turnkey Build", spec: "Up to 15,000 sq ft", time: "3-4 Months Delivery", price: "From £1.2M" },
+            { title: "Executive Renovation", spec: "Bespoke Structural Specs", time: "2 Months Delivery", price: "From £450,000" },
+            { title: "Infrastructure Site Bids", spec: "Turnkey Scoping & Plans", time: "Fast-Track Approval", price: "From £250,000" },
+          ].map((card, i) => (
+            <div key={i} className="rounded-lg border border-[#d8ccb8] bg-[#fdfbf7] p-4 flex flex-col justify-between border-l-4 border-l-[#8c6d46]">
+              <span className="font-mono text-[10px] font-bold text-[#8c6d46]">TIER 0{i + 1} SPEC</span>
+              <h6 className="font-serif font-bold text-base text-[#1a1917] mt-1">{card.title}</h6>
+              <p className="text-xs text-[#524d45] mt-1">{card.spec} • {card.time}</p>
+              <div className="mt-3 pt-2 border-t border-[#e2d7c5] flex justify-between items-center text-xs font-bold font-mono text-[#8c6d46]">
+                <span>Estimate:</span>
+                <span>{card.price}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+        {/* Estimator Slider Simulation */}
+        <div className="mt-2 rounded-lg border border-[#8c6d46]/30 bg-[#f4f1ea] p-4 flex flex-col gap-2">
+          <div className="flex justify-between items-center text-xs font-mono font-bold text-[#1a1917]">
+            <span>Project Scope Calculator: 8,500 sq ft Commercial Site</span>
+            <span className="text-[#8c6d46] font-serif font-bold text-sm">Estimated Tender: £850,000</span>
+          </div>
+          <div className="h-2 w-full bg-[#d6cbb5] rounded-full overflow-hidden">
+            <div className="h-full bg-[#8c6d46] w-[65%]" />
+          </div>
+        </div>
+      </div>
+
+      {/* Section 3: Site Qualification & Supervisor Bot */}
+      <div className="p-6 md:p-8 flex flex-col gap-4 bg-[#1c1a17] text-white">
+        <span className="font-mono text-xs text-[#c4af8a] uppercase tracking-wider">
+          02 // 24/7 AUTOMATED COMMERCIAL QUALIFICATION
+        </span>
+        <h5 className="font-serif text-xl font-bold text-[#f4f1ea]">Live Lead Qualification Log</h5>
+        <div className="rounded-lg border border-[#8c6d46]/40 bg-[#262420] p-4 flex flex-col gap-2 font-mono text-xs">
+          <div className="flex items-center gap-2 text-emerald-400">
+            <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span>Apex Intake Bot: "4 new commercial tender proposals qualified today"</span>
+          </div>
+          <p className="text-gray-300">
+            Incoming clients submit structural specs and receive instant consultation schedules directly routed to Project Directors.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function VerveWebsiteView({ item }: { item: Work }) {
+  return (
+    <div className="w-full flex flex-col gap-0 select-none bg-[#08090c] text-[#f0f2f8] font-sans">
+      {/* Header */}
+      <div className="bg-[#0f1118] px-6 py-4 text-white flex items-center justify-between border-b-2 border-[#ff2a55]">
+        <div className="flex items-center gap-3">
+          <div className="size-8 rounded bg-[#ff2a55] text-white flex items-center justify-center font-extrabold text-sm tracking-wider">
+            V
+          </div>
+          <span className="font-extrabold tracking-widest text-base text-white">VERVE AUTOMOTIVE // DETAILING</span>
+        </div>
+        <div className="hidden sm:flex items-center gap-5 text-xs font-mono text-gray-400">
+          <span>Services</span>
+          <span>Packages</span>
+          <span>Bay Status</span>
+          <span>Contact</span>
+        </div>
+        <span className="rounded bg-[#ff2a55] text-white px-3 py-1 font-mono text-xs uppercase tracking-wider font-extrabold shadow-[0_0_15px_rgba(255,42,85,0.5)]">
+          Book Bay →
+        </span>
+      </div>
+
+      {/* Hero */}
+      <div className="p-6 md:p-8 flex flex-col gap-5 border-b border-[#222533] bg-[#0c0e15] relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#ff2a55]/10 rounded-full blur-3xl pointer-events-none" />
+        <span className="inline-flex items-center gap-2 rounded-full bg-[#ff2a55]/20 border border-[#ff2a55]/60 px-3.5 py-1 font-mono text-xs font-extrabold text-[#ff2a55] w-fit">
+          ⚡ PRECISION CERAMIC COATING & PPF • READING, UK
+        </span>
+        <h4 className="text-2xl md:text-4xl font-black uppercase text-white leading-tight tracking-tight">
+          High-Performance Vehicle Care & Paint Protection.
+        </h4>
+        <p className="text-xs md:text-sm text-gray-300 max-w-xl leading-relaxed">
+          High-contrast digital portal and automated instant slot booking engine engineered for sports cars & hypercars.
+        </p>
+        <div className="relative overflow-hidden rounded-xl border-2 border-[#ff2a55]/50 h-52 w-full bg-[#000]">
+          <img src={item.imageSrc} alt={item.imageAlt ?? item.title} className="size-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#08090c] via-transparent to-transparent p-4 flex items-end justify-between">
+            <div className="flex flex-col">
+              <span className="font-mono text-[10px] text-[#00f0ff] uppercase font-bold">RPM Hardness Gauge Active</span>
+              <span className="text-sm font-extrabold text-white">Ceramic Pro 9H Certified Detailing</span>
+            </div>
+            <span className="rounded-full bg-[#ff2a55]/30 text-[#ff2a55] border border-[#ff2a55]/70 px-3 py-1 font-mono text-xs font-bold">
+              ⚡ 24/7 Automated Slot Reservation
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Section 2: Ceramic & PPF Spec Matrix */}
+      <div className="p-6 md:p-8 flex flex-col gap-4 border-b border-[#222533] bg-[#0e1017]">
+        <div className="flex flex-col gap-1">
+          <span className="font-mono text-xs font-bold text-[#ff2a55] uppercase tracking-widest">
+            01 // CERAMIC & PAINT PROTECTION PACKAGES
+          </span>
+          <h5 className="text-xl font-extrabold text-white">Precision Surface Protection Tiers</h5>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          {[
+            { title: "Ceramic Pro 9H", spec: "5-Year Paint Guarantee", price: "From £795" },
+            { title: "Full Frontal PPF", spec: "Self-Healing Urethane", price: "From £1,295" },
+            { title: "Ultimate Track Shield", spec: "Full Body Gloss / Matte", price: "From £2,495" },
+          ].map((card, i) => (
+            <div key={i} className="rounded-xl border border-[#ff2a55]/30 bg-[#161217] p-4 flex flex-col justify-between">
+              <span className="font-mono text-[10px] font-bold text-[#ff2a55]">STAGE 0{i + 1}</span>
+              <h6 className="font-extrabold text-base text-white mt-1">{card.title}</h6>
+              <p className="text-xs text-gray-300 mt-1">{card.spec}</p>
+              <div className="mt-3 pt-2 border-t border-[#ff2a55]/20 flex justify-between items-center text-xs font-bold font-mono text-[#00f0ff]">
+                <span>Package Price:</span>
+                <span className="text-[#ff2a55] text-sm">{card.price}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+        {/* RPM Hardness Meter Widget */}
+        <div className="mt-2 rounded-xl border border-[#00f0ff]/40 bg-[#07131a] p-4 flex justify-between items-center font-mono text-xs">
+          <div className="flex items-center gap-3">
+            <div className="size-10 rounded-full border-2 border-[#00f0ff] flex items-center justify-center font-bold text-[#00f0ff]">
+              9H
+            </div>
+            <div>
+              <span className="text-white font-bold block">9H Hardness Meter Rating</span>
+              <span className="text-gray-400">99.6% Surface Protection Score</span>
+            </div>
+          </div>
+          <span className="text-[#00f0ff] font-bold">✓ Verified Certified</span>
+        </div>
+      </div>
+
+      {/* Section 3: Live Bay Ticker */}
+      <div className="p-6 md:p-8 flex flex-col gap-4 bg-[#0a0b10]">
+        <div className="rounded-xl border border-[#ff2a55]/50 bg-[#1d090f] p-4 flex flex-col gap-2 font-mono text-xs">
+          <div className="flex justify-between items-center text-[#ff2a55]">
+            <span className="font-bold">⚡ LIVE READING WORKSHOP CALENDAR</span>
+            <span className="bg-[#ff2a55]/30 text-white px-2 py-0.5 rounded font-bold">2 Bays Remaining</span>
+          </div>
+          <p className="text-gray-300">
+            Clients select detailing packages and confirm booking slots with instant online deposit routing.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CrestWebsiteView({ item }: { item: Work }) {
+  return (
+    <div className="w-full flex flex-col gap-0 select-none bg-[#f8fafc] text-[#0f172a] font-sans">
+      {/* Header */}
+      <div className="bg-[#070d19] px-6 py-4 text-white flex items-center justify-between border-b-2 border-[#d97706]">
+        <div className="flex items-center gap-3">
+          <div className="size-8 rounded bg-[#d97706] text-white flex items-center justify-center font-serif font-bold text-sm">
+            C
+          </div>
+          <span className="font-serif tracking-wider font-bold text-base text-white">CREST ADVISORY GROUP</span>
+        </div>
+        <div className="hidden sm:flex items-center gap-5 text-xs font-mono text-slate-300">
+          <span>Disciplines</span>
+          <span>Insights</span>
+          <span>Compliance</span>
+          <span>Portal</span>
+        </div>
+        <span className="rounded bg-[#d97706] text-white px-3 py-1 font-mono text-xs uppercase tracking-wider font-semibold">
+          Client Portal →
+        </span>
+      </div>
+
+      {/* Hero */}
+      <div className="p-6 md:p-8 flex flex-col gap-5 border-b border-slate-200 bg-white">
+        <span className="inline-flex items-center gap-2 rounded bg-[#d97706]/15 border border-[#d97706]/40 px-3 py-1 font-mono text-xs font-semibold text-[#b45309] w-fit">
+          ✦ STRATEGIC CORPORATE WEALTH & ADVISORY • SLOUGH, UK
+        </span>
+        <h4 className="font-serif text-2xl md:text-4xl font-bold text-[#070d19] leading-tight">
+          Institutional-Grade Advisory & Wealth Preservation Platform.
+        </h4>
+        <p className="text-xs md:text-sm text-slate-600 max-w-xl leading-relaxed">
+          Cinematic layout with corporate compliance, confidential client portal, and local search visibility for regional firms.
+        </p>
+        <div className="relative overflow-hidden rounded-lg border border-slate-300 h-52 w-full bg-[#0f172a]">
+          <img src={item.imageSrc} alt={item.imageAlt ?? item.title} className="size-full object-cover opacity-90" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#070d19] via-transparent to-transparent p-4 flex items-end justify-between">
+            <div className="flex flex-col">
+              <span className="font-mono text-[10px] text-[#fbbf24] uppercase">Audited Financial Systems</span>
+              <span className="text-sm font-bold text-white font-serif">Executive Wealth Preservation Matrix</span>
+            </div>
+            <span className="rounded bg-sky-500/20 text-sky-200 border border-sky-500/50 px-3 py-1 font-mono text-xs">
+              +380% Qualified Deal Flow
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Section 2: Advisory Disciplines */}
+      <div className="p-6 md:p-8 flex flex-col gap-4 border-b border-slate-200 bg-slate-50">
+        <div className="flex flex-col gap-1">
+          <span className="font-mono text-xs font-bold text-[#d97706] uppercase tracking-wider">
+            01 // ADVISORY DISCIPLINES & SERVICES
+          </span>
+          <h5 className="font-serif text-xl font-bold text-[#070d19]">Corporate Governance & Transaction Advisory</h5>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          {[
+            { title: "Corporate Restructuring", spec: "Cross-border tax & asset optimization" },
+            { title: "Wealth Preservation", spec: "Private estate governance & audited trusts" },
+            { title: "M&A Strategic Advisory", spec: "Encrypted M&A portal & deal room" },
+          ].map((card, i) => (
+            <div key={i} className="rounded-lg border border-slate-200 bg-[#0f172a] text-white p-4 flex flex-col justify-between">
+              <span className="font-mono text-[10px] font-bold text-[#fbbf24]">SECTOR 0{i + 1}</span>
+              <h6 className="font-serif font-bold text-base text-white mt-1">{card.title}</h6>
+              <p className="text-xs text-slate-300 mt-1">{card.spec}</p>
+              <div className="mt-3 pt-2 border-t border-slate-700 flex justify-between items-center text-xs font-mono text-[#fbbf24]">
+                <span>Status:</span>
+                <span>Active Advisor</span>
+              </div>
+            </div>
+          ))}
+        </div>
+        {/* Metric counter */}
+        <div className="mt-2 rounded-lg border border-[#d97706]/30 bg-white p-4 flex justify-between items-center font-mono text-xs text-[#070d19]">
+          <span className="font-bold">£420M Assets Under Advisory</span>
+          <span className="text-emerald-600 font-bold">3.8x Prospect Pipeline</span>
+        </div>
+      </div>
+
+      {/* Section 3: Confidential Client Portal */}
+      <div className="p-6 md:p-8 flex flex-col gap-4 bg-[#070d19] text-white">
+        <span className="font-mono text-xs text-[#fbbf24] uppercase tracking-wider">
+          02 // CONFIDENTIAL CLIENT INTAKE PORTAL
+        </span>
+        <div className="rounded-lg border border-sky-500/40 bg-[#0c1e38] p-4 flex flex-col gap-2 font-mono text-xs">
+          <div className="flex items-center gap-2 text-sky-400 font-bold">
+            <span className="size-2 rounded-full bg-sky-400 animate-pulse" />
+            <span>🔒 256-Bit SSL Encrypted Intake Workspace Active</span>
+          </div>
+          <p className="text-slate-300">
+            Prospective clients securely submit financial parameters for direct executive review and compliance clearance.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SlateWebsiteView({ item }: { item: Work }) {
+  return (
+    <div className="w-full flex flex-col gap-0 select-none bg-[#fff8f6] text-[#2d1b26] font-sans">
+      {/* Header */}
+      <div className="bg-[#2d1b26] px-6 py-4 text-white flex items-center justify-between border-b-2 border-[#f472b6]">
+        <div className="flex items-center gap-3">
+          <div className="size-8 rounded-full bg-[#f472b6] text-white flex items-center justify-center font-serif font-bold text-sm">
+            S
+          </div>
+          <span className="font-serif tracking-widest font-bold text-base text-[#fff8f6]">S L A T E — BOUTIQUE SALON</span>
+        </div>
+        <div className="hidden sm:flex items-center gap-5 text-xs font-mono text-rose-200">
+          <span>Rituals</span>
+          <span>Stylists</span>
+          <span>Reservation</span>
+          <span>Contact</span>
+        </div>
+        <span className="rounded-full bg-[#f472b6] text-white px-3.5 py-1 font-mono text-xs uppercase tracking-wider font-semibold">
+          Book VIP →
+        </span>
+      </div>
+
+      {/* Hero */}
+      <div className="p-6 md:p-8 flex flex-col gap-5 border-b border-[#f3d5e2] bg-[#fdf4f8]">
+        <span className="inline-flex items-center gap-2 rounded-full bg-[#f472b6]/20 border border-[#f472b6]/40 px-3.5 py-1 font-mono text-xs font-semibold text-[#c026d3] w-fit">
+          ✦ BOUTIQUE SALON WORKSPACE • WINDSOR, UK
+        </span>
+        <h4 className="font-serif text-2xl md:text-4xl font-bold text-[#4c1d95] leading-tight">
+          Tailored Hair Styling & Beauty Rituals.
+        </h4>
+        <p className="text-xs md:text-sm text-[#704b60] max-w-xl leading-relaxed">
+          Automated reservation workspace and mobile VIP intake engine built for premium beauty studios.
+        </p>
+        <div className="relative overflow-hidden rounded-2xl border-2 border-[#f472b6]/40 h-52 w-full bg-[#2d1b26]">
+          <img src={item.imageSrc} alt={item.imageAlt ?? item.title} className="size-full object-cover opacity-90" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#2d1b26]/90 via-transparent to-transparent p-4 flex items-end justify-between">
+            <div className="flex flex-col">
+              <span className="font-mono text-[10px] text-[#f472b6] uppercase">VIP Reservation Engine Active</span>
+              <span className="text-sm font-bold text-white font-serif">Bespoke Hair & Beauty Rituals</span>
+            </div>
+            <span className="rounded-full bg-pink-500/30 text-pink-200 border border-pink-400/50 px-3 py-1 font-mono text-xs">
+              +210% Booking Rate
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Section 2: Rituals Menu */}
+      <div className="p-6 md:p-8 flex flex-col gap-4 border-b border-[#f3d5e2] bg-white">
+        <div className="flex flex-col gap-1">
+          <span className="font-mono text-xs font-bold text-[#c026d3] uppercase tracking-wider">
+            01 // BOUTIQUE RITUALS & SERVICES MENU
+          </span>
+          <h5 className="font-serif text-xl font-bold text-[#4c1d95]">Styling & Hair Care Treatments</h5>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          {[
+            { title: "Bespoke Balayage", spec: "Colour Masterclass • 2.5 Hours", price: "From £165" },
+            { title: "Precision Sculpting", spec: "Senior Stylist Direct • 1 Hour", price: "From £95" },
+            { title: "VIP Hair Treatment", spec: "Nourishment Ritual • 45 Mins", price: "From £75" },
+          ].map((card, i) => (
+            <div key={i} className="rounded-xl border border-[#f3d5e2] bg-[#fcf0f5] p-4 flex flex-col justify-between">
+              <span className="font-mono text-[10px] font-bold text-[#c026d3]">RITUAL 0{i + 1}</span>
+              <h6 className="font-serif font-bold text-base text-[#4c1d95] mt-1">{card.title}</h6>
+              <p className="text-xs text-[#704b60] mt-1">{card.spec}</p>
+              <div className="mt-3 pt-2 border-t border-[#f3d5e2] flex justify-between items-center text-xs font-bold font-mono text-[#c026d3]">
+                <span>Price:</span>
+                <span>{card.price}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Section 3: SMS Reservation Engine */}
+      <div className="p-6 md:p-8 flex flex-col gap-4 bg-[#2d1b26] text-white">
+        <span className="font-mono text-xs text-[#f472b6] uppercase tracking-wider">
+          02 // AUTOMATED SMS RESERVATIONS
+        </span>
+        <div className="rounded-xl border border-[#f472b6]/40 bg-[#3b2332] p-4 flex flex-col gap-2 font-mono text-xs">
+          <div className="flex items-center justify-between text-[#f472b6]">
+            <span className="font-bold">📱 INSTANT MOBILE SMS CONFIRMATIONS</span>
+            <span className="bg-[#f472b6]/20 text-pink-200 px-2 py-0.5 rounded">+210% Booking Rate</span>
+          </div>
+          <p className="text-rose-100">
+            Clients book treatments online and receive instant SMS confirmations with automated reminders, eliminating no-shows.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function getProjectAnimationConfig(item: Work, index: number) {
   const titleLower = item.title.toLowerCase();
 
@@ -252,218 +651,70 @@ function getProjectAnimationConfig(item: Work, index: number) {
       accentBg: "rgba(196, 175, 138, 0.15)",
       accentBorder: "rgba(196, 175, 138, 0.4)",
       badgeText: "✦ Architectural Build • Berkshire",
-      heroTitle: "Bespoke Architectural Build & Commercial Development",
-      heroSubtext: "Engineering luxury commercial foundations and high-conversion client intake systems across Berkshire.",
       baseDuration: 14,
-      desktopKeyframes: ["0%", "-26%", "-26%", "-62%", "-62%", "0%"],
-      mobileKeyframes: ["0%", "-30%", "-30%", "-68%", "-68%", "0%"],
+      desktopKeyframes: ["0%", "-28%", "-28%", "-65%", "-65%", "0%"],
+      mobileKeyframes: ["0%", "-32%", "-32%", "-70%", "-70%", "0%"],
       times: [0, 0.38, 0.50, 0.84, 0.93, 1],
       ease: "easeInOut" as const,
-      sections: [
-        {
-          tag: "01 // SITE ESTIMATE CALCULATOR",
-          heading: "Interactive Project Estimation & Site Bids",
-          content: (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              {[
-                { title: "Commercial Build", spec: "Up to 15,000 sq ft", time: "3-4 Months" },
-                { title: "Executive Renovation", spec: "Bespoke Specs", time: "2 Months" },
-                { title: "Site Infrastructure", spec: "Full Turnkey", time: "Scoped" },
-              ].map((card, i) => (
-                <div key={i} className="rounded-xl border border-[#c4af8a]/30 bg-[#191917] p-4 flex flex-col gap-2">
-                  <span className="font-mono text-xs text-[#c4af8a]">TIER 0{i + 1}</span>
-                  <h6 className="font-semibold text-sm text-white">{card.title}</h6>
-                  <p className="text-xs text-gray-400">{card.spec} • {card.time}</p>
-                </div>
-              ))}
-            </div>
-          ),
-        },
-        {
-          tag: "02 // 24/7 SITE INTAKE CHATBOT",
-          heading: "Automated Commercial Qualification",
-          content: (
-            <div className="rounded-xl border border-[#c4af8a]/30 bg-[#161614] p-4 flex flex-col gap-2">
-              <div className="flex items-center gap-2 text-xs font-mono text-emerald-400">
-                <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span>Apex Intake Bot: "3 new project tenders received today"</span>
-              </div>
-              <p className="text-xs text-gray-300">
-                Incoming clients submit structural specs and receive instant consultation schedules.
-              </p>
-            </div>
-          ),
-        },
-      ],
+      Renderer: ApexWebsiteView,
     };
   }
 
   if (titleLower.includes("verve") || index === 1) {
     return {
-      accentColor: "#ef4444",
-      accentBg: "rgba(239, 68, 68, 0.15)",
-      accentBorder: "rgba(239, 68, 68, 0.4)",
+      accentColor: "#ff2a55",
+      accentBg: "rgba(255, 42, 85, 0.15)",
+      accentBorder: "rgba(255, 42, 85, 0.4)",
       badgeText: "⚡ Precision Detailing • Reading",
-      heroTitle: "High-Performance Vehicle Care & Paint Protection",
-      heroSubtext: "High-contrast digital portal and automated instant slot booking engine for premium sports cars.",
       baseDuration: 10,
-      desktopKeyframes: ["0%", "-22%", "-22%", "-54%", "-54%", "-78%", "-78%", "0%"],
-      mobileKeyframes: ["0%", "-25%", "-25%", "-58%", "-58%", "-82%", "-82%", "0%"],
+      desktopKeyframes: ["0%", "-24%", "-24%", "-58%", "-58%", "-84%", "-84%", "0%"],
+      mobileKeyframes: ["0%", "-28%", "-28%", "-62%", "-62%", "-88%", "-88%", "0%"],
       times: [0, 0.22, 0.32, 0.52, 0.62, 0.82, 0.90, 1],
       ease: "easeInOut" as const,
-      sections: [
-        {
-          tag: "01 // CERAMIC & PPF PACKAGES",
-          heading: "Precision Coating & Paint Protection",
-          content: (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              {[
-                { title: "Ceramic Pro 9H", spec: "5-Year Guarantee", price: "From £795" },
-                { title: "Full Frontal PPF", spec: "Self-Healing Film", price: "From £1,295" },
-                { title: "Ultimate Track Pack", spec: "Full Body Shield", price: "From £2,495" },
-              ].map((card, i) => (
-                <div key={i} className="rounded-xl border border-[#ef4444]/30 bg-[#1c1212] p-4 flex flex-col gap-2">
-                  <span className="font-mono text-xs text-[#ef4444]">STAGE 0{i + 1}</span>
-                  <h6 className="font-semibold text-sm text-white">{card.title}</h6>
-                  <p className="text-xs text-gray-300 font-bold">{card.price} • {card.spec}</p>
-                </div>
-              ))}
-            </div>
-          ),
-        },
-        {
-          tag: "02 // AUTOMATED BOOKING TICKER",
-          heading: "24/7 Instant Reservation Engine",
-          content: (
-            <div className="rounded-xl border border-[#ef4444]/40 bg-[#221313] p-4 flex flex-col gap-2">
-              <div className="flex items-center justify-between text-xs font-mono text-red-400">
-                <span>⚡ Live Calendar Status</span>
-                <span className="bg-red-500/20 text-red-300 px-2 py-0.5 rounded">2 Slots Remaining This Week</span>
-              </div>
-              <p className="text-xs text-gray-300">
-                Clients select detailing packages and confirm dates with instant deposit routing.
-              </p>
-            </div>
-          ),
-        },
-      ],
+      Renderer: VerveWebsiteView,
     };
   }
 
   if (titleLower.includes("crest") || index === 2) {
     return {
-      accentColor: "#38bdf8",
-      accentBg: "rgba(56, 189, 248, 0.15)",
-      accentBorder: "rgba(56, 189, 248, 0.4)",
+      accentColor: "#d97706",
+      accentBg: "rgba(217, 119, 6, 0.15)",
+      accentBorder: "rgba(217, 119, 6, 0.4)",
       badgeText: "✦ Corporate Wealth & Advisory • Slough",
-      heroTitle: "Strategic Advisory & Wealth Preservation Platform",
-      heroSubtext: "Cinematic layout with corporate compliance, client portal, and local search visibility for regional firms.",
       baseDuration: 16,
-      desktopKeyframes: ["0%", "-30%", "-30%", "-66%", "-66%", "0%"],
-      mobileKeyframes: ["0%", "-34%", "-34%", "-72%", "-72%", "0%"],
+      desktopKeyframes: ["0%", "-30%", "-30%", "-68%", "-68%", "0%"],
+      mobileKeyframes: ["0%", "-34%", "-34%", "-74%", "-74%", "0%"],
       times: [0, 0.40, 0.52, 0.85, 0.94, 1],
       ease: "easeInOut" as const,
-      sections: [
-        {
-          tag: "01 // ADVISORY DISCIPLINES",
-          heading: "Institutional Grade Corporate Guidance",
-          content: (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              {[
-                { title: "Corporate Restructuring", spec: "Cross-border Tax", pipeline: "3.8x Pipeline" },
-                { title: "Wealth Preservation", spec: "Private Estates", pipeline: "Audited System" },
-                { title: "M&A Strategic Advisory", spec: "Transaction Portal", pipeline: "Confidential" },
-              ].map((card, i) => (
-                <div key={i} className="rounded-xl border border-[#38bdf8]/30 bg-[#0f172a] p-4 flex flex-col gap-2">
-                  <span className="font-mono text-xs text-[#38bdf8]">SECTOR 0{i + 1}</span>
-                  <h6 className="font-semibold text-sm text-white">{card.title}</h6>
-                  <p className="text-xs text-gray-300">{card.spec} • {card.pipeline}</p>
-                </div>
-              ))}
-            </div>
-          ),
-        },
-        {
-          tag: "02 // CONFIDENTIAL CLIENT PORTAL",
-          heading: "Secure Prospect Intake Workspace",
-          content: (
-            <div className="rounded-xl border border-[#38bdf8]/40 bg-[#0c1e38] p-4 flex flex-col gap-2">
-              <div className="flex items-center gap-2 text-xs font-mono text-sky-400">
-                <span className="size-2 rounded-full bg-sky-400 animate-pulse" />
-                <span>Encrypted Discovery Portal Active</span>
-              </div>
-              <p className="text-xs text-gray-300">
-                Prospective clients securely submit financial parameters for direct executive review.
-              </p>
-            </div>
-          ),
-        },
-      ],
+      Renderer: CrestWebsiteView,
     };
   }
 
-  // Slate or default salon item
   return {
     accentColor: "#f472b6",
     accentBg: "rgba(244, 114, 182, 0.15)",
     accentBorder: "rgba(244, 114, 182, 0.4)",
     badgeText: "✦ Boutique Salon Workspace • Windsor",
-    heroTitle: "Luxury Salon Experience & Reservation System",
-    heroSubtext: "Automated reservation workspace and mobile VIP intake engine built for premium beauty studios.",
     baseDuration: 12,
-    desktopKeyframes: ["0%", "-34%", "-34%", "-70%", "-70%", "0%"],
-    mobileKeyframes: ["0%", "-38%", "-38%", "-75%", "-75%", "0%"],
+    desktopKeyframes: ["0%", "-35%", "-35%", "-74%", "-74%", "0%"],
+    mobileKeyframes: ["0%", "-40%", "-40%", "-78%", "-78%", "0%"],
     times: [0, 0.32, 0.44, 0.80, 0.90, 1],
     ease: "easeInOut" as const,
-    sections: [
-      {
-        tag: "01 // BOUTIQUE SERVICES MENU",
-        heading: "Tailored Styling & Beauty Rituals",
-        content: (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            {[
-              { title: "Bespoke Balayage", spec: "Colour Masterclass", price: "From £165" },
-              { title: "Precision Sculpting", spec: "Stylist Direct", price: "From £95" },
-              { title: "VIP Hair Treatment", spec: "Hydration Ritual", price: "From £75" },
-            ].map((card, i) => (
-              <div key={i} className="rounded-xl border border-[#f472b6]/30 bg-[#21111c] p-4 flex flex-col gap-2">
-                <span className="font-mono text-xs text-[#f472b6]">RITUAL 0{i + 1}</span>
-                <h6 className="font-semibold text-sm text-white">{card.title}</h6>
-                <p className="text-xs text-gray-300 font-bold">{card.price} • {card.spec}</p>
-              </div>
-            ))}
-          </div>
-        ),
-      },
-      {
-        tag: "02 // AUTOMATED SMS APPOINTMENT REMINDERS",
-        heading: "Mobile Reservation & SMS Confirmation Engine",
-        content: (
-          <div className="rounded-xl border border-[#f472b6]/40 bg-[#2d1427] p-4 flex flex-col gap-2">
-            <div className="flex items-center justify-between text-xs font-mono text-pink-300">
-              <span>📱 Instant Mobile Reservation</span>
-              <span className="bg-pink-500/20 text-pink-200 px-2 py-0.5 rounded">+210% Booking Rate</span>
-            </div>
-            <p className="text-xs text-gray-300">
-              Clients book treatments online and receive instant SMS confirmations with automatic reminders.
-            </p>
-          </div>
-        ),
-      },
-    ],
+    Renderer: SlateWebsiteView,
   };
 }
 
 function PortfolioPreviewModal({ item, index = 0, onClose }: { item: Work; index?: number; onClose: () => void }) {
   const modalRef = useRef<HTMLDivElement>(null);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [device, setDevice] = useState<"desktop" | "mobile">("desktop");
+  const [device, setDevice] = useState<"desktop" | "mobile" | "3d">("3d");
   const [speed, setSpeed] = useState<number>(1);
   const [replayKey, setReplayKey] = useState<number>(0);
   const [elapsedSeconds, setElapsedSeconds] = useState<number>(0);
 
   const config = getProjectAnimationConfig(item, index);
   const cycleDuration = config.baseDuration / speed;
+  const RendererComponent = config.Renderer;
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -518,7 +769,7 @@ function PortfolioPreviewModal({ item, index = 0, onClose }: { item: Work; index
             <div className="min-w-0">
               <div className="flex items-center gap-2">
                 <h3 id="preview-modal-title" className="font-bold text-base md:text-lg text-foreground truncate">
-                  {item.title} — Website Scroll Video Preview
+                  {item.title} — Distinct Portfolio Website Preview
                 </h3>
                 <span
                   className="hidden sm:inline-block rounded-full px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider"
@@ -548,8 +799,18 @@ function PortfolioPreviewModal({ item, index = 0, onClose }: { item: Work; index
         <div className="p-4 md:p-6 flex flex-col gap-5">
           {/* Top Control Toolbar */}
           <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border/60 bg-[#1a1a18] p-3 text-xs font-mono">
-            {/* Left: Device Toggle */}
+            {/* Left: View Mode Toggle */}
             <div className="flex items-center gap-1.5 bg-[#111110] p-1 rounded-lg border border-border/40">
+              <button
+                type="button"
+                onClick={() => setDevice("3d")}
+                className={cn(
+                  "flex items-center gap-1.5 rounded-md px-2.5 py-1 transition-colors",
+                  device === "3d" ? "bg-accent text-black font-semibold" : "text-muted-foreground hover:text-foreground"
+                )}
+              >
+                <span>⚙️ 3D Cyber Console</span>
+              </button>
               <button
                 type="button"
                 onClick={() => setDevice("desktop")}
@@ -579,7 +840,7 @@ function PortfolioPreviewModal({ item, index = 0, onClose }: { item: Work; index
                 onClick={() => setIsPlaying(!isPlaying)}
                 className="flex items-center gap-1.5 rounded-lg bg-accent/20 border border-accent/40 px-3 py-1 text-accent font-semibold hover:bg-accent/30 transition-colors"
               >
-                {isPlaying ? "⏸ Pause Scroll Video" : "▶ Play Scroll Video"}
+                {isPlaying ? "⏸ Pause Auto-Scroll" : "▶ Play Auto-Scroll"}
               </button>
               <button
                 type="button"
@@ -616,14 +877,32 @@ function PortfolioPreviewModal({ item, index = 0, onClose }: { item: Work; index
             </div>
           </div>
 
-          {/* Device Mockup Window */}
+          {/* Device / 3D Cyber Console Viewport */}
           <div
             className={cn(
               "relative overflow-hidden rounded-xl border border-border/80 bg-[#0e0e0d] shadow-2xl transition-all duration-300 mx-auto w-full",
-              device === "mobile" ? "max-w-[360px] border-4 border-neutral-700 rounded-3xl" : "max-w-none"
+              device === "mobile"
+                ? "max-w-[360px] border-4 border-neutral-700 rounded-3xl"
+                : device === "3d"
+                ? "p-3 bg-[#18191c] border-2 border-accent/40 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.9)]"
+                : "max-w-none"
             )}
           >
-            {/* Top Browser Bar */}
+            {/* If 3D Cyber Console View Mode */}
+            {device === "3d" && (
+              <div className="mb-2 flex items-center justify-between border-b border-white/10 pb-2 font-mono text-[11px] text-gray-400">
+                <div className="flex items-center gap-2">
+                  <span className="size-2 rounded-full bg-emerald-400 animate-ping" />
+                  <span className="font-bold text-white uppercase tracking-widest">3D CYBER CONSOLE DRUM RACK</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span>BELT DRIVE: ONLINE</span>
+                  <span className="text-accent font-bold">3D TILT TIER 01</span>
+                </div>
+              </div>
+            )}
+
+            {/* Browser / Frame Top Bar */}
             <div className="flex items-center justify-between border-b border-border/50 bg-[#1c1c19] px-4 py-2 text-xs font-mono">
               <div className="flex items-center gap-1.5">
                 <span className="size-2.5 rounded-full bg-red-500/80" />
@@ -631,22 +910,29 @@ function PortfolioPreviewModal({ item, index = 0, onClose }: { item: Work; index
                 <span className="size-2.5 rounded-full bg-green-500/80" />
               </div>
               <div className="mx-auto flex max-w-md items-center justify-center truncate rounded-md bg-[#111110] px-3 py-0.5 text-[11px] text-muted-foreground border border-border/30">
-                🔒 https://{item.title.toLowerCase().replace(/\s+/g, "")}.co.uk (Video Scroll Preview)
+                🔒 https://{item.title.toLowerCase().replace(/\s+/g, "")}.co.uk (Unique Design & 3D Scroll)
               </div>
               <div className="hidden sm:block text-[10px] text-accent/80 uppercase tracking-widest">
                 {isPlaying ? "● REC" : "PAUSED"}
               </div>
             </div>
 
-            {/* Scroll Animation Screen Viewport */}
+            {/* Scroll Animation Screen Viewport with 3D Perspective Support */}
             <div
               className={cn(
                 "relative overflow-hidden bg-[#0c0c0b]",
-                device === "mobile" ? "h-[460px]" : "h-[380px] md:h-[420px]",
+                device === "mobile" ? "h-[460px]" : "h-[400px] md:h-[450px]",
                 !isPlaying && "overflow-y-auto"
               )}
+              style={
+                device === "3d"
+                  ? {
+                      perspective: "1200px",
+                    }
+                  : undefined
+              }
             >
-              {/* Simulated Website Content Canvas with Distinct Animation */}
+              {/* Animated Canvas */}
               <motion.div
                 key={`${replayKey}-${device}`}
                 animate={
@@ -664,110 +950,22 @@ function PortfolioPreviewModal({ item, index = 0, onClose }: { item: Work; index
                       }
                     : undefined
                 }
-                className="w-full flex flex-col gap-0 select-none pointer-events-auto"
+                style={
+                  device === "3d"
+                    ? {
+                        transform: "rotateX(10deg) rotateY(-4deg) scale(0.96)",
+                        transformOrigin: "center top",
+                        boxShadow: "0 25px 50px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.1)",
+                      }
+                    : undefined
+                }
+                className="w-full flex flex-col gap-0 select-none pointer-events-auto transition-transform duration-300"
               >
-                {/* Section 1: Simulated Website Navigation & Unique Hero */}
-                <div className="relative border-b border-border/40 bg-[#161614] p-5 md:p-8 flex flex-col gap-6">
-                  <div className="flex items-center justify-between border-b border-border/30 pb-4">
-                    <div className="flex items-center gap-2">
-                      <div
-                        className="size-6 rounded flex items-center justify-center font-bold text-black text-xs"
-                        style={{ backgroundColor: config.accentColor }}
-                      >
-                        {item.title.charAt(0)}
-                      </div>
-                      <span className="font-bold tracking-tight text-white">{item.title}</span>
-                    </div>
-                    <div className="hidden sm:flex items-center gap-4 text-xs text-muted-foreground font-mono">
-                      <span>Services</span>
-                      <span>Portfolio</span>
-                      <span>About</span>
-                      <span>Contact</span>
-                    </div>
-                    <span
-                      className="rounded border px-2.5 py-1 text-[11px] font-mono"
-                      style={{ backgroundColor: config.accentBg, borderColor: config.accentBorder, color: config.accentColor }}
-                    >
-                      Enquire →
-                    </span>
-                  </div>
-
-                  <div className="flex flex-col gap-3">
-                    <div
-                      className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 font-mono text-[10px] w-fit uppercase tracking-widest"
-                      style={{ backgroundColor: config.accentBg, borderColor: config.accentBorder, color: config.accentColor }}
-                    >
-                      {config.badgeText}
-                    </div>
-                    <h4 className="text-xl md:text-3xl font-extrabold text-white leading-tight tracking-tight">
-                      {config.heroTitle}
-                    </h4>
-                    <p className="text-xs md:text-sm text-gray-300 max-w-xl leading-relaxed">
-                      {config.heroSubtext}
-                    </p>
-                  </div>
-
-                  {/* Hero Image Showcase Banner */}
-                  <div className="relative overflow-hidden rounded-xl border border-border/60 h-48 md:h-56 w-full">
-                    <img
-                      src={item.imageSrc}
-                      alt={item.imageAlt ?? item.title}
-                      className="size-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent p-4 flex items-end justify-between">
-                      <div className="flex flex-col gap-1">
-                        <span className="font-mono text-[10px] uppercase" style={{ color: config.accentColor }}>
-                          Live Platform Status
-                        </span>
-                        <span className="text-sm font-bold text-white">Interactive Client Booking System</span>
-                      </div>
-                      {item.results && (
-                        <div className="rounded-full bg-emerald-500/20 border border-emerald-500/50 px-3 py-1 font-mono text-xs text-emerald-300">
-                          ✦ {item.results}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Section 2 & 3: Custom Domain-Specific Sections */}
-                {config.sections.map((sec, idx) => (
-                  <div key={idx} className="bg-[#121210] p-5 md:p-8 border-b border-border/40 flex flex-col gap-5">
-                    <div className="flex flex-col gap-1">
-                      <span className="font-mono text-[10px] uppercase tracking-widest" style={{ color: config.accentColor }}>
-                        {sec.tag}
-                      </span>
-                      <h5 className="text-lg font-bold text-white">{sec.heading}</h5>
-                    </div>
-                    {sec.content}
-                  </div>
-                ))}
-
-                {/* Section 4: Client Outcome & Footer */}
-                <div className="bg-[#10100e] p-6 md:p-8 flex flex-col gap-6">
-                  <div className="rounded-xl border border-border/40 bg-[#161614] p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <div>
-                      <span className="font-mono text-[10px] uppercase" style={{ color: config.accentColor }}>
-                        Client Success Story
-                      </span>
-                      <p className="text-sm font-semibold text-gray-200 mt-1">
-                        &quot;Arivelune Studio delivered a high-converting digital experience that elevated our brand.&quot;
-                      </p>
-                    </div>
-                    <div className="shrink-0 font-mono text-xs text-emerald-400 border border-emerald-500/40 bg-emerald-500/10 px-3 py-1.5 rounded-lg">
-                      {item.results ?? "+340% Growth"}
-                    </div>
-                  </div>
-
-                  <div className="border-t border-border/30 pt-4 flex flex-wrap items-center justify-between gap-3 text-xs text-muted-foreground font-mono">
-                    <span>© 2026 {item.title}. All rights reserved.</span>
-                    <span>Designed by Arivelune Studio</span>
-                  </div>
-                </div>
+                <RendererComponent item={item} />
               </motion.div>
 
               {/* Video Scrubber Overlay Bar */}
-              <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-3 pointer-events-none flex flex-col gap-1.5">
+              <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-3 pointer-events-none flex flex-col gap-1.5 z-20">
                 <div className="flex items-center justify-between text-[10px] font-mono text-gray-300">
                   <span className="flex items-center gap-1.5">
                     <span className="size-2 rounded-full bg-red-500 animate-pulse" />
