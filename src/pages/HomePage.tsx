@@ -6,25 +6,16 @@ import PricingScopeColumns from "@/components/sections/pricing/PricingScopeColum
 import FaqHairlineIndex from "@/components/sections/faq/FaqHairlineIndex";
 import ContactUnderlineForm from "@/components/sections/contact/ContactUnderlineForm";
 import ModelStage from "@/components/kit/ModelStage";
+import Arivelune3DExperience from "@/components/models/Arivelune3DExperience";
 import LoaderWordmarkHandoff from "@/components/loaders/LoaderWordmarkHandoff";
 
 export default function HomePage() {
   return (
     <>
       <ModelStage
-        shape="arcs"
-        fixed={{
-          sm: {
-            y: 0.8,
-            scale: 0.7
-          },
-          scroll: {
-            rotate: 540,
-            tilt: 14,
-            scale: 0.08,
-            x: 0.05
-          }
-        }}
+        model={<Arivelune3DExperience />}
+        size={2.4}
+        scale={1}
         dpr={{
           lg: 1.5,
           sm: 1.25
@@ -35,11 +26,19 @@ export default function HomePage() {
         brand="Arivelune Studio"
       />
 
-      <div id="hero" data-webild-section="HeroShapeSplit" data-webild-section-id="HeroShapeSplit-1" data-section="hero" className="relative z-[45]">
+      {/* SCENE 1: Premium Website Design Showcase (Floating Opening Laptop) */}
+      <div
+        id="hero"
+        data-webild-section="HeroShapeSplit"
+        data-webild-section-id="HeroShapeSplit-1"
+        data-section="hero"
+        data-model='[{"x":0.35,"y":0.05,"z":0,"rx":14,"ry":-28,"rz":2,"scale":1.15,"explode":0,"dial":1}]'
+        className="relative z-[45]"
+      >
         <HeroShapeSplit
           tag="Arivelune Studio"
-          title="Beautifully designed. Built to bring you business."
-          description="Premium websites, AI assistants and smart enquiry systems for growing UK businesses."
+          title="First impressions that make an impact. Built to bring you business."
+          description="Premium website design, 24/7 AI assistants and smart enquiry systems for growing UK businesses."
           primaryButton={{
             text: "Free Website Review",
             href: "#contact"
@@ -48,16 +47,24 @@ export default function HomePage() {
             text: "Explore Our Work",
             href: "#services"
           }}
-          scrollLabel="Scroll to discover"
+          scrollLabel="Scroll to discover 3D experience"
           introDelay={1.7}
         />
       </div>
 
-      <div id="about" data-webild-section="AboutStatementBand" data-webild-section-id="AboutStatementBand-1" data-section="about" className="relative z-[45]">
+      {/* SCENE 2: AI Customer Engagement (Transition to Smartphone) */}
+      <div
+        id="about"
+        data-webild-section="AboutStatementBand"
+        data-webild-section-id="AboutStatementBand-1"
+        data-section="about"
+        data-model='[{"x":-0.28,"y":0,"z":0,"rx":8,"ry":25,"rz":-2,"scale":1.25,"explode":0.6,"dial":0.7}]'
+        className="relative z-[45]"
+      >
         <AboutStatementBand
           tag="01 / OUR PRINCIPLE"
-          title="We create digital experiences designed to turn visitors into qualified customers."
-          description="Based in Berkshire, Arivelune Studio crafts bespoke websites and intelligent AI enquiry systems that help UK businesses capture leads, automate growth, and stand apart."
+          title="From beautiful websites to automated business opportunities."
+          description="Based in Berkshire, Arivelune Studio crafts bespoke websites and intelligent AI enquiry systems that turn passive visitors into qualified customers 24/7."
           button={{
             text: "Explore Services",
             href: "#services"
@@ -74,11 +81,19 @@ export default function HomePage() {
               title: "GROWTH"
             }
           ]}
-          line="✦ Elevating digital presence."
+          line="✦ Elevating digital presence through AI & high-end design."
         />
       </div>
 
-      <div id="services" data-webild-section="ServicesGhostList" data-webild-section-id="ServicesGhostList-1" data-section="services" className="relative z-[45]">
+      {/* SCENE 3: Smart Lead Capture (Interactive Form on Devices) */}
+      <div
+        id="services"
+        data-webild-section="ServicesGhostList"
+        data-webild-section-id="ServicesGhostList-1"
+        data-section="services"
+        data-model='[{"x":0.28,"y":-0.05,"z":0,"rx":16,"ry":-18,"rz":1,"scale":1.2,"explode":0.4,"dial":0.4}]'
+        className="relative z-[45]"
+      >
         <ServicesGhostList
           tag="03 / Services"
           items={[
@@ -111,10 +126,19 @@ export default function HomePage() {
         />
       </div>
 
-      <div id="gallery" data-webild-section="GalleryWordPanels" data-webild-section-id="GalleryWordPanels-1" data-section="gallery" className="relative z-[45]" data-scene>
+      {/* SCENE 4: Lead-Management Dashboard (Dual Devices View) */}
+      <div
+        id="gallery"
+        data-webild-section="GalleryWordPanels"
+        data-webild-section-id="GalleryWordPanels-1"
+        data-section="gallery"
+        data-model='[{"x":0,"y":0.02,"z":0,"rx":12,"ry":-5,"rz":0,"scale":1.1,"explode":1.0,"dial":0}]'
+        className="relative z-[45]"
+        data-scene
+      >
         <GalleryWordPanels
           label="Selected Work"
-          title="Client outcomes."
+          title="Client outcomes & pipeline results."
           items={[
             {
               title: "Apex",
@@ -148,17 +172,24 @@ export default function HomePage() {
         />
       </div>
 
-      <div id="pricing" data-webild-section="PricingScopeColumns" data-webild-section-id="PricingScopeColumns-1" data-section="pricing" className="relative z-[45]">
+      <div
+        id="pricing"
+        data-webild-section="PricingScopeColumns"
+        data-webild-section-id="PricingScopeColumns-1"
+        data-section="pricing"
+        data-model='[{"x":0.4,"y":0.1,"z":-1,"rx":20,"ry":-35,"rz":0,"scale":0.85,"explode":0.8,"opacity":0.8}]'
+        className="relative z-[45]"
+      >
         <PricingScopeColumns
           tag="04 / Investment"
           title="Clear packages, no hidden costs"
-          description="Fixed investment levels tailored to regional service providers and growing UK companies."
+          description="Transparent starting prices tailored for local service providers, regional firms, and growing UK businesses."
           items={[
             {
               title: "Essentials",
               description: "For local service providers seeking a distinct online presence.",
-              price: "£2,500",
-              period: "GBP / Fixed project",
+              price: "From £1,500",
+              period: "GBP / Starting project",
               specs: [
                 {
                   label: "Scope",
@@ -185,8 +216,8 @@ export default function HomePage() {
             {
               title: "Professional",
               description: "For businesses ready to automate customer intake and lead follow-up.",
-              price: "£5,000",
-              period: "GBP / Fixed project",
+              price: "From £3,500",
+              period: "GBP / Full digital system",
               specs: [
                 {
                   label: "Scope",
@@ -194,7 +225,7 @@ export default function HomePage() {
                 },
                 {
                   label: "Timeline",
-                  value: "5 to 6 weeks"
+                  value: "4 to 6 weeks"
                 },
                 {
                   label: "AI Systems",
@@ -213,7 +244,7 @@ export default function HomePage() {
             {
               title: "Bespoke",
               description: "Tailored multi-location systems and lead-generation automation.",
-              price: "Custom",
+              price: "From £6,500",
               period: "Scoped to brief",
               specs: [
                 {
@@ -242,7 +273,14 @@ export default function HomePage() {
         />
       </div>
 
-      <div id="faq" data-webild-section="FaqHairlineIndex" data-webild-section-id="FaqHairlineIndex-1" data-section="faq" className="relative z-[45]">
+      <div
+        id="faq"
+        data-webild-section="FaqHairlineIndex"
+        data-webild-section-id="FaqHairlineIndex-1"
+        data-section="faq"
+        data-model='[{"x":-0.4,"y":0,"z":-1,"rx":15,"ry":35,"rz":0,"scale":0.8,"explode":0.5,"opacity":0.7}]'
+        className="relative z-[45]"
+      >
         <FaqHairlineIndex
           tag="06 / FAQ"
           title="Everything you need to know"
@@ -271,7 +309,14 @@ export default function HomePage() {
         />
       </div>
 
-      <div id="contact" data-webild-section="ContactUnderlineForm" data-webild-section-id="ContactUnderlineForm-1" data-section="contact" className="relative z-[45]">
+      <div
+        id="contact"
+        data-webild-section="ContactUnderlineForm"
+        data-webild-section-id="ContactUnderlineForm-1"
+        data-section="contact"
+        data-model='[{"x":0.35,"y":0,"z":0,"rx":10,"ry":-20,"rz":0,"scale":0.95,"explode":0.9,"opacity":0.9}]'
+        className="relative z-[45]"
+      >
         <ContactUnderlineForm
           title="Get a free website review"
           fields={[
