@@ -31,7 +31,7 @@ export default function Layout() {
             }
           ]}
           contact={{
-            text: "admin@arivelunestudio.com",
+            text: "Business Email",
             href: "mailto:admin@arivelunestudio.com"
           }}
         />

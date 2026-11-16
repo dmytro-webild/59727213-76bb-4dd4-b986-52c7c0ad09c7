@@ -347,7 +347,7 @@ export default function HomePage() {
               name: "email",
               label: "Email address",
               type: "email",
-              placeholder: "admin@arivelunestudio.com",
+              placeholder: "Business Email",
               required: true
             },
             {

@@ -29,7 +29,7 @@ const NavbarMenuPill = ({
     { name: "Pricing", href: "#pricing" },
     { name: "Contact", href: "#contact" },
   ],
-  contact = { text: "admin@arivelunestudio.com", href: "mailto:admin@arivelunestudio.com" },
+  contact = { text: "Business Email", href: "mailto:admin@arivelunestudio.com" },
   menuText = "Menu",
   closeText = "Close",
 }: NavbarMenuPillProps) => {
