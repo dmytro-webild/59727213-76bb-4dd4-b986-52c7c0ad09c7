@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -46,6 +46,21 @@ const ContactUnderlineForm = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submittedEmail, setSubmittedEmail] = useState("");
+
+  useEffect(() => {
+    const handleHash = () => {
+      if (typeof window === "undefined") return;
+      const hash = window.location.hash.toLowerCase();
+      if (hash.includes("review")) {
+        setEnquiryType("review");
+      } else if (hash.includes("project")) {
+        setEnquiryType("project");
+      }
+    };
+    handleHash();
+    window.addEventListener("hashchange", handleHash);
+    return () => window.removeEventListener("hashchange", handleHash);
+  }, []);
 
   const activeTitle =
     enquiryType === "project"
@@ -112,6 +127,8 @@ const ContactUnderlineForm = ({
 
   return (
     <section id={id} data-section={dataSection} aria-label={ariaLabel ?? title} className={cn("relative py-[var(--section-space)] text-foreground", className)}>
+      <div id="contact-project" className="absolute -top-24 left-0 pointer-events-none" />
+      <div id="contact-review" className="absolute -top-24 left-0 pointer-events-none" />
       <div className="kit-glass mx-auto flex w-[var(--container)] flex-col gap-[clamp(1.5rem,3vw,3rem)] p-[1.375rem] lg:p-[clamp(2rem,3.5vw,3.5rem)]">
         {/* Enquiry Type Selector Tabs */}
         <div className="flex flex-wrap items-center gap-2 border-b border-border/80 pb-4">
