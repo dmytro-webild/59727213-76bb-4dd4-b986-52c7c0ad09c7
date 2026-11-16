@@ -245,114 +245,393 @@ function Panel({
 
 function PortfolioPreviewModal({ item, onClose }: { item: Work; onClose: () => void }) {
   const modalRef = useRef<HTMLDivElement>(null);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [device, setDevice] = useState<"desktop" | "mobile">("desktop");
+  const [speed, setSpeed] = useState<number>(1);
+  const [replayKey, setReplayKey] = useState<number>(0);
+  const [elapsedSeconds, setElapsedSeconds] = useState<number>(0);
+
+  const cycleDuration = 12 / speed;
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    const origOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = origOverflow;
+    };
   }, [onClose]);
+
+  useEffect(() => {
+    if (!isPlaying) return;
+    const interval = setInterval(() => {
+      setElapsedSeconds((prev) => (prev + 0.5) % cycleDuration);
+    }, 500);
+    return () => clearInterval(interval);
+  }, [isPlaying, cycleDuration]);
+
+  const handleReplay = () => {
+    setReplayKey((k) => k + 1);
+    setElapsedSeconds(0);
+    setIsPlaying(true);
+  };
+
+  const progressPercent = Math.min(100, Math.max(0, (elapsedSeconds / cycleDuration) * 100));
 
   return (
     <div
       role="dialog"
       aria-modal="true"
       aria-labelledby="preview-modal-title"
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 p-4 md:p-8 backdrop-blur-md overflow-y-auto animate-in fade-in duration-200"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-3 md:p-6 backdrop-blur-md overflow-y-auto animate-in fade-in duration-200"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
     >
       <div
         ref={modalRef}
-        className="relative my-auto flex w-full max-w-4xl flex-col rounded-2xl border border-accent/40 bg-[#161614] text-foreground shadow-2xl overflow-hidden"
+        className="relative my-auto flex w-full max-w-5xl flex-col rounded-2xl border border-accent/40 bg-[#141412] text-foreground shadow-2xl overflow-hidden"
       >
         {/* Modal Header */}
-        <div className="flex items-center justify-between border-b border-border/60 bg-[#1c1c19] px-6 py-4">
-          <div className="flex items-center gap-3">
-            <span className="inline-block size-3 rounded-full bg-accent" />
-            <h3 id="preview-modal-title" className="font-bold text-lg text-foreground">
-              {item.title} Website Design Preview
-            </h3>
-            <span className="rounded-full bg-accent/10 px-3 py-0.5 font-mono text-xs text-accent uppercase">
-              {item.category}
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 bg-[#1a1a18] px-5 py-3.5">
+          <div className="flex items-center gap-3 min-w-0">
+            <span className="relative flex size-3">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75" />
+              <span className="relative inline-flex size-3 rounded-full bg-red-500" />
             </span>
+            <div className="min-w-0">
+              <div className="flex items-center gap-2">
+                <h3 id="preview-modal-title" className="font-bold text-base md:text-lg text-foreground truncate">
+                  {item.title} — Website Scroll Video Preview
+                </h3>
+                <span className="hidden sm:inline-block rounded-full bg-accent/15 px-2.5 py-0.5 font-mono text-[10px] text-accent uppercase tracking-wider">
+                  {item.category}
+                </span>
+              </div>
+              <p className="font-mono text-xs text-muted-foreground truncate">
+                Interactive video recording • {item.clientLocation ?? "UK Business"}
+              </p>
+            </div>
           </div>
 
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg border border-border/80 px-3 py-1.5 font-mono text-xs uppercase tracking-wider text-muted-foreground hover:bg-card hover:text-foreground transition-colors"
+            className="group flex items-center gap-2 rounded-xl bg-accent/10 border border-accent/30 px-3.5 py-1.5 font-mono text-xs font-semibold text-accent hover:bg-accent hover:text-black transition-all"
             aria-label="Close website preview modal"
           >
-            Close ✕
+            <span>Close Preview</span>
+            <span className="font-bold text-sm">✕</span>
           </button>
         </div>
 
-        {/* Modal Content: Browser Frame Preview */}
-        <div className="p-6 md:p-8 flex flex-col gap-6">
-          <div className="overflow-hidden rounded-xl border border-border/80 bg-[#111110] shadow-inner">
-            {/* Top Browser Bar */}
-            <div className="flex items-center gap-2 border-b border-border/50 bg-[#1e1e1b] px-4 py-2.5">
-              <div className="flex gap-1.5">
-                <span className="size-3 rounded-full bg-red-500/80" />
-                <span className="size-3 rounded-full bg-yellow-500/80" />
-                <span className="size-3 rounded-full bg-green-500/80" />
-              </div>
-              <div className="mx-auto flex w-full max-w-md items-center justify-center rounded-md bg-[#121210] px-3 py-1 font-mono text-xs text-muted-foreground">
-                🔒 https://{item.title.toLowerCase().replace(/\s+/g, "")}-preview.arivelune.studio
+        {/* Video Screen Container */}
+        <div className="p-4 md:p-6 flex flex-col gap-5">
+          {/* Top Control Toolbar */}
+          <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border/60 bg-[#1a1a18] p-3 text-xs font-mono">
+            {/* Left: Device Toggle */}
+            <div className="flex items-center gap-1.5 bg-[#111110] p-1 rounded-lg border border-border/40">
+              <button
+                type="button"
+                onClick={() => setDevice("desktop")}
+                className={cn(
+                  "flex items-center gap-1.5 rounded-md px-2.5 py-1 transition-colors",
+                  device === "desktop" ? "bg-accent text-black font-semibold" : "text-muted-foreground hover:text-foreground"
+                )}
+              >
+                <span>🖥️ Desktop</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setDevice("mobile")}
+                className={cn(
+                  "flex items-center gap-1.5 rounded-md px-2.5 py-1 transition-colors",
+                  device === "mobile" ? "bg-accent text-black font-semibold" : "text-muted-foreground hover:text-foreground"
+                )}
+              >
+                <span>📱 Mobile</span>
+              </button>
+            </div>
+
+            {/* Middle: Video Playback Controls */}
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setIsPlaying(!isPlaying)}
+                className="flex items-center gap-1.5 rounded-lg bg-accent/20 border border-accent/40 px-3 py-1 text-accent font-semibold hover:bg-accent/30 transition-colors"
+              >
+                {isPlaying ? "⏸ Pause Scroll Video" : "▶ Play Scroll Video"}
+              </button>
+              <button
+                type="button"
+                onClick={handleReplay}
+                className="rounded-lg bg-card border border-border/80 px-2.5 py-1 text-muted-foreground hover:text-foreground transition-colors"
+                title="Restart Scroll Video"
+              >
+                ↺ Replay
+              </button>
+              <div className="hidden sm:flex items-center gap-1 bg-[#111110] p-1 rounded-lg border border-border/40 text-[11px]">
+                <span className="px-1 text-muted-foreground">Speed:</span>
+                {[1, 1.5, 2].map((s) => (
+                  <button
+                    key={s}
+                    type="button"
+                    onClick={() => setSpeed(s)}
+                    className={cn(
+                      "rounded px-1.5 py-0.5 transition-colors",
+                      speed === s ? "bg-accent/30 text-accent font-bold" : "text-muted-foreground hover:text-foreground"
+                    )}
+                  >
+                    {s}x
+                  </button>
+                ))}
               </div>
             </div>
 
-            {/* Simulated Live Website View */}
-            <div className="relative min-h-[300px] md:min-h-[360px] w-full overflow-hidden bg-cover bg-center" style={{ backgroundImage: `url(${item.imageSrc})` }}>
-              <div className="absolute inset-0 bg-gradient-to-t from-[#111110] via-[#111110]/70 to-transparent p-6 flex flex-col justify-end">
-                <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-accent mb-2">
-                  <span>Client Site Built By Arivelune Studio</span>
-                  <span>•</span>
-                  <span>{item.clientLocation ?? "UK Business"}</span>
-                </div>
-                <h4 className="text-2xl md:text-3xl font-bold text-white mb-2">{item.title} Official Digital Platform</h4>
-                <p className="text-sm md:text-base text-gray-300 max-w-2xl mb-4">{item.description}</p>
-                {item.results && (
-                  <div className="inline-flex items-center gap-2 rounded-full bg-emerald-500/20 border border-emerald-500/40 px-4 py-1.5 font-mono text-xs text-emerald-400 w-fit">
-                    ✦ Verified Outcome: {item.results}
+            {/* Right: Time Status */}
+            <div className="flex items-center gap-2 text-muted-foreground">
+              <span className="inline-block size-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>
+                00:{String(Math.floor(elapsedSeconds)).padStart(2, "0")} / 00:{String(Math.floor(cycleDuration)).padStart(2, "0")}
+              </span>
+            </div>
+          </div>
+
+          {/* Device Mockup Window */}
+          <div
+            className={cn(
+              "relative overflow-hidden rounded-xl border border-border/80 bg-[#0e0e0d] shadow-2xl transition-all duration-300 mx-auto w-full",
+              device === "mobile" ? "max-w-[360px] border-4 border-neutral-700 rounded-3xl" : "max-w-none"
+            )}
+          >
+            {/* Top Browser Bar */}
+            <div className="flex items-center justify-between border-b border-border/50 bg-[#1c1c19] px-4 py-2 text-xs font-mono">
+              <div className="flex items-center gap-1.5">
+                <span className="size-2.5 rounded-full bg-red-500/80" />
+                <span className="size-2.5 rounded-full bg-yellow-500/80" />
+                <span className="size-2.5 rounded-full bg-green-500/80" />
+              </div>
+              <div className="mx-auto flex max-w-md items-center justify-center truncate rounded-md bg-[#111110] px-3 py-0.5 text-[11px] text-muted-foreground border border-border/30">
+                🔒 https://{item.title.toLowerCase().replace(/\s+/g, "")}.co.uk (Video Scroll Preview)
+              </div>
+              <div className="hidden sm:block text-[10px] text-accent/80 uppercase tracking-widest">
+                {isPlaying ? "● REC" : "PAUSED"}
+              </div>
+            </div>
+
+            {/* Scroll Animation Screen Viewport */}
+            <div
+              className={cn(
+                "relative overflow-hidden bg-[#0c0c0b]",
+                device === "mobile" ? "h-[460px]" : "h-[380px] md:h-[420px]",
+                !isPlaying && "overflow-y-auto"
+              )}
+            >
+              {/* Simulated Website Content Canvas */}
+              <motion.div
+                key={`${replayKey}-${device}`}
+                animate={
+                  isPlaying
+                    ? { y: device === "mobile" ? ["0%", "-68%", "-68%", "0%", "0%"] : ["0%", "-60%", "-60%", "0%", "0%"] }
+                    : undefined
+                }
+                transition={
+                  isPlaying
+                    ? {
+                        duration: cycleDuration,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        times: [0, 0.44, 0.54, 0.94, 1],
+                      }
+                    : undefined
+                }
+                className="w-full flex flex-col gap-0 select-none pointer-events-auto"
+              >
+                {/* Section 1: Simulated Website Navigation & Hero */}
+                <div className="relative border-b border-border/40 bg-[#161614] p-5 md:p-8 flex flex-col gap-6">
+                  <div className="flex items-center justify-between border-b border-border/30 pb-4">
+                    <div className="flex items-center gap-2">
+                      <div className="size-6 rounded bg-accent flex items-center justify-center font-bold text-black text-xs">
+                        {item.title.charAt(0)}
+                      </div>
+                      <span className="font-bold tracking-tight text-white">{item.title}</span>
+                    </div>
+                    <div className="hidden sm:flex items-center gap-4 text-xs text-muted-foreground font-mono">
+                      <span>Services</span>
+                      <span>Portfolio</span>
+                      <span>About</span>
+                      <span>Contact</span>
+                    </div>
+                    <span className="rounded bg-accent/20 border border-accent/40 px-2.5 py-1 text-[11px] text-accent font-mono">
+                      Enquire →
+                    </span>
                   </div>
-                )}
+
+                  <div className="flex flex-col gap-3">
+                    <div className="inline-flex items-center gap-1.5 rounded-full bg-accent/10 border border-accent/30 px-3 py-1 font-mono text-[10px] text-accent w-fit uppercase tracking-widest">
+                      ✦ Bespoke Website Architecture • {item.clientLocation ?? "UK Business"}
+                    </div>
+                    <h4 className="text-xl md:text-3xl font-extrabold text-white leading-tight tracking-tight">
+                      Next-Generation Digital Platform for {item.title}
+                    </h4>
+                    <p className="text-xs md:text-sm text-gray-300 max-w-xl leading-relaxed">
+                      {item.description}
+                    </p>
+                  </div>
+
+                  {/* Hero Image Showcase Banner */}
+                  <div className="relative overflow-hidden rounded-xl border border-border/60 h-48 md:h-56 w-full">
+                    <img
+                      src={item.imageSrc}
+                      alt={item.imageAlt ?? item.title}
+                      className="size-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent p-4 flex items-end justify-between">
+                      <div className="flex flex-col gap-1">
+                        <span className="font-mono text-[10px] text-accent uppercase">Live Platform Status</span>
+                        <span className="text-sm font-bold text-white">Interactive Client Booking System</span>
+                      </div>
+                      {item.results && (
+                        <div className="rounded-full bg-emerald-500/20 border border-emerald-500/50 px-3 py-1 font-mono text-xs text-emerald-300">
+                          ✦ {item.results}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Section 2: Key Deliverables & System Capabilities */}
+                <div className="bg-[#121210] p-5 md:p-8 border-b border-border/40 flex flex-col gap-5">
+                  <div className="flex flex-col gap-1">
+                    <span className="font-mono text-[10px] uppercase text-accent tracking-widest">Architectural Features</span>
+                    <h5 className="text-lg font-bold text-white">Engineered for High Conversion & Automation</h5>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    {(item.deliverables ?? ["Bespoke UI Design", "24/7 AI Lead Assistant", "Local SEO Engine"]).map((del, i) => (
+                      <div key={i} className="rounded-xl border border-border/50 bg-[#191917] p-4 flex flex-col gap-2">
+                        <span className="font-mono text-xs text-accent">0{i + 1} //</span>
+                        <h6 className="font-semibold text-sm text-white">{del}</h6>
+                        <p className="text-xs text-gray-400">
+                          Tailored performance module built to automate customer intake and drive verified conversions.
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Section 3: Simulated AI Lead Assistant Widget */}
+                <div className="bg-[#171715] p-5 md:p-8 border-b border-border/40 flex flex-col md:flex-row items-center gap-6 justify-between">
+                  <div className="flex flex-col gap-2 max-w-md">
+                    <div className="inline-flex items-center gap-2 font-mono text-xs text-emerald-400">
+                      <span className="size-2 rounded-full bg-emerald-400 animate-ping" />
+                      <span>24/7 AI Intake Assistant Active</span>
+                    </div>
+                    <h5 className="text-lg font-bold text-white">Instant Customer Qualification</h5>
+                    <p className="text-xs text-gray-300">
+                      Visitors receive immediate answers, personalized recommendations, and instant booking options.
+                    </p>
+                  </div>
+
+                  <div className="w-full md:w-72 rounded-xl border border-accent/30 bg-[#10100f] p-3.5 flex flex-col gap-2 shadow-lg">
+                    <div className="flex items-center gap-2 border-b border-border/30 pb-2">
+                      <span className="size-2.5 rounded-full bg-accent" />
+                      <span className="font-mono text-xs font-semibold text-white">{item.title} Concierge</span>
+                    </div>
+                    <p className="text-xs text-gray-300 italic">
+                      &quot;Hello! How can we assist you with {item.category.toLowerCase()} inquiries today?&quot;
+                    </p>
+                    <div className="flex gap-2 pt-1">
+                      <span className="rounded bg-accent/20 px-2 py-1 font-mono text-[10px] text-accent">Book Call</span>
+                      <span className="rounded bg-card border border-border/50 px-2 py-1 font-mono text-[10px] text-muted-foreground">View Rates</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Section 4: Client Outcome & Footer */}
+                <div className="bg-[#10100e] p-6 md:p-8 flex flex-col gap-6">
+                  <div className="rounded-xl border border-border/40 bg-[#161614] p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div>
+                      <span className="font-mono text-[10px] text-accent uppercase">Client Success Story</span>
+                      <p className="text-sm font-semibold text-gray-200 mt-1">
+                        &quot;Arivelune Studio delivered a high-converting digital experience that elevated our brand.&quot;
+                      </p>
+                    </div>
+                    <div className="shrink-0 font-mono text-xs text-emerald-400 border border-emerald-500/40 bg-emerald-500/10 px-3 py-1.5 rounded-lg">
+                      {item.results ?? "+340% Growth"}
+                    </div>
+                  </div>
+
+                  <div className="border-t border-border/30 pt-4 flex flex-wrap items-center justify-between gap-3 text-xs text-muted-foreground font-mono">
+                    <span>© 2026 {item.title}. All rights reserved.</span>
+                    <span>Designed by Arivelune Studio</span>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Video Scrubber Overlay Bar */}
+              <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-3 pointer-events-none flex flex-col gap-1.5">
+                <div className="flex items-center justify-between text-[10px] font-mono text-gray-300">
+                  <span className="flex items-center gap-1.5">
+                    <span className="size-2 rounded-full bg-red-500 animate-pulse" />
+                    <span>Auto-Scroll Video Playback</span>
+                  </span>
+                  <span>{Math.round(progressPercent)}%</span>
+                </div>
+                <div className="h-1 w-full bg-white/20 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-accent transition-all duration-300"
+                    style={{ width: `${progressPercent}%` }}
+                  />
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Deliverables & Specifications */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="rounded-xl border border-border/60 bg-[#1a1a18] p-5">
-              <h5 className="font-mono text-xs uppercase text-accent tracking-wider mb-3">Key System Deliverables</h5>
-              <ul className="space-y-2 font-sans text-sm text-foreground/90">
-                {(item.deliverables ?? ["Bespoke Luxury UI", "24/7 AI Enquiry Assistant", "Local Search Optimization"]).map((del, i) => (
-                  <li key={i} className="flex items-center gap-2">
-                    <span className="text-accent">✓</span>
-                    <span>{del}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="rounded-xl border border-border/60 bg-[#1a1a18] p-5 flex flex-col justify-between">
+          {/* Bottom Info & Action Bar */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="rounded-xl border border-border/60 bg-[#1a1a18] p-4 flex flex-col justify-between">
               <div>
-                <h5 className="font-mono text-xs uppercase text-accent tracking-wider mb-2">Commercial Value</h5>
-                <p className="text-sm text-muted-foreground">
-                  Engineered to maximize qualified customer conversions and automate lead intake for local UK service providers.
+                <h5 className="font-mono text-xs uppercase text-accent tracking-wider mb-2">Project Specifications</h5>
+                <p className="text-xs text-muted-foreground">
+                  Custom scroll-driven technology built for {item.title} ({item.clientLocation ?? "UK"}), engineered to turn website visitors into high-value client enquiries.
                 </p>
               </div>
-              <div className="mt-4 pt-4 border-t border-border/40 flex items-center justify-between">
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                {(item.deliverables ?? ["Bespoke Editorial Website", "AI Lead Assistant"]).map((del, i) => (
+                  <span key={i} className="rounded-md bg-accent/10 border border-accent/20 px-2.5 py-1 font-mono text-[11px] text-accent">
+                    ✓ {del}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-border/60 bg-[#1a1a18] p-4 flex flex-col justify-between gap-3">
+              <div>
+                <h5 className="font-mono text-xs uppercase text-accent tracking-wider mb-1">Interested in this format?</h5>
+                <p className="text-xs text-muted-foreground">
+                  We create tailored, high-converting digital experiences with automated intake systems for your business.
+                </p>
+              </div>
+              <div className="flex items-center gap-3">
                 <a
                   href="#contact"
                   onClick={onClose}
-                  className="btn-primary w-full justify-center !py-3 text-sm"
+                  className="btn-primary w-full justify-center !py-2.5 text-xs font-semibold"
                 >
                   Request Similar Website Build →
                 </a>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="btn-secondary !px-4 !py-2.5 text-xs whitespace-nowrap"
+                >
+                  Close Preview
+                </button>
               </div>
             </div>
           </div>
