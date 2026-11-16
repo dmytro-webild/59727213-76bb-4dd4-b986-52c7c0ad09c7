@@ -18,6 +18,8 @@ export type Work = {
   clientLocation?: string;
   results?: string;
   deliverables?: string[];
+  statusType?: "completed" | "concept";
+  statusLabel?: string;
 };
 
 type GalleryWordPanelsProps = {
@@ -39,6 +41,8 @@ const DEFAULT_ITEMS: Work[] = [
     results: "+340% Monthly Lead Conversion",
     deliverables: ["Bespoke Editorial Website", "24/7 AI Lead Assistant", "Instant SMS Alerts"],
     url: "#contact",
+    statusType: "completed",
+    statusLabel: "Completed Client Project",
   },
   {
     title: "Verve",
@@ -50,6 +54,8 @@ const DEFAULT_ITEMS: Work[] = [
     results: "24/7 Automated Booking System",
     deliverables: ["High-Impact Dark Theme", "Automated Intake Chatbot", "Local Search Optimization"],
     url: "#contact",
+    statusType: "completed",
+    statusLabel: "Completed Client Project",
   },
   {
     title: "Crest",
@@ -61,6 +67,8 @@ const DEFAULT_ITEMS: Work[] = [
     results: "3.8x Qualified Prospect Pipeline",
     deliverables: ["Corporate Brand Architecture", "Schema & Local SEO", "Client Intake Portal"],
     url: "#contact",
+    statusType: "concept",
+    statusLabel: "Design Concept & Architecture",
   },
   {
     title: "Slate",
@@ -72,6 +80,8 @@ const DEFAULT_ITEMS: Work[] = [
     results: "+210% Online Booking Rate",
     deliverables: ["Mobile-First Reservation Engine", "Automated SMS Follow-Ups", "Fast-Load Media Gallery"],
     url: "#contact",
+    statusType: "completed",
+    statusLabel: "Completed Client Project",
   },
 ];
 
@@ -171,11 +181,23 @@ function Panel({
           red ? "border border-accent bg-[var(--accent-glass)] text-accent-foreground backdrop-blur-[10px] lg:backdrop-blur-[16px]" : "kit-glass",
         )}
       >
-        <div className="flex items-start justify-between gap-6 font-mono text-[length:var(--text-label)] uppercase leading-[1.5]">
-          <p className="min-w-0 truncate">
-            {number} / {item.category}
-          </p>
-          <p className="whitespace-nowrap">
+        <div className="flex items-start justify-between gap-4 font-mono text-[length:var(--text-label)] uppercase leading-[1.5]">
+          <div className="flex flex-wrap items-center gap-2 min-w-0">
+            <p className="min-w-0 truncate">
+              {number} / {item.category}
+            </p>
+            <span
+              className={cn(
+                "px-2 py-0.5 rounded text-[10px] tracking-wider uppercase font-semibold border",
+                item.statusType === "concept"
+                  ? "bg-amber-500/20 text-amber-300 border-amber-500/40"
+                  : "bg-emerald-500/20 text-emerald-300 border-emerald-500/40"
+              )}
+            >
+              {item.statusLabel ?? (item.statusType === "concept" ? "Concept Project" : "Completed Client Project")}
+            </span>
+          </div>
+          <p className="whitespace-nowrap shrink-0">
             {number} / {count}
           </p>
         </div>
@@ -706,8 +728,8 @@ function getProjectAnimationConfig(item: Work, index: number) {
 
 function PortfolioPreviewModal({ item, index = 0, onClose }: { item: Work; index?: number; onClose: () => void }) {
   const modalRef = useRef<HTMLDivElement>(null);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [device, setDevice] = useState<"desktop" | "mobile" | "3d">("3d");
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [device, setDevice] = useState<"interactive" | "3d" | "desktop" | "mobile">("interactive");
   const [speed, setSpeed] = useState<number>(1);
   const [replayKey, setReplayKey] = useState<number>(0);
   const [elapsedSeconds, setElapsedSeconds] = useState<number>(0);
@@ -763,23 +785,27 @@ function PortfolioPreviewModal({ item, index = 0, onClose }: { item: Work; index
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 bg-[#1a1a18] px-5 py-3.5">
           <div className="flex items-center gap-3 min-w-0">
             <span className="relative flex size-3">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75" />
-              <span className="relative inline-flex size-3 rounded-full bg-red-500" />
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex size-3 rounded-full bg-emerald-500" />
             </span>
             <div className="min-w-0">
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <h3 id="preview-modal-title" className="font-bold text-base md:text-lg text-foreground truncate">
-                  {item.title} — Distinct Portfolio Website Preview
+                  {item.title} — {item.category}
                 </h3>
                 <span
-                  className="hidden sm:inline-block rounded-full px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider"
-                  style={{ backgroundColor: config.accentBg, color: config.accentColor }}
+                  className={cn(
+                    "rounded-full px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider font-semibold border",
+                    item.statusType === "concept"
+                      ? "bg-amber-500/20 text-amber-300 border-amber-500/40"
+                      : "bg-emerald-500/20 text-emerald-300 border-emerald-500/40"
+                  )}
                 >
-                  {item.category}
+                  {item.statusLabel ?? (item.statusType === "concept" ? "Concept Project" : "Completed Client Project")}
                 </span>
               </div>
               <p className="font-mono text-xs text-muted-foreground truncate">
-                Interactive video recording • {item.clientLocation ?? "UK Business"}
+                Interactive Website Demonstration • {item.clientLocation ?? "UK Business"}
               </p>
             </div>
           </div>
@@ -800,7 +826,20 @@ function PortfolioPreviewModal({ item, index = 0, onClose }: { item: Work; index
           {/* Top Control Toolbar */}
           <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border/60 bg-[#1a1a18] p-3 text-xs font-mono">
             {/* Left: View Mode Toggle */}
-            <div className="flex items-center gap-1.5 bg-[#111110] p-1 rounded-lg border border-border/40">
+            <div className="flex flex-wrap items-center gap-1.5 bg-[#111110] p-1 rounded-lg border border-border/40">
+              <button
+                type="button"
+                onClick={() => {
+                  setDevice("interactive");
+                  setIsPlaying(false);
+                }}
+                className={cn(
+                  "flex items-center gap-1.5 rounded-md px-2.5 py-1 transition-colors",
+                  device === "interactive" ? "bg-accent text-black font-semibold" : "text-muted-foreground hover:text-foreground"
+                )}
+              >
+                <span>⚡ Interactive Demo</span>
+              </button>
               <button
                 type="button"
                 onClick={() => setDevice("3d")}
@@ -809,7 +848,7 @@ function PortfolioPreviewModal({ item, index = 0, onClose }: { item: Work; index
                   device === "3d" ? "bg-accent text-black font-semibold" : "text-muted-foreground hover:text-foreground"
                 )}
               >
-                <span>⚙️ 3D Cyber Console</span>
+                <span>⚙️ 3D Console</span>
               </button>
               <button
                 type="button"

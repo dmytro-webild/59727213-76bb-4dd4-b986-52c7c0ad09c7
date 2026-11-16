@@ -37,13 +37,17 @@ export default function HomePage() {
       >
         <HeroShapeSplit
           tag="Arivelune Studio"
-          title="First impressions that make an impact. Built to bring you business."
-          description="Premium website design, 24/7 AI assistants and smart enquiry systems for growing UK businesses."
+          title="Bespoke website design & 24/7 AI enquiry systems."
+          description="High-converting digital platforms, automated lead intake, and local SEO engineered for growing Berkshire and UK businesses."
           primaryButton={{
-            text: "Free Website Review",
+            text: "Start Your Project",
             href: "#contact"
           }}
           secondaryButton={{
+            text: "Free Website Review",
+            href: "#contact"
+          }}
+          tertiaryButton={{
             text: "Explore Our Work",
             href: "#gallery"
           }}
@@ -63,8 +67,8 @@ export default function HomePage() {
       >
         <AboutStatementBand
           tag="01 / OUR PRINCIPLE"
-          title="From beautiful websites to automated business opportunities."
-          description="Based in Berkshire, Arivelune Studio crafts bespoke websites and intelligent AI enquiry systems that turn passive visitors into qualified customers 24/7."
+          title="From bespoke web design to automated lead generation."
+          description="Based in Berkshire, Arivelune Studio crafts editorial websites, intelligent AI enquiry assistants, and instant lead automation workflows that capture qualified client opportunities 24/7."
           button={{
             text: "Explore Services",
             href: "#services"
@@ -72,16 +76,16 @@ export default function HomePage() {
           visionTag="02 / FOCUS"
           items={[
             {
-              title: "DESIGN"
+              title: "WEB DESIGN"
             },
             {
-              title: "SYSTEMS"
+              title: "AI SYSTEMS"
             },
             {
-              title: "GROWTH"
+              title: "LEAD AUTOMATION"
             }
           ]}
-          line="✦ Elevating digital presence through AI & high-end design."
+          line="✦ Elevating business growth through AI & bespoke web design."
         />
       </div>
 
@@ -99,30 +103,30 @@ export default function HomePage() {
           items={[
             {
               title: "Bespoke Web Design",
-              description: "High-end editorial websites engineered to turn visitors into qualified enquiries."
+              description: "High-end editorial websites engineered to turn passive visitors into qualified commercial enquiries."
             },
             {
-              title: "AI Assistants",
-              description: "Intelligent 24/7 automated tools that capture and pre-qualify incoming prospects."
+              title: "24/7 AI Enquiry Systems",
+              description: "Intelligent automated chatbots that answer prospect questions, qualify leads, and book intake calls around the clock."
             },
             {
               title: "Lead Automation",
-              description: "Instant notification workflows connecting your team with new business leads fast."
+              description: "Instant notification workflows delivering new client details directly to your inbox and Google Workspace fast."
             },
             {
-              title: "SEO Foundations",
-              description: "Local search optimization designed to elevate visibility across Berkshire and the UK."
+              title: "Local SEO Optimization",
+              description: "Local search optimization, schema markup, and geo-targeted keywords designed to dominate Berkshire and UK search."
             },
             {
-              title: "Website Care",
-              description: "Ongoing performance updates and technical support to keep your site growing.",
+              title: "Website Care & Support",
+              description: "Ongoing performance monitoring, security updates, and technical support to keep your site growing.",
               button: {
-                text: "Get free review",
+                text: "Start Your Project",
                 href: "#contact"
               }
             }
           ]}
-          description="Intelligent digital systems for growing businesses."
+          description="Specialized digital systems for growing businesses."
         />
       </div>
 
@@ -149,7 +153,9 @@ export default function HomePage() {
               clientLocation: "Berkshire, UK",
               results: "+340% Monthly Lead Conversion",
               deliverables: ["Bespoke Editorial Website", "24/7 AI Lead Assistant", "Instant SMS Alerts"],
-              url: "#contact"
+              url: "#contact",
+              statusType: "completed",
+              statusLabel: "Completed Client Project"
             },
             {
               title: "Verve",
@@ -160,7 +166,9 @@ export default function HomePage() {
               clientLocation: "Reading, UK",
               results: "24/7 Automated Booking System",
               deliverables: ["High-Impact Dark Theme", "Automated Intake Chatbot", "Local Search Optimization"],
-              url: "#contact"
+              url: "#contact",
+              statusType: "completed",
+              statusLabel: "Completed Client Project"
             },
             {
               title: "Crest",
@@ -171,7 +179,9 @@ export default function HomePage() {
               clientLocation: "Slough, UK",
               results: "3.8x Qualified Prospect Pipeline",
               deliverables: ["Corporate Brand Architecture", "Schema & Local SEO", "Client Intake Portal"],
-              url: "#contact"
+              url: "#contact",
+              statusType: "concept",
+              statusLabel: "Design Concept & Architecture"
             },
             {
               title: "Slate",
@@ -182,7 +192,9 @@ export default function HomePage() {
               clientLocation: "Windsor, UK",
               results: "+210% Online Booking Rate",
               deliverables: ["Mobile-First Reservation Engine", "Automated SMS Follow-Ups", "Fast-Load Media Gallery"],
-              url: "#contact"
+              url: "#contact",
+              statusType: "completed",
+              statusLabel: "Completed Client Project"
             }
           ]}
         />
@@ -203,85 +215,126 @@ export default function HomePage() {
           items={[
             {
               title: "Essential",
-              description: "For local service providers seeking a distinct online presence.",
+              description: "For local service providers seeking a distinct, high-credibility online presence.",
               price: "£1,000",
               period: "GBP / Starting project",
               specs: [
                 {
                   label: "Scope",
-                  value: "Bespoke editorial website"
+                  value: "Bespoke 5-page editorial website"
                 },
                 {
                   label: "Timeline",
                   value: "3 to 4 weeks"
                 },
                 {
-                  label: "AI Systems",
-                  value: "Smart enquiry capture"
+                  label: "AI & Leads",
+                  value: "Smart enquiry form & email alerts"
+                },
+                {
+                  label: "Local SEO",
+                  value: "Berkshire local SEO foundation"
                 },
                 {
                   label: "Support",
                   value: "30 days included"
                 }
               ],
+              benefits: [
+                "Establishes immediate dark-luxury brand authority",
+                "Captures & routes incoming visitor details safely",
+                "Optimized for fast mobile loading speed"
+              ],
               button: {
-                text: "Check availability",
+                text: "Start Essential Build",
+                href: "#contact"
+              },
+              secondaryButton: {
+                text: "Request Free Review",
                 href: "#contact"
               }
             },
             {
               title: "Professional",
-              description: "For businesses ready to automate customer intake and lead follow-up.",
+              badge: "MOST POPULAR • BEST VALUE",
+              featured: true,
+              description: "For growing businesses ready to automate client intake and turn visitors into booked leads 24/7.",
               price: "£2,000",
               period: "GBP / Full digital system",
               specs: [
                 {
                   label: "Scope",
-                  value: "Complete digital system"
+                  value: "Complete bespoke digital system"
                 },
                 {
                   label: "Timeline",
                   value: "4 to 6 weeks"
                 },
                 {
-                  label: "AI Systems",
-                  value: "24/7 enquiry chatbot"
+                  label: "AI & Leads",
+                  value: "24/7 AI enquiry chatbot & lead routing"
+                },
+                {
+                  label: "Local SEO",
+                  value: "Full Berkshire & UK SEO + Schema"
                 },
                 {
                   label: "Support",
-                  value: "90 days included"
+                  value: "90 days priority care"
                 }
               ],
+              benefits: [
+                "24/7 AI assistant answers visitor questions & qualifies prospects",
+                "Instant lead notification directly to your Google Workspace inbox",
+                "Drives higher conversion rate with interactive portfolio & CTAs"
+              ],
               button: {
-                text: "Check availability",
+                text: "Start Professional System",
+                href: "#contact"
+              },
+              secondaryButton: {
+                text: "Request Free Review",
                 href: "#contact"
               }
             },
             {
               title: "Bespoke",
-              description: "Tailored multi-location systems and lead-generation automation.",
+              description: "Tailored multi-location architecture, custom AI workflows, and lead-generation automation.",
               price: "£5,000+",
               period: "GBP / Scoped to brief",
               specs: [
                 {
                   label: "Scope",
-                  value: "Custom multi-branch site"
+                  value: "Custom multi-branch platform"
                 },
                 {
                   label: "Timeline",
                   value: "Agreed together"
                 },
                 {
-                  label: "AI Systems",
-                  value: "Custom AI & workflows"
+                  label: "AI & Leads",
+                  value: "Custom AI workflows & CRM pipeline"
+                },
+                {
+                  label: "Local SEO",
+                  value: "Enterprise multi-location SEO & Schema"
                 },
                 {
                   label: "Support",
-                  value: "Ongoing priority care"
+                  value: "Ongoing priority care & optimization"
                 }
               ],
+              benefits: [
+                "Fully tailored architecture built around your complex workflows",
+                "Advanced custom AI models trained on your proprietary data",
+                "Dedicated technical director and monthly growth reviews"
+              ],
               button: {
-                text: "Discuss project",
+                text: "Discuss Bespoke Brief",
+                href: "#contact"
+              },
+              secondaryButton: {
+                text: "Request Free Review",
                 href: "#contact"
               }
             }

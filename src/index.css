@@ -126,6 +126,11 @@
     color: var(--accent-foreground);
   }
 
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
   body {
     margin: 0;
     background-color: var(--background);

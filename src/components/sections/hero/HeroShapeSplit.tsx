@@ -14,6 +14,7 @@ type HeroShapeSplitProps = {
   description?: string;
   primaryButton?: Button;
   secondaryButton?: Button;
+  tertiaryButton?: Button;
   scrollLabel?: string;
   introDelay?: number;
   ariaLabel?: string;
@@ -58,8 +59,9 @@ const HeroShapeSplit = ({
   tag = "00 / Intro",
   title = "Brands people remember.",
   description = "Identity, websites and digital products for founders with something to say.",
-  primaryButton = { text: "Start a project", href: "#contact" },
-  secondaryButton = { text: "See our work", href: "#gallery" },
+  primaryButton = { text: "Start Your Project", href: "#contact" },
+  secondaryButton = { text: "Free Website Review", href: "#contact" },
+  tertiaryButton,
   scrollLabel = "Scroll to discover",
   introDelay = 0,
   ariaLabel,
@@ -85,10 +87,10 @@ const HeroShapeSplit = ({
   return (
     <section
       aria-label={ariaLabel ?? "Intro"}
-      className={cn("relative overflow-x-clip text-foreground", className)}
+      className={cn("relative overflow-x-clip text-foreground max-w-full", className)}
     >
       <div className="relative min-h-svh overflow-hidden">
-        <div className="relative mx-auto flex min-h-svh w-[var(--container)] flex-col pb-[clamp(4rem,12svh,7rem)] pt-[clamp(6.5rem,15svh,10rem)] lg:pt-[clamp(7rem,17svh,10rem)]">
+        <div className="relative mx-auto flex min-h-svh w-[var(--container)] flex-col pb-[clamp(3.5rem,10svh,6rem)] pt-[clamp(5.5rem,14svh,9rem)] lg:pt-[clamp(7rem,17svh,10rem)]">
           <div className="relative z-10 flex flex-col items-start lg:w-1/2 lg:pr-[var(--gap)]">
             <div className="flex items-center gap-[0.875rem] font-mono text-[length:var(--text-label)] uppercase leading-[1.5]">
               <p className="sr-only">{tag}</p>
@@ -109,7 +111,7 @@ const HeroShapeSplit = ({
 
             <h1
               aria-label={title}
-              className="mt-[1.75rem] text-balance text-[length:calc(var(--text-h1)*0.85)] leading-[1] tracking-[-0.05em] [overflow-wrap:anywhere] lg:mt-[2.5rem]"
+              className="mt-[1.5rem] text-balance text-[clamp(2.125rem,1.5rem+3.2vw,5.5rem)] leading-[1.05] tracking-[-0.04em] [overflow-wrap:anywhere] lg:mt-[2.25rem]"
             >
               {words.map((word, i) => (
                 <div key={i} aria-hidden="true" className="mr-[0.24em] inline-block overflow-hidden align-top pt-[0.08em] -mt-[0.08em] pb-[0.15em] -mb-[0.15em] last:mr-0">
@@ -129,16 +131,17 @@ const HeroShapeSplit = ({
                 initial={reduce ? false : { opacity: 0, y: 16 }}
                 animate={go ? { opacity: 1, y: 0 } : undefined}
                 transition={{ duration: slow, ease, delay: 0.12 }}
-                className="mt-[1.25rem] max-w-[34rem] text-balance text-[length:var(--text-body)] leading-[1.5] tracking-[-0.025em] lg:mt-[1.5rem]"
+                className="mt-[1.25rem] max-w-[34rem] text-balance text-sm sm:text-[length:var(--text-body)] leading-[1.55] tracking-[-0.02em] text-foreground/90 lg:mt-[1.5rem]"
               >
                 {description}
               </motion.p>
             )}
 
-            {(primaryButton || secondaryButton) && (
-              <div className="mt-[1.5rem] flex w-full flex-col lg:mt-[2.25rem] lg:flex-row lg:flex-wrap lg:gap-x-[1.5rem] lg:gap-y-[1rem]">
+            {(primaryButton || secondaryButton || tertiaryButton) && (
+              <div className="mt-[1.5rem] flex w-full flex-col gap-y-2 sm:flex-row sm:flex-wrap sm:gap-x-4 sm:gap-y-3 lg:mt-[2.25rem]">
                 {primaryButton && <RollLink {...primaryButton} show={go} delay={0.2} />}
                 {secondaryButton && <RollLink {...secondaryButton} show={go} delay={0.26} />}
+                {tertiaryButton && <RollLink {...tertiaryButton} show={go} delay={0.32} />}
               </div>
             )}
           </div>

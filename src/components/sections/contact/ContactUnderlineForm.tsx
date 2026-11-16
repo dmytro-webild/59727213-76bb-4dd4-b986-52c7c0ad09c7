@@ -31,9 +31,9 @@ const ContactUnderlineForm = ({
     { name: "company", label: "Company or website", placeholder: "Optional" },
     { name: "message", label: "Project details", type: "textarea", placeholder: "What are you building, and what should change?", required: true },
   ],
-  servicesLabel = "Service",
-  services = ["Brand identity", "Website", "Product design", "Motion", "Other"],
-  button = { text: "Send message" },
+  servicesLabel = "Service required",
+  services = ["Bespoke Web Design", "24/7 AI Chatbot", "Lead Automation", "Local SEO", "Full Digital System"],
+  button = { text: "Send Enquiry" },
   recipientEmail = "admin@arivelunestudio.com",
   ariaLabel,
   className,
@@ -41,12 +41,18 @@ const ContactUnderlineForm = ({
   const reduce = !!useReducedMotion();
   const live = !reduce;
   const { ease, base, slow } = useKitMotion();
+  const [enquiryType, setEnquiryType] = useState<"project" | "review">("project");
   const [active, setActive] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submittedEmail, setSubmittedEmail] = useState("");
 
-  const words = title.trim().split(/\s+/);
+  const activeTitle =
+    enquiryType === "project"
+      ? "Start your bespoke web & AI project."
+      : "Get a free website & lead review.";
+
+  const words = activeTitle.trim().split(/\s+/);
   const rise = (i: number) => ({ hidden: { opacity: 0, y: 24 }, shown: { opacity: 1, y: 0, transition: { duration: slow * 0.7, ease, delay: 0.1 + i * 0.06 } } });
   const wipe = (i: number) => ({ hidden: { clipPath: "inset(0 100% 0 0)" }, shown: { clipPath: "inset(0 0% 0 0)", transition: { duration: slow, ease, delay: 0.15 + i * 0.06 } } });
 
@@ -64,6 +70,8 @@ const ContactUnderlineForm = ({
       payload[key] = value.toString();
     });
 
+    payload["enquiry_type"] = enquiryType === "project" ? "Start Your Project" : "Free Website Review";
+
     if (services && services[active] !== undefined) {
       payload["service_requested"] = services[active];
       payload["selected_service"] = services[active];
@@ -80,7 +88,8 @@ const ContactUnderlineForm = ({
     }
 
     const targetEmail = recipientEmail || "admin@arivelunestudio.com";
-    payload["_subject"] = `New Project Enquiry from ${payload.name || emailVal || "Website Visitor"}`;
+    const typeLabel = enquiryType === "project" ? "Project Enquiry" : "Free Website Review Request";
+    payload["_subject"] = `New ${typeLabel} from ${payload.name || emailVal || "Website Visitor"}`;
     payload["_replyto"] = emailVal;
     payload["_template"] = "table";
 
@@ -104,12 +113,44 @@ const ContactUnderlineForm = ({
   return (
     <section id={id} data-section={dataSection} aria-label={ariaLabel ?? title} className={cn("relative py-[var(--section-space)] text-foreground", className)}>
       <div className="kit-glass mx-auto flex w-[var(--container)] flex-col gap-[clamp(1.5rem,3vw,3rem)] p-[1.375rem] lg:p-[clamp(2rem,3.5vw,3.5rem)]">
+        {/* Enquiry Type Selector Tabs */}
+        <div className="flex flex-wrap items-center gap-2 border-b border-border/80 pb-4">
+          <span className="font-mono text-[length:var(--text-label)] uppercase text-muted-foreground mr-2">
+            Select Request Type:
+          </span>
+          <button
+            type="button"
+            onClick={() => setEnquiryType("project")}
+            className={cn(
+              "flex items-center gap-2 rounded-full border px-4 py-2 font-mono text-xs uppercase tracking-wider transition-all",
+              enquiryType === "project"
+                ? "border-accent bg-accent text-accent-foreground font-bold shadow-md"
+                : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
+            )}
+          >
+            <span>✦ Start Your Project</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setEnquiryType("review")}
+            className={cn(
+              "flex items-center gap-2 rounded-full border px-4 py-2 font-mono text-xs uppercase tracking-wider transition-all",
+              enquiryType === "review"
+                ? "border-accent bg-accent text-accent-foreground font-bold shadow-md"
+                : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
+            )}
+          >
+            <span>🔍 Free Website Review</span>
+          </button>
+        </div>
+
         <motion.h2
-          aria-label={title}
+          key={enquiryType}
+          aria-label={activeTitle}
           initial={live ? "hidden" : false}
-          whileInView="shown"
+          animate="shown"
           viewport={{ once: true, amount: 0.5 }}
-          className="flex max-w-[12em] flex-wrap gap-x-[0.25em] text-[length:var(--text-h1)]"
+          className="flex max-w-[14em] flex-wrap gap-x-[0.25em] text-[length:var(--text-h1)]"
         >
           {words.map((word, i) => (
             <div key={`${word}-${i}`} aria-hidden="true" className="overflow-hidden pb-[0.15em] -mb-[0.15em]">
@@ -220,7 +261,13 @@ const ContactUnderlineForm = ({
                   className="pt-[0.5rem]"
                 >
                   <button type="submit" disabled={isSubmitting} className="btn-primary w-full lg:w-auto lg:min-w-[15rem] disabled:opacity-60 disabled:cursor-not-allowed">
-                    <p className="btn-label">{isSubmitting ? "Sending..." : button.text}</p>
+                    <p className="btn-label">
+                      {isSubmitting
+                        ? "Sending..."
+                        : enquiryType === "project"
+                        ? "Start Your Project →"
+                        : "Get Free Review →"}
+                    </p>
                   </button>
                 </motion.div>
               )}
