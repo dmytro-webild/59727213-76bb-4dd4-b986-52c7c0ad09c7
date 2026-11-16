@@ -44,6 +44,7 @@ const ContactUnderlineForm = ({
   const [active, setActive] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submittedEmail, setSubmittedEmail] = useState("");
 
   const words = title.trim().split(/\s+/);
   const rise = (i: number) => ({ hidden: { opacity: 0, y: 24 }, shown: { opacity: 1, y: 0, transition: { duration: slow * 0.7, ease, delay: 0.1 + i * 0.06 } } });
@@ -63,13 +64,25 @@ const ContactUnderlineForm = ({
       payload[key] = value.toString();
     });
 
-    if (services && services[active]) {
+    if (services && services[active] !== undefined) {
+      payload["service_requested"] = services[active];
       payload["selected_service"] = services[active];
     }
 
+    const emailVal = payload.email || "";
+    setSubmittedEmail(emailVal);
+
+    // Anti-spam honeypot check
+    if (payload["_gotcha"]) {
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+      return;
+    }
+
     const targetEmail = recipientEmail || "admin@arivelunestudio.com";
-    payload["_subject"] = `New Free Review Request from ${payload.name || payload.email || "Website Visitor"}`;
-    payload["_replyto"] = payload.email || "";
+    payload["_subject"] = `New Project Enquiry from ${payload.name || emailVal || "Website Visitor"}`;
+    payload["_replyto"] = emailVal;
+    payload["_template"] = "table";
 
     try {
       await fetch(`https://formsubmit.co/ajax/${targetEmail}`, {
@@ -119,10 +132,10 @@ const ContactUnderlineForm = ({
                 <svg className="size-6 shrink-0 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
-                <h3 className="text-[length:var(--text-h3)] font-medium">Thank you! Your request has been sent.</h3>
+                <h3 className="text-[length:var(--text-h3)] font-medium">Thank you! Your enquiry has been received.</h3>
               </div>
               <p className="text-[length:var(--text-body)] text-muted-foreground leading-relaxed">
-                Thank you for reaching out! We have received your request details and will get back to you shortly.
+                Thank you for reaching out! We have safely received your enquiry details. Our team at Arivelune Studio will review your information and get back to you shortly{submittedEmail ? ` at ${submittedEmail}` : ""}.
               </p>
               <div className="flex flex-wrap gap-4 pt-2">
                 <button
@@ -130,7 +143,7 @@ const ContactUnderlineForm = ({
                   onClick={() => setIsSubmitted(false)}
                   className="min-h-[2.75rem] border border-input px-5 font-mono text-[length:var(--text-label)] uppercase tracking-[var(--label-tracking)] text-muted-foreground hover:border-foreground hover:text-foreground transition-colors"
                 >
-                  Send Another Request
+                  Send Another Enquiry
                 </button>
               </div>
             </motion.div>
@@ -142,6 +155,7 @@ const ContactUnderlineForm = ({
               viewport={{ once: true }}
               className="flex flex-col gap-[clamp(1.5rem,2.4vw,2rem)] lg:col-span-8"
             >
+              <input type="text" name="_gotcha" className="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
               {fields.map((field, i) => (
                 <motion.label key={field.name} variants={rise(i)} className="group flex flex-col gap-[0.75rem]">
                   <p className="font-mono text-[length:var(--text-label)] uppercase leading-[1.2] tracking-[var(--label-tracking)]">
