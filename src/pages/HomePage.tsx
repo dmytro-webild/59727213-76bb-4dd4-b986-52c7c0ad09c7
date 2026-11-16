@@ -357,6 +357,12 @@ export default function HomePage() {
               placeholder: "+44 118 970 1234"
             },
             {
+              name: "budget",
+              label: "Estimated budget",
+              type: "text",
+              placeholder: "e.g. £1,000 - £5,000"
+            },
+            {
               name: "website",
               label: "Current website",
               type: "text",
