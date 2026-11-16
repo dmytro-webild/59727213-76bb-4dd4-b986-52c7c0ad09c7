@@ -145,36 +145,24 @@ function Panel({
   reduce: boolean | null;
   onOpenPreview: (item: Work, index: number) => void;
 }) {
-  const rowRef = useRef<HTMLDivElement>(null);
-  const geo = useRef({ base: 0, width: 1, view: 1 });
   const red = index % 2 === 1;
   const dir = index % 2 === 0 ? 1 : -1;
 
-  useEffect(() => {
-    const row = rowRef.current;
-    if (!row) return;
-    const measure = () => {
-      const rect = row.getBoundingClientRect();
-      geo.current = { base: rect.left - x.get(), width: rect.width || 1, view: window.innerWidth || 1 };
-    };
-    measure();
-    const observer = new ResizeObserver(measure);
-    observer.observe(row);
-    return () => observer.disconnect();
-  }, [x]);
-
   const offset = (v: number) => {
-    const { base, width, view } = geo.current;
-    return base + v + width / 2 - view / 2;
+    const view = typeof window !== "undefined" ? window.innerWidth : 1000;
+    return index * view + v;
   };
   const wordX = useTransform(x, (v) => -offset(v) * 0.4 * dir);
-  const wordOpacity = useTransform(x, (v) => 0.15 + 0.85 * Math.max(0, 1 - Math.abs(offset(v)) / (geo.current.view * 0.5)));
+  const wordOpacity = useTransform(x, (v) => {
+    const view = typeof window !== "undefined" ? window.innerWidth : 1000;
+    return 0.15 + 0.85 * Math.max(0, 1 - Math.abs(offset(v)) / (view * 0.5));
+  });
 
   const number = String(index + 1).padStart(2, "0");
   const count = String(total).padStart(2, "0");
 
   return (
-    <article className="h-[max(22rem,calc(100svh-28rem))] w-[100vw] px-[var(--gutter)] lg:h-[max(26rem,calc(100svh-16rem))]">
+    <article className="h-[clamp(22rem,65svh,38rem)] w-[100vw] px-[var(--gutter)]">
       <div
         className={cn(
           "grid size-full grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden p-[var(--gutter)] transition-colors duration-300",
@@ -203,7 +191,6 @@ function Panel({
         </div>
 
         <div
-          ref={rowRef}
           aria-hidden="true"
           className="relative flex items-center overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]"
         >
@@ -267,7 +254,7 @@ function Panel({
 
 function ApexWebsiteView({ item }: { item: Work }) {
   return (
-    <div className="w-full flex flex-col gap-0 select-none bg-[#f4f1ea] text-[#1f1d19] font-sans">
+    <div className="w-full flex flex-col gap-0 bg-[#f4f1ea] text-[#1f1d19] font-sans">
       {/* Header */}
       <div className="bg-[#1a1917] px-6 py-4 text-white flex items-center justify-between border-b-2 border-[#8c6d46]">
         <div className="flex items-center gap-3">
@@ -371,7 +358,7 @@ function ApexWebsiteView({ item }: { item: Work }) {
 
 function VerveWebsiteView({ item }: { item: Work }) {
   return (
-    <div className="w-full flex flex-col gap-0 select-none bg-[#08090c] text-[#f0f2f8] font-sans">
+    <div className="w-full flex flex-col gap-0 bg-[#08090c] text-[#f0f2f8] font-sans">
       {/* Header */}
       <div className="bg-[#0f1118] px-6 py-4 text-white flex items-center justify-between border-b-2 border-[#ff2a55]">
         <div className="flex items-center gap-3">
@@ -475,7 +462,7 @@ function VerveWebsiteView({ item }: { item: Work }) {
 
 function CrestWebsiteView({ item }: { item: Work }) {
   return (
-    <div className="w-full flex flex-col gap-0 select-none bg-[#f8fafc] text-[#0f172a] font-sans">
+    <div className="w-full flex flex-col gap-0 bg-[#f8fafc] text-[#0f172a] font-sans">
       {/* Header */}
       <div className="bg-[#070d19] px-6 py-4 text-white flex items-center justify-between border-b-2 border-[#d97706]">
         <div className="flex items-center gap-3">
@@ -573,7 +560,7 @@ function CrestWebsiteView({ item }: { item: Work }) {
 
 function SlateWebsiteView({ item }: { item: Work }) {
   return (
-    <div className="w-full flex flex-col gap-0 select-none bg-[#fff8f6] text-[#2d1b26] font-sans">
+    <div className="w-full flex flex-col gap-0 bg-[#fff8f6] text-[#2d1b26] font-sans">
       {/* Header */}
       <div className="bg-[#2d1b26] px-6 py-4 text-white flex items-center justify-between border-b-2 border-[#f472b6]">
         <div className="flex items-center gap-3">
@@ -728,6 +715,7 @@ function getProjectAnimationConfig(item: Work, index: number) {
 
 function PortfolioPreviewModal({ item, index = 0, onClose }: { item: Work; index?: number; onClose: () => void }) {
   const modalRef = useRef<HTMLDivElement>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [device, setDevice] = useState<"interactive" | "3d" | "desktop" | "mobile">("interactive");
   const [speed, setSpeed] = useState<number>(1);
@@ -737,6 +725,12 @@ function PortfolioPreviewModal({ item, index = 0, onClose }: { item: Work; index
   const config = getProjectAnimationConfig(item, index);
   const cycleDuration = config.baseDuration / speed;
   const RendererComponent = config.Renderer;
+
+  useEffect(() => {
+    if (isPlaying && viewportRef.current) {
+      viewportRef.current.scrollTop = 0;
+    }
+  }, [isPlaying]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -958,10 +952,11 @@ function PortfolioPreviewModal({ item, index = 0, onClose }: { item: Work; index
 
             {/* Scroll Animation Screen Viewport with 3D Perspective Support */}
             <div
+              ref={viewportRef}
               className={cn(
-                "relative overflow-hidden bg-[#0c0c0b]",
+                "relative bg-[#0c0c0b]",
                 device === "mobile" ? "h-[460px]" : "h-[400px] md:h-[450px]",
-                !isPlaying && "overflow-y-auto"
+                isPlaying ? "overflow-hidden" : "overflow-y-auto overscroll-contain scroll-smooth"
               )}
               style={
                 device === "3d"
@@ -977,7 +972,7 @@ function PortfolioPreviewModal({ item, index = 0, onClose }: { item: Work; index
                 animate={
                   isPlaying
                     ? { y: device === "mobile" ? config.mobileKeyframes : config.desktopKeyframes }
-                    : undefined
+                    : { y: "0%" }
                 }
                 transition={
                   isPlaying
@@ -987,7 +982,7 @@ function PortfolioPreviewModal({ item, index = 0, onClose }: { item: Work; index
                         ease: config.ease,
                         times: config.times,
                       }
-                    : undefined
+                    : { duration: 0.2 }
                 }
                 style={
                   device === "3d"
@@ -998,7 +993,7 @@ function PortfolioPreviewModal({ item, index = 0, onClose }: { item: Work; index
                       }
                     : undefined
                 }
-                className="w-full flex flex-col gap-0 select-none pointer-events-auto transition-transform duration-300"
+                className="w-full flex flex-col gap-0 pointer-events-auto transition-transform duration-300"
               >
                 <RendererComponent item={item} />
               </motion.div>
