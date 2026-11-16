@@ -32,7 +32,7 @@ export default function HomePage() {
         data-webild-section="HeroShapeSplit"
         data-webild-section-id="HeroShapeSplit-1"
         data-section="hero"
-        data-model='[{"x":0.35,"y":0.05,"z":0,"rx":14,"ry":-28,"rz":2,"scale":1.15,"explode":0,"dial":1}]'
+        data-model='[{"x":0.28,"y":0.05,"z":0,"rx":14,"ry":-28,"rz":2,"scale":1.12,"explode":0.2,"dial":1}]'
         className="relative z-[45]"
       >
         <HeroShapeSplit

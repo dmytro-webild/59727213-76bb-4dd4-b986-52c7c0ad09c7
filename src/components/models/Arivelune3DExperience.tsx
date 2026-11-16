@@ -601,11 +601,11 @@ export default function Arivelune3DExperience() {
       const sy = window.scrollY;
       const h = window.innerHeight;
       let nextScene = 0;
-      if (sy < h * 0.9) {
+      if (sy < h * 0.6) {
         nextScene = 0;
-      } else if (sy < h * 1.9) {
+      } else if (sy < h * 1.6) {
         nextScene = 1;
-      } else if (sy < h * 2.9) {
+      } else if (sy < h * 2.6) {
         nextScene = 2;
       } else {
         nextScene = 3;
@@ -685,7 +685,7 @@ export default function Arivelune3DExperience() {
   return (
     <group name="arivelune-cinematic-experience">
       {/* LAPTOP PART */}
-      <group name="part-laptop" ref={laptopGroupRef} position={[0, -0.15, 0]}>
+      <group name="part-laptop" ref={laptopGroupRef} position={[-0.35, -0.15, 0]}>
         {/* Base Unibody Chassis */}
         <mesh geometry={g.laptopBase} material={f.paint} castShadow receiveShadow />
 
@@ -737,7 +737,7 @@ export default function Arivelune3DExperience() {
       </group>
 
       {/* SMARTPHONE PART */}
-      <group name="part-phone" ref={phoneGroupRef} position={[1.65, -0.1, 0.5]} rotation={[0.12, -0.3, 0.05]}>
+      <group name="part-phone" ref={phoneGroupRef} position={[2.1, -0.1, 0.45]} rotation={[0.12, -0.28, 0.05]}>
         {/* Titanium Body Frame */}
         <mesh geometry={g.phoneBody} material={f.paint} castShadow receiveShadow />
 
