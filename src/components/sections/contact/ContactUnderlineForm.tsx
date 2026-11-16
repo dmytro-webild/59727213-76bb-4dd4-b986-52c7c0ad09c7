@@ -30,7 +30,6 @@ const ContactUnderlineForm = ({
   servicesLabel = "Service",
   services = ["Brand identity", "Website", "Product design", "Motion", "Other"],
   button = { text: "Send message" },
-  recipientEmail = "admin@arivelunestudio.com",
   ariaLabel,
   className,
 }: ContactUnderlineFormProps) => {
@@ -39,7 +38,6 @@ const ContactUnderlineForm = ({
   const { ease, base, slow } = useKitMotion();
   const [active, setActive] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [lastSubmittedEmail, setLastSubmittedEmail] = useState("");
 
   const words = title.trim().split(/\s+/);
   const rise = (i: number) => ({ hidden: { opacity: 0, y: 24 }, shown: { opacity: 1, y: 0, transition: { duration: slow * 0.7, ease, delay: 0.1 + i * 0.06 } } });
@@ -47,33 +45,7 @@ const ContactUnderlineForm = ({
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const data: Record<string, string> = {};
-    formData.forEach((value, key) => {
-      data[key] = value.toString();
-    });
-
-    const selectedService = services[active] ?? "";
-    const subject = `${title}${data.name ? ` from ${data.name}` : ""}`;
-    const lines: string[] = [
-      title,
-      "----------------------------------------",
-    ];
-    if (data.name) lines.push(`Name: ${data.name}`);
-    if (data.email) lines.push(`Email: ${data.email}`);
-    if (data.phone) lines.push(`Phone: ${data.phone}`);
-    if (data.website) lines.push(`Website: ${data.website}`);
-    if (data.company) lines.push(`Company / Website: ${data.company}`);
-    if (selectedService) lines.push(`Service Selected: ${selectedService}`);
-    if (data.message) lines.push(`\nProject Details:\n${data.message}`);
-
-    const body = lines.join("\n");
-    const mailtoUrl = `mailto:${recipientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-    setLastSubmittedEmail(mailtoUrl);
     setIsSubmitted(true);
-
-    window.location.href = mailtoUrl;
   };
 
   return (
@@ -107,21 +79,12 @@ const ContactUnderlineForm = ({
                 <svg className="size-6 shrink-0 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
-                <h3 className="text-[length:var(--text-h3)] font-medium">Thank you! Your request is ready.</h3>
+                <h3 className="text-[length:var(--text-h3)] font-medium">Thank you! Your request has been sent.</h3>
               </div>
               <p className="text-[length:var(--text-body)] text-muted-foreground leading-relaxed">
-                Your request details have been formatted for sending to <span className="text-foreground font-semibold">{recipientEmail}</span>.
-                If your email application didn't launch automatically, click the button below to send your request directly.
+                Thank you for reaching out! We have received your request details and will get back to you shortly.
               </p>
               <div className="flex flex-wrap gap-4 pt-2">
-                {lastSubmittedEmail && (
-                  <a
-                    href={lastSubmittedEmail}
-                    className="btn-primary inline-flex items-center justify-center px-6 py-3"
-                  >
-                    <p className="btn-label">Open Email App ({recipientEmail})</p>
-                  </a>
-                )}
                 <button
                   type="button"
                   onClick={() => setIsSubmitted(false)}
