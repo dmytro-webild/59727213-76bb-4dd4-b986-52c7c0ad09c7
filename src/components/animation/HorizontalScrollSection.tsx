@@ -1,6 +1,6 @@
 "use client";
 
-import { Children, useEffect, useRef, useState } from "react";
+import { Children, useCallback, useEffect, useRef, useState } from "react";
 import { motion, useMotionValue, useMotionValueEvent, useReducedMotion, useScroll, type MotionValue } from "motion/react";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -26,15 +26,10 @@ type HorizontalScrollSectionProps = {
 
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
 
-const distance = (rel: number, travel: number, view: number) => {
-  if (rel < 0) {
-    const u = clamp((rel + view) / view, 0, 1);
-    return -(view / 2) * (1 - u * u);
-  }
-  if (rel > travel) {
-    const u = clamp((rel - travel) / view, 0, 1);
-    return travel + (view / 2) * (1 - (1 - u) * (1 - u));
-  }
+const distance = (rel: number, travel: number) => {
+  if (travel <= 0) return 0;
+  if (rel <= 0) return 0;
+  if (rel >= travel) return travel;
   return rel;
 };
 
@@ -62,12 +57,13 @@ const HorizontalScene = ({ children, header, className = "", trackClassName = ""
   const { scrollYProgress } = useScroll({ target: outerRef, offset: ["start end", "end start"] });
   usePreloadImages(outerRef, "150%");
 
-  const sync = () => {
-    const { travel, view } = geo.current;
-    const rel = -(outerRef.current?.getBoundingClientRect().top ?? 0);
-    x.set(-distance(rel, travel, view));
+  const sync = useCallback(() => {
+    const { travel } = geo.current;
+    if (!outerRef.current) return;
+    const rel = -outerRef.current.getBoundingClientRect().top;
+    x.set(-distance(rel, travel));
     done.set(travel > 0 ? clamp(rel / travel, 0, 1) : 0);
-  };
+  }, [done, x]);
 
   useEffect(() => {
     const box = boxRef.current;
@@ -86,15 +82,15 @@ const HorizontalScene = ({ children, header, className = "", trackClassName = ""
     observer.observe(box);
     observer.observe(track);
     return () => observer.disconnect();
-  }, []);
+  }, [sync]);
 
   useMotionValueEvent(scrollYProgress, "change", sync);
 
   return (
-    <div ref={outerRef} style={{ height }} className={cn("relative w-full", className)}>
-      <div ref={boxRef} className={cn("sticky top-0 ml-[calc(50%-50vw)] flex h-svh w-[100vw] flex-col overflow-hidden", compact && "justify-center")}>
-        {header && <div className={cn("relative z-10 mx-auto w-full max-w-6xl px-6", compact ? "pt-[clamp(4rem,9svh,6rem)]" : "pt-8", headerClassName)}>{header}</div>}
-        <div className={cn("flex items-center", compact ? "mt-[clamp(2rem,4vw,3.5rem)]" : "min-h-0 flex-1", bodyClassName)}>
+    <div ref={outerRef} style={{ height: height ? `${height}px` : undefined }} className={cn("relative w-full", className)}>
+      <div ref={boxRef} className={cn("sticky top-0 ml-[calc(50%-50vw)] flex h-svh w-[100vw] flex-col overflow-hidden", compact && "justify-between")}>
+        {header && <div className={cn("relative z-10 mx-auto w-full max-w-6xl px-6 pt-4 md:pt-6 shrink-0", headerClassName)}>{header}</div>}
+        <div className={cn("flex-1 min-h-0 flex items-center py-2 md:py-4", bodyClassName)}>
           <motion.div ref={trackRef} style={{ x }} className={cn("flex w-max gap-4 px-[max(1.5rem,calc((100vw-72rem)/2+1.5rem))] will-change-transform md:gap-6", trackClassName)}>
             {Children.map(children, (child) => (
               <div className="shrink-0">{child}</div>
@@ -102,7 +98,7 @@ const HorizontalScene = ({ children, header, className = "", trackClassName = ""
           </motion.div>
         </div>
         {progress && moves && (
-          <div className="absolute inset-x-[max(1.5rem,calc((100vw-72rem)/2+1.5rem))] bottom-8 h-px bg-foreground/20">
+          <div className="absolute inset-x-[max(1.5rem,calc((100vw-72rem)/2+1.5rem))] bottom-6 h-px bg-foreground/20">
             <motion.div style={{ scaleX: done }} className="h-full w-full origin-left bg-foreground" />
           </div>
         )}
