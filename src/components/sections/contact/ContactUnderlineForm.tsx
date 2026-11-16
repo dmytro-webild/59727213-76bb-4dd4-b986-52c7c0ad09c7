@@ -32,7 +32,7 @@ const ContactUnderlineForm = ({
     { name: "message", label: "Project details", type: "textarea", placeholder: "What are you building, and what should change?", required: true },
   ],
   servicesLabel = "Service required",
-  services = ["Bespoke Web Design", "24/7 AI Chatbot", "Lead Automation", "Local SEO", "Full Digital System"],
+  services = ["Bespoke Web Design", "24/7 AI Enquiry Systems", "Lead Automation", "Local SEO Optimisation", "Website Care & Support"],
   button = { text: "Send Enquiry" },
   recipientEmail = "admin@arivelunestudio.com",
   ariaLabel,
@@ -273,6 +273,69 @@ const ContactUnderlineForm = ({
               )}
             </motion.form>
           )}
+
+          {/* Direct Contact & Business Email Sidebar */}
+          <motion.div
+            initial={live ? { opacity: 0, y: 24 } : false}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: slow * 0.5, ease, delay: 0.2 }}
+            className="flex flex-col gap-6 lg:col-span-4 border-t lg:border-t-0 lg:border-l border-border/70 pt-6 lg:pt-0 lg:pl-8"
+          >
+            <div className="flex flex-col gap-2">
+              <span className="font-mono text-xs uppercase tracking-wider text-accent font-semibold">
+                ✦ DIRECT BUSINESS EMAIL
+              </span>
+              <h3 className="text-xl font-bold text-foreground">Speak directly with our team</h3>
+              <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
+                Prefer to email us directly? Reach out anytime to send your project brief or enquiry directly to our Google Workspace inbox.
+              </p>
+            </div>
+
+            <a
+              href="mailto:admin@arivelunestudio.com"
+              className="group flex flex-col gap-2 rounded-2xl border border-accent/40 bg-accent/10 p-5 transition-all hover:bg-accent/20 hover:border-accent"
+            >
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-accent">
+                  OFFICIAL INBOX
+                </span>
+                <svg className="size-4 text-accent transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </div>
+              <span className="font-mono text-sm md:text-base font-bold text-foreground underline decoration-accent/60 underline-offset-4 group-hover:decoration-accent break-all">
+                admin@arivelunestudio.com
+              </span>
+              <span className="text-[11px] text-muted-foreground">
+                Click to send email directly →
+              </span>
+            </a>
+
+            <div className="flex flex-col gap-4 rounded-xl border border-border/50 bg-card/40 p-4 font-mono text-xs">
+              <div className="flex items-start gap-3">
+                <span className="text-accent text-base">⚡</span>
+                <div>
+                  <h4 className="font-bold text-foreground">Fast Turnaround</h4>
+                  <p className="text-muted-foreground text-[11px] mt-0.5">Guaranteed initial response within 24 business hours.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 border-t border-border/40 pt-3">
+                <span className="text-accent text-base">🔒</span>
+                <div>
+                  <h4 className="font-bold text-foreground">UK GDPR Protected</h4>
+                  <p className="text-muted-foreground text-[11px] mt-0.5">Your enquiry data is strictly protected and never shared.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 border-t border-border/40 pt-3">
+                <span className="text-accent text-base">📍</span>
+                <div>
+                  <h4 className="font-bold text-foreground">Berkshire, UK</h4>
+                  <p className="text-muted-foreground text-[11px] mt-0.5">Serving clients across Berkshire & Greater London.</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>
