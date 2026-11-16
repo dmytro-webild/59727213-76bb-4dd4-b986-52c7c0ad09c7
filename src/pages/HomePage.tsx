@@ -41,11 +41,11 @@ export default function HomePage() {
           description="High-converting digital platforms, automated lead intake, and local SEO engineered for growing Berkshire and UK businesses."
           primaryButton={{
             text: "Start Your Project",
-            href: "#contact"
+            href: "#contact-project"
           }}
           secondaryButton={{
             text: "Free Website Review",
-            href: "#contact"
+            href: "#contact-review"
           }}
           tertiaryButton={{
             text: "Explore Our Work",
@@ -122,7 +122,7 @@ export default function HomePage() {
               description: "Ongoing performance monitoring, security updates, speed patches, and dedicated technical care to keep your digital platform growing.",
               button: {
                 text: "Start Your Project",
-                href: "#contact"
+                href: "#contact-project"
               }
             }
           ]}
@@ -153,9 +153,9 @@ export default function HomePage() {
               clientLocation: "Berkshire, UK",
               results: "+340% Monthly Lead Conversion",
               deliverables: ["Bespoke Editorial Website", "24/7 AI Lead Assistant", "Instant SMS Alerts"],
-              url: "#contact",
+              url: "#contact-project",
               statusType: "completed",
-              statusLabel: "Completed Client Project"
+              statusLabel: "Client Project"
             },
             {
               title: "Verve",
@@ -166,9 +166,9 @@ export default function HomePage() {
               clientLocation: "Reading, UK",
               results: "24/7 Automated Booking System",
               deliverables: ["High-Impact Dark Theme", "Automated Intake Chatbot", "Local Search Optimization"],
-              url: "#contact",
+              url: "#contact-project",
               statusType: "completed",
-              statusLabel: "Completed Client Project"
+              statusLabel: "Client Project"
             },
             {
               title: "Crest",
@@ -179,9 +179,9 @@ export default function HomePage() {
               clientLocation: "Slough, UK",
               results: "3.8x Qualified Prospect Pipeline",
               deliverables: ["Corporate Brand Architecture", "Schema & Local SEO", "Client Intake Portal"],
-              url: "#contact",
+              url: "#contact-project",
               statusType: "concept",
-              statusLabel: "Design Concept & Architecture"
+              statusLabel: "Independent Design Concept"
             },
             {
               title: "Slate",
@@ -192,9 +192,9 @@ export default function HomePage() {
               clientLocation: "Windsor, UK",
               results: "+210% Online Booking Rate",
               deliverables: ["Mobile-First Reservation Engine", "Automated SMS Follow-Ups", "Fast-Load Media Gallery"],
-              url: "#contact",
-              statusType: "completed",
-              statusLabel: "Completed Client Project"
+              url: "#contact-project",
+              statusType: "concept",
+              statusLabel: "Independent Design Concept"
             }
           ]}
         />
@@ -247,11 +247,11 @@ export default function HomePage() {
               ],
               button: {
                 text: "Start Essential Build",
-                href: "#contact"
+                href: "#contact-project"
               },
               secondaryButton: {
                 text: "Request Free Review",
-                href: "#contact"
+                href: "#contact-review"
               }
             },
             {
@@ -290,11 +290,11 @@ export default function HomePage() {
               ],
               button: {
                 text: "Start Professional System",
-                href: "#contact"
+                href: "#contact-project"
               },
               secondaryButton: {
                 text: "Request Free Review",
-                href: "#contact"
+                href: "#contact-review"
               }
             },
             {
@@ -331,11 +331,11 @@ export default function HomePage() {
               ],
               button: {
                 text: "Discuss Bespoke Brief",
-                href: "#contact"
+                href: "#contact-project"
               },
               secondaryButton: {
                 text: "Request Free Review",
-                href: "#contact"
+                href: "#contact-review"
               }
             }
           ]}

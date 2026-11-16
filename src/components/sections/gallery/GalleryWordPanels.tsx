@@ -42,7 +42,7 @@ const DEFAULT_ITEMS: Work[] = [
     deliverables: ["Bespoke Editorial Website", "24/7 AI Lead Assistant", "Instant SMS Alerts"],
     url: "#contact",
     statusType: "completed",
-    statusLabel: "Completed Client Project",
+    statusLabel: "Client Project",
   },
   {
     title: "Verve",
@@ -55,7 +55,7 @@ const DEFAULT_ITEMS: Work[] = [
     deliverables: ["High-Impact Dark Theme", "Automated Intake Chatbot", "Local Search Optimization"],
     url: "#contact",
     statusType: "completed",
-    statusLabel: "Completed Client Project",
+    statusLabel: "Client Project",
   },
   {
     title: "Crest",
@@ -68,7 +68,7 @@ const DEFAULT_ITEMS: Work[] = [
     deliverables: ["Corporate Brand Architecture", "Schema & Local SEO", "Client Intake Portal"],
     url: "#contact",
     statusType: "concept",
-    statusLabel: "Design Concept & Architecture",
+    statusLabel: "Independent Design Concept",
   },
   {
     title: "Slate",
@@ -80,8 +80,8 @@ const DEFAULT_ITEMS: Work[] = [
     results: "+210% Online Booking Rate",
     deliverables: ["Mobile-First Reservation Engine", "Automated SMS Follow-Ups", "Fast-Load Media Gallery"],
     url: "#contact",
-    statusType: "completed",
-    statusLabel: "Completed Client Project",
+    statusType: "concept",
+    statusLabel: "Independent Design Concept",
   },
 ];
 
