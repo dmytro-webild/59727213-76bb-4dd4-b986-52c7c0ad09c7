@@ -3,19 +3,20 @@ import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { finishes, useParts } from "@/components/kit/codeModel";
 
-// Laptop dimensions
-const LAPTOP_W = 3.2;
-const LAPTOP_D = 2.1;
-const BASE_H = 0.12;
-const SCREEN_W = 3.1;
-const SCREEN_H = 2.0;
-const SCREEN_T = 0.08;
-const BEZEL = 0.08;
+// Refined Sleek Laptop dimensions (Proportional to high-end ultrabook/MacBook)
+const LAPTOP_W = 3.0;
+const LAPTOP_D = 2.0;
+const BASE_H = 0.07;
+const SCREEN_W = 3.0;
+const SCREEN_H = 1.88;
+const SCREEN_T = 0.04;
+const DISPLAY_W = 2.86;
+const DISPLAY_H = 1.76;
 
 // Phone dimensions
-const PHONE_W = 1.05;
-const PHONE_H = 2.15;
-const PHONE_T = 0.09;
+const PHONE_W = 0.95;
+const PHONE_H = 1.95;
+const PHONE_T = 0.08;
 
 // Helper to draw Laptop Screen Texture for 4 Scenes
 function createLaptopTexture(sceneIndex: number): THREE.CanvasTexture {
@@ -28,15 +29,15 @@ function createLaptopTexture(sceneIndex: number): THREE.CanvasTexture {
   const w = canvas.width;
   const h = canvas.height;
 
-  // Background
+  // Rich Dark Aesthetic Background
   const grad = ctx.createLinearGradient(0, 0, w, h);
   grad.addColorStop(0, "#111110");
-  grad.addColorStop(0.5, "#181816");
+  grad.addColorStop(0.5, "#171715");
   grad.addColorStop(1, "#0d0d0c");
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, w, h);
 
-  // Subtle grid lines
+  // Subtle studio grid overlay
   ctx.strokeStyle = "rgba(196, 175, 138, 0.05)";
   ctx.lineWidth = 1;
   for (let x = 0; x < w; x += 80) {
@@ -52,118 +53,141 @@ function createLaptopTexture(sceneIndex: number): THREE.CanvasTexture {
     ctx.stroke();
   }
 
-  // Top Nav Bar
-  ctx.fillStyle = "rgba(22, 22, 20, 0.9)";
-  ctx.fillRect(0, 0, w, 90);
-  ctx.strokeStyle = "rgba(196, 175, 138, 0.15)";
+  // Top Navigation Bar
+  ctx.fillStyle = "rgba(20, 20, 18, 0.95)";
+  ctx.fillRect(0, 0, w, 80);
+  ctx.strokeStyle = "rgba(196, 175, 138, 0.2)";
   ctx.lineWidth = 1;
   ctx.beginPath();
-  ctx.moveTo(0, 90);
-  ctx.lineTo(w, 90);
+  ctx.moveTo(0, 80);
+  ctx.lineTo(w, 80);
   ctx.stroke();
 
-  // Brand logo
+  // Brand identity
   ctx.fillStyle = "#f4f0e8";
   ctx.font = "bold 26px sans-serif";
-  ctx.fillText("ARIVELUNE STUDIO", 60, 54);
+  ctx.fillText("ARIVELUNE STUDIO", 50, 48);
 
-  // Nav Links
-  ctx.font = "500 18px sans-serif";
+  // Nav Items
+  ctx.font = "500 17px sans-serif";
   ctx.fillStyle = "#a8a49c";
-  ctx.fillText("Services", 1000, 54);
-  ctx.fillText("AI Systems", 1140, 54);
-  ctx.fillText("Case Studies", 1280, 54);
+  ctx.fillText("Web Design", 1020, 48);
+  ctx.fillText("AI Systems", 1160, 48);
+  ctx.fillText("Portfolio", 1280, 48);
 
-  // CTA Pill
+  // CTA Pill Button
   ctx.fillStyle = "#c4af8a";
   ctx.beginPath();
-  ctx.roundRect(1430, 24, 130, 42, 21);
+  ctx.roundRect(1410, 20, 140, 40, 20);
   ctx.fill();
   ctx.fillStyle = "#111110";
   ctx.font = "bold 15px sans-serif";
-  ctx.fillText("Free Review", 1450, 50);
+  ctx.fillText("Free Review", 1435, 45);
 
   if (sceneIndex === 0) {
     // SCENE 1: Premium Website Design Showcase
     ctx.fillStyle = "#c4af8a";
     ctx.font = "bold 16px sans-serif";
-    ctx.fillText("01 / EDITORIAL DIGITAL STUDIO", 80, 180);
+    ctx.fillText("01 / AWARD-WINNING UK DIGITAL AGENCY", 60, 150);
 
     ctx.fillStyle = "#f4f0e8";
-    ctx.font = "900 64px sans-serif";
-    ctx.fillText("EXCEPTIONAL DESIGN.", 80, 260);
+    ctx.font = "bold 56px sans-serif";
+    ctx.fillText("EXCEPTIONAL DESIGN.", 60, 225);
     ctx.fillStyle = "#c4af8a";
-    ctx.fillText("INTELLIGENT GROWTH.", 80, 335);
+    ctx.fillText("INTELLIGENT GROWTH.", 60, 290);
 
-    ctx.fillStyle = "#9a9a94";
-    ctx.font = "400 24px sans-serif";
-    ctx.fillText("Bespoke websites & 24/7 AI lead automation engineered for growing UK businesses.", 80, 395);
+    ctx.fillStyle = "#a8a49c";
+    ctx.font = "400 22px sans-serif";
+    ctx.fillText("Bespoke websites & 24/7 AI lead automation engineered for UK businesses.", 60, 345);
 
     // Hero Mockup Cards
-    ctx.fillStyle = "rgba(34, 34, 32, 0.85)";
-    ctx.strokeStyle = "rgba(196, 175, 138, 0.3)";
+    ctx.fillStyle = "rgba(30, 30, 28, 0.9)";
+    ctx.strokeStyle = "rgba(196, 175, 138, 0.35)";
     ctx.lineWidth = 2;
 
+    // Card 1: Apex Construction
     ctx.beginPath();
-    ctx.roundRect(80, 460, 440, 460, 16);
+    ctx.roundRect(60, 400, 460, 520, 16);
     ctx.fill();
     ctx.stroke();
 
-    ctx.fillStyle = "rgba(196, 175, 138, 0.15)";
-    ctx.fillRect(100, 480, 400, 220);
+    ctx.fillStyle = "#141412";
+    ctx.fillRect(80, 420, 420, 240);
+    ctx.fillStyle = "#c4af8a";
+    ctx.font = "bold 18px sans-serif";
+    ctx.fillText("APEX CONSTRUCTION", 100, 460);
+    ctx.fillStyle = "#f4f0e8";
+    ctx.font = "bold 26px sans-serif";
+    ctx.fillText("Bespoke Commercial Builds", 100, 500);
+    ctx.fillStyle = "#10b981";
+    ctx.font = "bold 16px sans-serif";
+    ctx.fillText("✓ +340% Monthly Lead Conversion", 100, 540);
+
     ctx.fillStyle = "#f4f0e8";
     ctx.font = "bold 22px sans-serif";
-    ctx.fillText("Apex Construction", 100, 740);
+    ctx.fillText("Apex Construction Ltd", 80, 700);
     ctx.fillStyle = "#c4af8a";
     ctx.font = "16px sans-serif";
-    ctx.fillText("High-End Builder • Berkshire", 100, 770);
-    ctx.fillStyle = "#8a8a84";
-    ctx.fillText("✦ 3.4x Enquiries via AI Assistant", 100, 810);
+    ctx.fillText("Luxury Builder • Berkshire", 80, 730);
+    ctx.fillStyle = "#a8a49c";
+    ctx.fillText("✦ Full Editorial Site & AI Qualification", 80, 770);
 
+    // Card 2: Verve Automotive
     ctx.beginPath();
-    ctx.roundRect(560, 460, 440, 460, 16);
+    ctx.roundRect(560, 400, 460, 520, 16);
     ctx.fill();
     ctx.stroke();
 
-    ctx.fillStyle = "rgba(196, 175, 138, 0.15)";
-    ctx.fillRect(580, 480, 400, 220);
+    ctx.fillStyle = "#141412";
+    ctx.fillRect(580, 420, 420, 240);
+    ctx.fillStyle = "#c4af8a";
+    ctx.font = "bold 18px sans-serif";
+    ctx.fillText("VERVE AUTOMOTIVE", 600, 460);
+    ctx.fillStyle = "#f4f0e8";
+    ctx.font = "bold 26px sans-serif";
+    ctx.fillText("Precision Vehicle Detailing", 600, 500);
+    ctx.fillStyle = "#10b981";
+    ctx.font = "bold 16px sans-serif";
+    ctx.fillText("✓ 24/7 Instant Booking System", 600, 540);
+
     ctx.fillStyle = "#f4f0e8";
     ctx.font = "bold 22px sans-serif";
-    ctx.fillText("Verve Automotive", 580, 740);
+    ctx.fillText("Verve Detailing & Care", 580, 700);
     ctx.fillStyle = "#c4af8a";
     ctx.font = "16px sans-serif";
-    ctx.fillText("Luxury Detailing • Reading", 580, 770);
-    ctx.fillStyle = "#8a8a84";
-    ctx.fillText("✦ 24/7 Automated Booking Workflow", 580, 810);
+    ctx.fillText("Automotive Specialist • Reading", 580, 730);
+    ctx.fillStyle = "#a8a49c";
+    ctx.fillText("✦ High-Impact Dark Theme & Chatbot", 580, 770);
 
+    // Card 3: Agency Highlights
     ctx.beginPath();
-    ctx.roundRect(1040, 460, 480, 460, 16);
+    ctx.roundRect(1060, 400, 480, 520, 16);
     ctx.fill();
     ctx.stroke();
 
     ctx.fillStyle = "#c4af8a";
-    ctx.font = "bold 20px sans-serif";
-    ctx.fillText("WHY ARIVELUNE?", 1070, 510);
+    ctx.font = "bold 22px sans-serif";
+    ctx.fillText("ARIVELUNE ADVANTAGE", 1090, 450);
 
     ctx.fillStyle = "#f4f0e8";
-    ctx.font = "18px sans-serif";
-    ctx.fillText("• Bespoke luxury design tailored to your brand", 1070, 560);
-    ctx.fillText("• AI chatbots pre-qualify prospects 24/7", 1070, 610);
-    ctx.fillText("• Direct SMS/Email instant lead alerts", 1070, 660);
-    ctx.fillText("• Optimized for UK search visibility", 1070, 710);
-    ctx.fillText("• Fixed pricing & zero hidden fees", 1070, 760);
+    ctx.font = "19px sans-serif";
+    ctx.fillText("• Bespoke luxury design tailored to brand", 1090, 510);
+    ctx.fillText("• 24/7 AI assistants pre-qualify leads", 1090, 560);
+    ctx.fillText("• Instant SMS & Email notification routing", 1090, 610);
+    ctx.fillText("• Optimized for Berkshire & UK SEO", 1090, 660);
+    ctx.fillText("• Transparent fixed pricing & zero fees", 1090, 710);
+    ctx.fillText("• Rapid 3-4 week project delivery", 1090, 760);
   } else if (sceneIndex === 1) {
     // SCENE 2: AI Customer Engagement
-    ctx.fillStyle = "rgba(10, 10, 10, 0.6)";
-    ctx.fillRect(0, 90, w, h - 90);
+    ctx.fillStyle = "rgba(10, 10, 10, 0.75)";
+    ctx.fillRect(0, 80, w, h - 80);
 
-    // AI Chatbot Modal Window
-    const mw = 900;
-    const mh = 700;
+    const mw = 920;
+    const mh = 740;
     const mx = (w - mw) / 2;
-    const my = 180;
+    const my = 150;
 
-    ctx.fillStyle = "#1e1e1c";
+    ctx.fillStyle = "#1c1c1a";
     ctx.strokeStyle = "rgba(196, 175, 138, 0.4)";
     ctx.lineWidth = 2;
     ctx.beginPath();
@@ -171,8 +195,7 @@ function createLaptopTexture(sceneIndex: number): THREE.CanvasTexture {
     ctx.fill();
     ctx.stroke();
 
-    // Modal Header
-    ctx.fillStyle = "#272724";
+    ctx.fillStyle = "#262623";
     ctx.beginPath();
     ctx.roundRect(mx, my, mw, 80, [20, 20, 0, 0]);
     ctx.fill();
@@ -184,60 +207,61 @@ function createLaptopTexture(sceneIndex: number): THREE.CanvasTexture {
 
     ctx.fillStyle = "#f4f0e8";
     ctx.font = "bold 24px sans-serif";
-    ctx.fillText("Arivelune AI Customer Engagement Assistant", mx + 70, my + 48);
+    ctx.fillText("Arivelune AI Lead Qualification Assistant", mx + 70, my + 48);
 
-    // Chat Message 1 (Visitor)
-    ctx.fillStyle = "#2a2a27";
+    // Chat 1 (Client)
+    ctx.fillStyle = "#292926";
     ctx.beginPath();
-    ctx.roundRect(mx + 40, my + 120, 620, 90, 14);
+    ctx.roundRect(mx + 40, my + 110, 650, 95, 14);
     ctx.fill();
-    ctx.fillStyle = "#e5e1d8";
+    ctx.fillStyle = "#f4f0e8";
     ctx.font = "18px sans-serif";
-    ctx.fillText("Hi! We're a commercial building firm in Berkshire.", mx + 60, my + 155);
-    ctx.fillText("Can your system automatically pre-qualify project leads?", mx + 60, my + 185);
+    ctx.fillText("Hi! We need a new commercial website for our building company.", mx + 60, my + 148);
+    ctx.fillText("Can your AI system automatically qualify leads and set appointments?", mx + 60, my + 180);
 
-    // Chat Message 2 (AI Assistant)
+    // Chat 2 (AI Assistant)
     ctx.fillStyle = "rgba(196, 175, 138, 0.15)";
     ctx.strokeStyle = "rgba(196, 175, 138, 0.5)";
     ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.roundRect(mx + 200, my + 240, 660, 140, 14);
+    ctx.roundRect(mx + 200, my + 230, 680, 145, 14);
     ctx.fill();
     ctx.stroke();
+
     ctx.fillStyle = "#c4af8a";
     ctx.font = "bold 16px sans-serif";
-    ctx.fillText("ARIVELUNE AI ASSISTANT", mx + 220, my + 270);
+    ctx.fillText("ARIVELUNE AI ASSISTANT", mx + 220, my + 260);
     ctx.fillStyle = "#f4f0e8";
     ctx.font = "18px sans-serif";
-    ctx.fillText("Hello! Absolutely. Our custom AI asks visitors about their project scope,", mx + 220, my + 305);
-    ctx.fillText("timeline & budget, then routes qualified details directly to your mobile.", mx + 220, my + 335);
+    ctx.fillText("Hello! Yes, absolutely. Our AI greets visitors 24/7, asks tailored project", mx + 220, my + 295);
+    ctx.fillText("questions (budget, scope, timeline), and routes hot leads straight to your phone.", mx + 220, my + 328);
 
-    // Chat Message 3 (Visitor)
-    ctx.fillStyle = "#2a2a27";
+    // Chat 3 (Client)
+    ctx.fillStyle = "#292926";
     ctx.beginPath();
-    ctx.roundRect(mx + 40, my + 400, 540, 80, 14);
+    ctx.roundRect(mx + 40, my + 400, 560, 85, 14);
     ctx.fill();
-    ctx.fillStyle = "#e5e1d8";
+    ctx.fillStyle = "#f4f0e8";
     ctx.font = "18px sans-serif";
-    ctx.fillText("That sounds ideal! Can it schedule a strategy call?", mx + 60, my + 448);
+    ctx.fillText("Sounds fantastic. Can we book an initial strategy consultation?", mx + 60, my + 450);
 
-    // Chat Message 4 (AI Assistant Action)
+    // Chat 4 (Confirmation)
     ctx.fillStyle = "#c4af8a";
     ctx.beginPath();
-    ctx.roundRect(mx + 200, my + 500, 660, 80, 14);
+    ctx.roundRect(mx + 200, my + 510, 680, 90, 14);
     ctx.fill();
     ctx.fillStyle = "#111110";
-    ctx.font = "bold 20px sans-serif";
-    ctx.fillText("✓ Consultation Call Booked for Tuesday, 10:00 AM", mx + 240, my + 548);
+    ctx.font = "bold 22px sans-serif";
+    ctx.fillText("✓ Strategy Session Booked — Tuesday at 10:00 AM GMT", mx + 230, my + 562);
   } else if (sceneIndex === 2) {
     // SCENE 3: Smart Lead Capture Form
-    ctx.fillStyle = "rgba(10, 10, 10, 0.6)";
-    ctx.fillRect(0, 90, w, h - 90);
+    ctx.fillStyle = "rgba(10, 10, 10, 0.75)";
+    ctx.fillRect(0, 80, w, h - 80);
 
     const mw = 940;
-    const mh = 720;
+    const mh = 740;
     const mx = (w - mw) / 2;
-    const my = 160;
+    const my = 140;
 
     ctx.fillStyle = "#1c1c1a";
     ctx.strokeStyle = "rgba(196, 175, 138, 0.4)";
@@ -249,181 +273,158 @@ function createLaptopTexture(sceneIndex: number): THREE.CanvasTexture {
 
     ctx.fillStyle = "#c4af8a";
     ctx.font = "bold 16px sans-serif";
-    ctx.fillText("03 / SMART LEAD CAPTURE WORKFLOW", mx + 50, my + 60);
+    ctx.fillText("03 / SMART LEAD INTAKE AUTOMATION", mx + 50, my + 55);
 
     ctx.fillStyle = "#f4f0e8";
-    ctx.font = "bold 36px sans-serif";
-    ctx.fillText("Interactive Lead Qualification System", mx + 50, my + 110);
+    ctx.font = "bold 34px sans-serif";
+    ctx.fillText("Automated Lead Qualification Form", mx + 50, my + 105);
 
-    // Progress Bar
-    ctx.fillStyle = "#2a2a27";
+    // Form inputs
+    ctx.fillStyle = "#262623";
     ctx.beginPath();
-    ctx.roundRect(mx + 50, my + 140, 840, 12, 6);
+    ctx.roundRect(mx + 50, my + 150, 840, 75, 10);
     ctx.fill();
+    ctx.fillStyle = "#a8a49c";
+    ctx.font = "18px sans-serif";
+    ctx.fillText("Business Name: Apex Construction Ltd (Berkshire)", mx + 70, my + 195);
 
-    ctx.fillStyle = "#c4af8a";
+    ctx.fillStyle = "#262623";
     ctx.beginPath();
-    ctx.roundRect(mx + 50, my + 140, 650, 12, 6);
+    ctx.roundRect(mx + 50, my + 245, 840, 75, 10);
     ctx.fill();
+    ctx.fillStyle = "#a8a49c";
+    ctx.fillText("Contact Email: h.vance@apexconstruction.co.uk", mx + 70, my + 290);
 
-    // Checkbox Options
-    ctx.fillStyle = "rgba(196, 175, 138, 0.1)";
+    ctx.fillStyle = "#262623";
+    ctx.beginPath();
+    ctx.roundRect(mx + 50, my + 340, 840, 75, 10);
+    ctx.fill();
+    ctx.fillStyle = "#a8a49c";
+    ctx.fillText("Selected Package: Professional Tier (£2,000)", mx + 70, my + 385);
+
+    // Checklist options
+    ctx.fillStyle = "rgba(196, 175, 138, 0.12)";
     ctx.strokeStyle = "#c4af8a";
     ctx.lineWidth = 1.5;
 
     ctx.beginPath();
-    ctx.roundRect(mx + 50, my + 180, 390, 80, 12);
+    ctx.roundRect(mx + 50, my + 440, 400, 75, 12);
     ctx.fill();
     ctx.stroke();
     ctx.fillStyle = "#c4af8a";
-    ctx.font = "bold 22px sans-serif";
-    ctx.fillText("✓ Bespoke Web Design", mx + 80, my + 228);
+    ctx.font = "bold 20px sans-serif";
+    ctx.fillText("✓ Bespoke Web Design", mx + 80, my + 485);
 
-    ctx.fillStyle = "rgba(196, 175, 138, 0.1)";
     ctx.beginPath();
-    ctx.roundRect(mx + 470, my + 180, 420, 80, 12);
+    ctx.roundRect(mx + 490, my + 440, 400, 75, 12);
     ctx.fill();
     ctx.stroke();
     ctx.fillStyle = "#c4af8a";
-    ctx.font = "bold 22px sans-serif";
-    ctx.fillText("✓ 24/7 AI Enquiry Chatbot", mx + 500, my + 228);
+    ctx.font = "bold 20px sans-serif";
+    ctx.fillText("✓ 24/7 AI Chatbot", mx + 520, my + 485);
 
-    // Inputs
-    ctx.fillStyle = "#262624";
-    ctx.beginPath();
-    ctx.roundRect(mx + 50, my + 290, 840, 70, 10);
-    ctx.fill();
-    ctx.fillStyle = "#a8a49c";
-    ctx.font = "18px sans-serif";
-    ctx.fillText("Full Name: Harrison Vance (Vance & Partners Construction)", mx + 70, my + 333);
-
-    ctx.fillStyle = "#262624";
-    ctx.beginPath();
-    ctx.roundRect(mx + 50, my + 380, 840, 70, 10);
-    ctx.fill();
-    ctx.fillStyle = "#a8a49c";
-    ctx.fillText("Email Address: h.vance@vanceconstruction.co.uk", mx + 70, my + 423);
-
-    ctx.fillStyle = "#262624";
-    ctx.beginPath();
-    ctx.roundRect(mx + 50, my + 470, 840, 70, 10);
-    ctx.fill();
-    ctx.fillStyle = "#a8a49c";
-    ctx.fillText("Project Budget: £5,000 - Professional System", mx + 70, my + 513);
-
-    // Submit Button
+    // CTA
     ctx.fillStyle = "#c4af8a";
     ctx.beginPath();
-    ctx.roundRect(mx + 50, my + 570, 840, 80, 14);
+    ctx.roundRect(mx + 50, my + 545, 840, 80, 14);
     ctx.fill();
     ctx.fillStyle = "#111110";
     ctx.font = "bold 24px sans-serif";
-    ctx.fillText("Submit Qualified Enquiry & Receive Proposal →", mx + 180, my + 620);
+    ctx.fillText("Submit Enquiry & Lock In Starting Price →", mx + 200, my + 595);
   } else {
     // SCENE 4: Lead Management Dashboard
     ctx.fillStyle = "#141413";
-    ctx.fillRect(0, 90, w, h - 90);
+    ctx.fillRect(0, 80, w, h - 80);
 
-    // Header title
     ctx.fillStyle = "#f4f0e8";
     ctx.font = "bold 32px sans-serif";
-    ctx.fillText("ARIVELUNE OS — LEAD MANAGEMENT DASHBOARD", 60, 160);
+    ctx.fillText("ARIVELUNE OS — CLIENT GROWTH DASHBOARD", 60, 150);
 
-    // 3 Metric Cards
+    // Metric Cards
     ctx.fillStyle = "#1e1e1c";
-    ctx.strokeStyle = "rgba(196, 175, 138, 0.25)";
+    ctx.strokeStyle = "rgba(196, 175, 138, 0.3)";
     ctx.lineWidth = 1.5;
 
-    // Card 1
     ctx.beginPath();
-    ctx.roundRect(60, 200, 460, 160, 14);
+    ctx.roundRect(60, 190, 460, 160, 14);
     ctx.fill();
     ctx.stroke();
     ctx.fillStyle = "#a8a49c";
     ctx.font = "bold 16px sans-serif";
-    ctx.fillText("QUALIFIED LEADS THIS MONTH", 90, 240);
+    ctx.fillText("MONTHLY QUALIFIED LEADS", 90, 230);
     ctx.fillStyle = "#f4f0e8";
-    ctx.font = "900 52px sans-serif";
-    ctx.fillText("64", 90, 310);
+    ctx.font = "bold 52px sans-serif";
+    ctx.fillText("78", 90, 300);
     ctx.fillStyle = "#10b981";
     ctx.font = "bold 20px sans-serif";
-    ctx.fillText("+38% vs last month", 220, 310);
+    ctx.fillText("+42% increase", 220, 300);
 
-    // Card 2
     ctx.beginPath();
-    ctx.roundRect(560, 200, 460, 160, 14);
+    ctx.roundRect(560, 190, 460, 160, 14);
     ctx.fill();
     ctx.stroke();
     ctx.fillStyle = "#a8a49c";
     ctx.font = "bold 16px sans-serif";
-    ctx.fillText("QUALIFIED REVENUE PIPELINE", 590, 240);
-    ctx.fillStyle = "#c4af8a";
-    ctx.font = "900 52px sans-serif";
-    ctx.fillText("£94,500", 590, 310);
-
-    // Card 3
-    ctx.beginPath();
-    ctx.roundRect(1060, 200, 480, 160, 14);
-    ctx.fill();
-    ctx.stroke();
-    ctx.fillStyle = "#a8a49c";
-    ctx.font = "bold 16px sans-serif";
-    ctx.fillText("AVG. AI RESPONSE TIME", 1090, 240);
+    ctx.fillText("AI CHATBOT ENGAGEMENT", 590, 230);
     ctx.fillStyle = "#f4f0e8";
-    ctx.font = "900 52px sans-serif";
-    ctx.fillText("8 secs", 1090, 310);
+    ctx.font = "bold 52px sans-serif";
+    ctx.fillText("94.2%", 590, 300);
+    ctx.fillStyle = "#10b981";
+    ctx.font = "bold 20px sans-serif";
+    ctx.fillText("Active 24/7", 780, 300);
 
-    // Lead Stream Table
-    ctx.fillStyle = "#1a1a18";
     ctx.beginPath();
-    ctx.roundRect(60, 390, 1480, 550, 16);
+    ctx.roundRect(1060, 190, 480, 160, 14);
+    ctx.fill();
+    ctx.stroke();
+    ctx.fillStyle = "#a8a49c";
+    ctx.font = "bold 16px sans-serif";
+    ctx.fillText("AVG RESPONSE TIME", 1090, 230);
+    ctx.fillStyle = "#f4f0e8";
+    ctx.font = "bold 52px sans-serif";
+    ctx.fillText("< 3 sec", 1090, 300);
+
+    // Table of recent enquiries
+    ctx.fillStyle = "#1c1c1a";
+    ctx.beginPath();
+    ctx.roundRect(60, 380, 1480, 540, 16);
     ctx.fill();
     ctx.stroke();
 
     ctx.fillStyle = "#c4af8a";
     ctx.font = "bold 20px sans-serif";
-    ctx.fillText("LIVE QUALIFIED ENQUIRY STREAM", 100, 440);
+    ctx.fillText("RECENT QUALIFIED CLIENT ENQUIRIES", 90, 430);
 
-    const rows = [
-      { name: "Apex Construction", location: "Ascot, Berkshire", type: "Web & AI Package", value: "£5,000", time: "2 mins ago", status: "Auto-Qualified" },
-      { name: "Verve Automotive", location: "Reading, Berkshire", type: "Lead Automation", value: "£2,500", time: "14 mins ago", status: "Call Booked" },
-      { name: "Slate Salon & Spa", location: "Windsor, Berkshire", type: "Full System", value: "£5,000", time: "1 hour ago", status: "Proposal Sent" },
-      { name: "Crest Professional Services", location: "Maidenhead, Berkshire", type: "Bespoke System", value: "Custom", time: "3 hours ago", status: "Auto-Qualified" }
+    const enquiries = [
+      { name: "Harrison Vance", company: "Apex Construction", type: "Full System", status: "Proposal Sent", value: "£2,000" },
+      { name: "Elena Rostova", company: "Verve Automotive", type: "Web & AI Bot", status: "Contract Signed", value: "£2,000" },
+      { name: "Marcus Thorne", company: "Crest Advisory", type: "Bespoke Multi-branch", status: "Discovery Call", value: "£5,000+" },
+      { name: "Sophie Bennett", company: "Slate Hair Salon", type: "Essential Site", status: "Completed", value: "£1,000" },
     ];
 
-    rows.forEach((r, idx) => {
-      const ry = 480 + idx * 105;
-      ctx.fillStyle = "rgba(40, 40, 37, 0.6)";
-      ctx.beginPath();
-      ctx.roundRect(90, ry, 1420, 85, 12);
-      ctx.fill();
+    enquiries.forEach((item, idx) => {
+      const iy = 470 + idx * 105;
+      ctx.fillStyle = "#252522";
+      ctx.fillRect(90, iy, 1420, 85);
 
       ctx.fillStyle = "#f4f0e8";
       ctx.font = "bold 22px sans-serif";
-      ctx.fillText(r.name, 120, ry + 40);
-      ctx.fillStyle = "#8a8a84";
+      ctx.fillText(item.name, 120, iy + 40);
+      ctx.fillStyle = "#a8a49c";
       ctx.font = "16px sans-serif";
-      ctx.fillText(r.location, 120, ry + 66);
-
-      ctx.fillStyle = "#e5e1d8";
-      ctx.font = "18px sans-serif";
-      ctx.fillText(r.type, 540, ry + 50);
+      ctx.fillText(item.company + " • " + item.type, 120, iy + 68);
 
       ctx.fillStyle = "#c4af8a";
-      ctx.font = "bold 22px sans-serif";
-      ctx.fillText(r.value, 880, ry + 50);
+      ctx.font = "bold 24px sans-serif";
+      ctx.fillText(item.value, 1000, iy + 52);
 
       ctx.fillStyle = "#10b981";
       ctx.beginPath();
-      ctx.roundRect(1140, ry + 22, 180, 42, 21);
+      ctx.roundRect(1220, iy + 25, 240, 45, 22);
       ctx.fill();
       ctx.fillStyle = "#042f2e";
-      ctx.font = "bold 15px sans-serif";
-      ctx.fillText(r.status, 1165, ry + 48);
-
-      ctx.fillStyle = "#8a8a84";
-      ctx.font = "15px sans-serif";
-      ctx.fillText(r.time, 1340, ry + 48);
+      ctx.font = "bold 18px sans-serif";
+      ctx.fillText(item.status, 1260, iy + 53);
     });
   }
 
@@ -433,231 +434,136 @@ function createLaptopTexture(sceneIndex: number): THREE.CanvasTexture {
   return texture;
 }
 
-// Helper to draw Phone Screen Texture for 4 Scenes
+// Helper to draw Phone Screen Texture
 function createPhoneTexture(sceneIndex: number): THREE.CanvasTexture {
   const canvas = document.createElement("canvas");
-  canvas.width = 800;
-  canvas.height = 1600;
+  canvas.width = 600;
+  canvas.height = 1200;
   const ctx = canvas.getContext("2d");
   if (!ctx) return new THREE.CanvasTexture(canvas);
 
   const w = canvas.width;
   const h = canvas.height;
 
-  ctx.fillStyle = "#0f0f0e";
+  // Background
+  const grad = ctx.createLinearGradient(0, 0, w, h);
+  grad.addColorStop(0, "#111110");
+  grad.addColorStop(1, "#1c1c1a");
+  ctx.fillStyle = grad;
   ctx.fillRect(0, 0, w, h);
 
   // Status Bar
-  ctx.fillStyle = "#f4f0e8";
-  ctx.font = "bold 28px sans-serif";
-  ctx.fillText("09:41", 60, 70);
+  ctx.fillStyle = "#a8a49c";
+  ctx.font = "bold 22px sans-serif";
+  ctx.fillText("9:41", 40, 45);
+  ctx.fillText("5G 100%", 480, 45);
 
-  // Dynamic Island
-  ctx.fillStyle = "#000000";
-  ctx.beginPath();
-  ctx.roundRect(w / 2 - 110, 30, 220, 50, 25);
-  ctx.fill();
+  // Header
+  ctx.fillStyle = "#c4af8a";
+  ctx.font = "bold 22px sans-serif";
+  ctx.fillText("ARIVELUNE STUDIO", 40, 100);
 
   if (sceneIndex === 0) {
-    // Mobile Web Preview
-    ctx.fillStyle = "#c4af8a";
-    ctx.font = "bold 28px sans-serif";
-    ctx.fillText("ARIVELUNE", 60, 180);
-
+    // Mobile View 1
     ctx.fillStyle = "#f4f0e8";
-    ctx.font = "bold 44px sans-serif";
-    ctx.fillText("Exceptional Design.", 60, 270);
+    ctx.font = "bold 36px sans-serif";
+    ctx.fillText("Exceptional", 40, 180);
+    ctx.fillText("Design.", 40, 225);
     ctx.fillStyle = "#c4af8a";
-    ctx.fillText("Intelligent Growth.", 60, 330);
+    ctx.fillText("Intelligent", 40, 270);
+    ctx.fillText("Growth.", 40, 315);
 
-    ctx.fillStyle = "#9a9a94";
-    ctx.font = "24px sans-serif";
-    ctx.fillText("Premium web design & AI systems", 60, 400);
-
-    ctx.fillStyle = "#c4af8a";
-    ctx.beginPath();
-    ctx.roundRect(60, 460, 680, 90, 45);
-    ctx.fill();
-    ctx.fillStyle = "#111110";
-    ctx.font = "bold 30px sans-serif";
-    ctx.fillText("Get Free Website Review", 190, 518);
-
-    // Cards
-    ctx.fillStyle = "#1e1e1c";
-    ctx.strokeStyle = "rgba(196, 175, 138, 0.3)";
+    ctx.fillStyle = "rgba(196, 175, 138, 0.15)";
+    ctx.strokeStyle = "#c4af8a";
     ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.roundRect(60, 600, 680, 400, 24);
+    ctx.roundRect(40, 360, 520, 340, 20);
     ctx.fill();
     ctx.stroke();
 
     ctx.fillStyle = "#f4f0e8";
-    ctx.font = "bold 32px sans-serif";
-    ctx.fillText("Bespoke Web Design", 100, 670);
-    ctx.fillStyle = "#a8a49c";
-    ctx.font = "24px sans-serif";
-    ctx.fillText("High-converting digital presence", 100, 720);
-
-    ctx.beginPath();
-    ctx.roundRect(60, 1040, 680, 400, 24);
-    ctx.fill();
-    ctx.stroke();
-
-    ctx.fillStyle = "#f4f0e8";
-    ctx.font = "bold 32px sans-serif";
-    ctx.fillText("AI Enquiry Chatbot", 100, 1110);
-    ctx.fillStyle = "#a8a49c";
-    ctx.font = "24px sans-serif";
-    ctx.fillText("24/7 lead intake and qualification", 100, 1160);
-  } else if (sceneIndex === 1) {
-    // AI Chat App
-    ctx.fillStyle = "#1c1c1a";
-    ctx.fillRect(0, 110, w, 110);
+    ctx.font = "bold 26px sans-serif";
+    ctx.fillText("Apex Construction", 70, 420);
+    ctx.fillStyle = "#c4af8a";
+    ctx.font = "20px sans-serif";
+    ctx.fillText("Bespoke Web & AI System", 70, 460);
     ctx.fillStyle = "#10b981";
-    ctx.beginPath();
-    ctx.arc(90, 165, 12, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = "#f4f0e8";
-    ctx.font = "bold 32px sans-serif";
-    ctx.fillText("Arivelune AI Assistant", 125, 175);
-
-    // Chat 1
-    ctx.fillStyle = "rgba(196, 175, 138, 0.2)";
-    ctx.beginPath();
-    ctx.roundRect(60, 260, 680, 160, 20);
-    ctx.fill();
-    ctx.fillStyle = "#c4af8a";
     ctx.font = "bold 22px sans-serif";
-    ctx.fillText("ARIVELUNE AI", 90, 305);
-    ctx.fillStyle = "#f4f0e8";
-    ctx.font = "24px sans-serif";
-    ctx.fillText("Hi! Looking to boost your business leads?", 90, 355);
+    ctx.fillText("+340% Enquiries", 70, 520);
 
-    // Chat 2
-    ctx.fillStyle = "#2a2a27";
-    ctx.beginPath();
-    ctx.roundRect(140, 450, 600, 140, 20);
-    ctx.fill();
-    ctx.fillStyle = "#e5e1d8";
-    ctx.font = "24px sans-serif";
-    ctx.fillText("Yes, we need lead automation for our", 170, 505);
-    ctx.fillText("trade firm in Reading.", 170, 545);
-
-    // Chat 3
-    ctx.fillStyle = "rgba(196, 175, 138, 0.2)";
-    ctx.beginPath();
-    ctx.roundRect(60, 620, 680, 200, 20);
-    ctx.fill();
-    ctx.fillStyle = "#c4af8a";
-    ctx.font = "bold 22px sans-serif";
-    ctx.fillText("ARIVELUNE AI", 90, 665);
-    ctx.fillStyle = "#f4f0e8";
-    ctx.font = "24px sans-serif";
-    ctx.fillText("Our system pre-qualifies incoming scope,", 90, 715);
-    ctx.fillText("budget & sends SMS alerts in seconds!", 90, 755);
-
-    // Quick action
     ctx.fillStyle = "#c4af8a";
     ctx.beginPath();
-    ctx.roundRect(60, 860, 680, 90, 45);
+    ctx.roundRect(40, 740, 520, 80, 16);
     ctx.fill();
     ctx.fillStyle = "#111110";
-    ctx.font = "bold 28px sans-serif";
-    ctx.fillText("✓ Auto-Schedule Free Review", 180, 915);
-  } else if (sceneIndex === 2) {
-    // Mobile Smart Lead Capture
-    ctx.fillStyle = "#c4af8a";
     ctx.font = "bold 24px sans-serif";
-    ctx.fillText("03 / QUICK LEAD FORM", 60, 160);
+    ctx.fillText("Explore Portfolio →", 170, 790);
+  } else if (sceneIndex === 1) {
+    // Mobile View 2: AI Chatbot Mobile Interface
+    ctx.fillStyle = "rgba(196, 175, 138, 0.15)";
+    ctx.strokeStyle = "#c4af8a";
+    ctx.lineWidth = 1.5;
 
+    ctx.beginPath();
+    ctx.roundRect(40, 150, 520, 200, 16);
+    ctx.fill();
+    ctx.stroke();
+    ctx.fillStyle = "#c4af8a";
+    ctx.font = "bold 20px sans-serif";
+    ctx.fillText("AI ASSISTANT ACTIVE", 70, 195);
     ctx.fillStyle = "#f4f0e8";
-    ctx.font = "bold 40px sans-serif";
-    ctx.fillText("Instant Project Quote", 60, 230);
+    ctx.font = "20px sans-serif";
+    ctx.fillText("Hello! Ready to book a project?", 70, 240);
+    ctx.fillText("Select your timeline below.", 70, 280);
 
-    ctx.fillStyle = "#262624";
+    ctx.fillStyle = "#292926";
     ctx.beginPath();
-    ctx.roundRect(60, 300, 680, 110, 16);
+    ctx.roundRect(40, 380, 520, 80, 12);
     ctx.fill();
-    ctx.fillStyle = "#a8a49c";
-    ctx.font = "24px sans-serif";
-    ctx.fillText("Name: Harrison Vance", 90, 365);
+    ctx.fillStyle = "#f4f0e8";
+    ctx.font = "20px sans-serif";
+    ctx.fillText("• Urgent (Within 2 weeks)", 70, 428);
 
-    ctx.fillStyle = "#262624";
+    ctx.fillStyle = "#292926";
     ctx.beginPath();
-    ctx.roundRect(60, 440, 680, 110, 16);
+    ctx.roundRect(40, 480, 520, 80, 12);
     ctx.fill();
-    ctx.fillStyle = "#a8a49c";
-    ctx.fillText("Phone: 07700 900123", 90, 505);
-
-    ctx.fillStyle = "#262624";
-    ctx.beginPath();
-    ctx.roundRect(60, 580, 680, 110, 16);
-    ctx.fill();
-    ctx.fillStyle = "#c4af8a";
-    ctx.fillText("Service: Web + AI Chatbot (£5,000)", 90, 645);
-
-    ctx.fillStyle = "#c4af8a";
-    ctx.beginPath();
-    ctx.roundRect(60, 740, 680, 100, 50);
-    ctx.fill();
-    ctx.fillStyle = "#111110";
-    ctx.font = "bold 30px sans-serif";
-    ctx.fillText("Submit Enquiry →", 260, 802);
-  } else {
-    // Mobile Dashboard & Push Notification
-    // Push Banner
-    ctx.fillStyle = "#222220";
-    ctx.strokeStyle = "rgba(196, 175, 138, 0.5)";
+    ctx.fillStyle = "#f4f0e8";
+    ctx.fillText("• Standard (3-4 weeks)", 70, 528);
+  } else if (sceneIndex === 2) {
+    // Mobile View 3: Lead Alert SMS
+    ctx.fillStyle = "rgba(16, 185, 129, 0.15)";
+    ctx.strokeStyle = "#10b981";
     ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.roundRect(40, 120, 720, 220, 24);
+    ctx.roundRect(40, 160, 520, 300, 20);
     ctx.fill();
     ctx.stroke();
 
-    ctx.fillStyle = "#c4af8a";
+    ctx.fillStyle = "#10b981";
     ctx.font = "bold 22px sans-serif";
-    ctx.fillText("🔔 ARIVELUNE LEAD HUB", 80, 170);
+    ctx.fillText("⚡ NEW LEAD ALERT", 70, 210);
     ctx.fillStyle = "#f4f0e8";
-    ctx.font = "bold 28px sans-serif";
-    ctx.fillText("NEW QUALIFIED LEAD!", 80, 220);
+    ctx.font = "20px sans-serif";
+    ctx.fillText("Name: Harrison Vance", 70, 260);
+    ctx.fillText("Company: Apex Construction", 70, 300);
+    ctx.fillText("Budget: £2,000 (Professional)", 70, 340);
+    ctx.fillText("Phone: +44 7700 900123", 70, 380);
+  } else {
+    // Mobile View 4: Analytics
+    ctx.fillStyle = "#252522";
+    ctx.beginPath();
+    ctx.roundRect(40, 160, 520, 200, 16);
+    ctx.fill();
     ctx.fillStyle = "#a8a49c";
-    ctx.font = "22px sans-serif";
-    ctx.fillText("Apex Construction — £5,000 Package", 80, 265);
-    ctx.fillText("Just captured via 24/7 AI Chatbot", 80, 300);
-
-    // Dashboard Items
+    ctx.font = "bold 18px sans-serif";
+    ctx.fillText("QUALIFIED LEADS", 70, 210);
     ctx.fillStyle = "#f4f0e8";
-    ctx.font = "bold 32px sans-serif";
-    ctx.fillText("Today's Leads (6)", 60, 410);
-
-    const items = [
-      { name: "Apex Construction", value: "£5,000", status: "Qualified" },
-      { name: "Verve Automotive", value: "£2,500", status: "Booked" },
-      { name: "Slate Salon & Spa", value: "£5,000", status: "Proposal" }
-    ];
-
-    items.forEach((it, idx) => {
-      const iy = 460 + idx * 200;
-      ctx.fillStyle = "#1e1e1c";
-      ctx.beginPath();
-      ctx.roundRect(60, iy, 680, 170, 20);
-      ctx.fill();
-
-      ctx.fillStyle = "#f4f0e8";
-      ctx.font = "bold 28px sans-serif";
-      ctx.fillText(it.name, 90, iy + 65);
-      ctx.fillStyle = "#c4af8a";
-      ctx.font = "bold 26px sans-serif";
-      ctx.fillText(it.value, 90, iy + 115);
-
-      ctx.fillStyle = "#10b981";
-      ctx.beginPath();
-      ctx.roundRect(500, iy + 45, 200, 60, 30);
-      ctx.fill();
-      ctx.fillStyle = "#042f2e";
-      ctx.font = "bold 22px sans-serif";
-      ctx.fillText(it.status, 545, iy + 83);
-    });
+    ctx.font = "bold 56px sans-serif";
+    ctx.fillText("78", 70, 280);
+    ctx.fillStyle = "#10b981";
+    ctx.font = "bold 22px sans-serif";
+    ctx.fillText("+42%", 200, 280);
   }
 
   const texture = new THREE.CanvasTexture(canvas);
@@ -715,35 +621,37 @@ export default function Arivelune3DExperience() {
   // Geometries memoization
   const g = useParts(
     () => ({
-      // Laptop geometries
+      // Sleek Laptop geometries
       laptopBase: new THREE.BoxGeometry(LAPTOP_W, BASE_H, LAPTOP_D),
-      trackpad: new THREE.BoxGeometry(1.0, 0.005, 0.7),
-      keyboardRecess: new THREE.BoxGeometry(2.8, 0.01, 1.05),
-      key: new THREE.BoxGeometry(0.18, 0.03, 0.18),
+      trackpad: new THREE.BoxGeometry(0.9, 0.004, 0.6),
+      keyboardRecess: new THREE.BoxGeometry(2.4, 0.008, 0.95),
+      key: new THREE.BoxGeometry(0.15, 0.02, 0.15),
       lidChassis: new THREE.BoxGeometry(SCREEN_W, SCREEN_H, SCREEN_T),
-      screenBezel: new THREE.PlaneGeometry(SCREEN_W - BEZEL, SCREEN_H - BEZEL),
-      logoEmblem: new THREE.CircleGeometry(0.2, 32),
-      hinge: new THREE.CylinderGeometry(0.04, 0.04, 0.3, 16),
+      displayScreen: new THREE.PlaneGeometry(DISPLAY_W, DISPLAY_H),
+      cameraNotch: new THREE.BoxGeometry(0.2, 0.02, 0.01),
+      logoEmblem: new THREE.CircleGeometry(0.18, 32),
+      hinge: new THREE.CylinderGeometry(0.035, 0.035, 0.35, 16),
+      foot: new THREE.CylinderGeometry(0.06, 0.06, 0.01, 16),
 
       // Phone geometries
       phoneBody: new THREE.BoxGeometry(PHONE_W, PHONE_H, PHONE_T),
-      phoneScreen: new THREE.PlaneGeometry(PHONE_W - 0.06, PHONE_H - 0.08),
-      cameraBump: new THREE.BoxGeometry(0.38, 0.38, 0.04),
-      cameraLens: new THREE.CylinderGeometry(0.07, 0.07, 0.05, 16),
-      dynamicIsland: new THREE.CapsuleGeometry(0.04, 0.16, 4, 16),
+      phoneScreen: new THREE.PlaneGeometry(PHONE_W - 0.05, PHONE_H - 0.06),
+      cameraBump: new THREE.BoxGeometry(0.35, 0.35, 0.03),
+      cameraLens: new THREE.CylinderGeometry(0.06, 0.06, 0.04, 16),
+      dynamicIsland: new THREE.CapsuleGeometry(0.035, 0.14, 4, 16),
     }),
     []
   );
 
-  // Keyboard keys matrix
+  // Keyboard keys grid layout
   const keyGrid = useMemo(() => {
     const keys: [number, number][] = [];
     const rows = 5;
     const cols = 12;
-    const startX = -1.25;
-    const startZ = -0.4;
-    const stepX = 0.23;
-    const stepZ = 0.2;
+    const startX = -1.1;
+    const startZ = -0.36;
+    const stepX = 0.2;
+    const stepZ = 0.18;
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
         keys.push([startX + c * stepX, startZ + r * stepZ]);
@@ -756,68 +664,80 @@ export default function Arivelune3DExperience() {
   useFrame(() => {
     const scrollY = window.scrollY;
     // Animate laptop lid opening dynamically in Scene 1
-    const lidAngleProgress = Math.min(1, Math.max(0, scrollY / 500));
-    // Smooth angle from ~15 deg (0.26 rad) to ~110 deg (1.92 rad)
-    const targetLidAngle = 0.26 + lidAngleProgress * (1.92 - 0.26);
+    // Smooth angle: screen tilts elegantly into ideal laptop viewing angle (~ -0.38 rad / ~112° open angle)
+    const scrollProgress = Math.min(1, Math.max(0, scrollY / 600));
+    const targetLidAngle = -0.36 - scrollProgress * 0.12; // Smooth backward angle from -0.36 to -0.48 rad
 
     if (laptopLidRef.current) {
-      laptopLidRef.current.rotation.x = THREE.MathUtils.lerp(laptopLidRef.current.rotation.x, targetLidAngle, 0.1);
+      laptopLidRef.current.rotation.x = THREE.MathUtils.lerp(laptopLidRef.current.rotation.x, targetLidAngle, 0.08);
     }
 
     // Gentle ambient floating
     const time = performance.now() * 0.0015;
     if (laptopGroupRef.current) {
-      laptopGroupRef.current.position.y = Math.sin(time) * 0.04;
+      laptopGroupRef.current.position.y = Math.sin(time) * 0.03;
     }
     if (phoneGroupRef.current) {
-      phoneGroupRef.current.position.y = Math.cos(time * 1.2) * 0.04;
+      phoneGroupRef.current.position.y = Math.cos(time * 1.2) * 0.03;
     }
   });
 
   return (
     <group name="arivelune-cinematic-experience">
       {/* LAPTOP PART */}
-      <group name="part-laptop" ref={laptopGroupRef} position={[0, -0.2, 0]}>
-        {/* Base Chassis */}
+      <group name="part-laptop" ref={laptopGroupRef} position={[0, -0.15, 0]}>
+        {/* Base Unibody Chassis */}
         <mesh geometry={g.laptopBase} material={f.paint} castShadow receiveShadow />
 
         {/* Trackpad */}
-        <mesh geometry={g.trackpad} material={f.alloy} position={[0, BASE_H / 2 + 0.003, 0.55]} />
+        <mesh geometry={g.trackpad} material={f.alloy} position={[0, BASE_H / 2 + 0.002, 0.45]} />
 
         {/* Keyboard Recess */}
         <mesh geometry={g.keyboardRecess} material={f.trim} position={[0, BASE_H / 2 + 0.002, -0.3]} />
 
         {/* Individual Keycaps */}
         {keyGrid.map(([kx, kz], idx) => (
-          <mesh key={idx} geometry={g.key} material={f.trim} position={[kx, BASE_H / 2 + 0.02, -0.3 + kz]} />
+          <mesh key={idx} geometry={g.key} material={f.trim} position={[kx, BASE_H / 2 + 0.015, -0.3 + kz]} />
         ))}
 
+        {/* Rubber Feet */}
+        {[-1.1, 1.1].map((fx) =>
+          [-0.7, 0.7].map((fz) => (
+            <mesh key={`foot-${fx}-${fz}`} geometry={g.foot} material={f.rubber} position={[fx, -BASE_H / 2 - 0.005, fz]} />
+          ))
+        )}
+
         {/* Rear Hinges */}
-        {[-0.8, 0.8].map((hx, idx) => (
+        {[-0.7, 0.7].map((hx, idx) => (
           <mesh key={idx} geometry={g.hinge} material={f.chrome} position={[hx, BASE_H / 2, -LAPTOP_D / 2]} rotation-z={Math.PI / 2} />
         ))}
 
-        {/* Display Lid Assembly (Pivot at hinge point) */}
+        {/* Display Lid Assembly (Pivot point at rear hinge) */}
         <group ref={laptopLidRef} position={[0, BASE_H / 2, -LAPTOP_D / 2]}>
           <group position={[0, SCREEN_H / 2, 0]}>
             {/* Lid Metallic Back Case */}
             <mesh geometry={g.lidChassis} material={f.paint} castShadow />
 
-            {/* Back Gold Emblem */}
+            {/* Back Gold Logo Emblem */}
             <mesh geometry={g.logoEmblem} position={[0, 0, -SCREEN_T / 2 - 0.001]} rotation-y={Math.PI}>
               <meshStandardMaterial color="#c4af8a" roughness={0.2} metalness={0.9} />
             </mesh>
 
-            {/* Display Screen Front */}
-            <mesh geometry={g.screenBezel} position={[0, 0, SCREEN_T / 2 + 0.001]}>
+            {/* Display Screen Front Surface */}
+            <mesh geometry={g.displayScreen} position={[0, 0, SCREEN_T / 2 + 0.001]}>
               <meshBasicMaterial map={laptopTextures[activeScene]} />
+            </mesh>
+
+            {/* Camera Notch at Top of Screen */}
+            <mesh geometry={g.cameraNotch} position={[0, SCREEN_H / 2 - 0.02, SCREEN_T / 2 + 0.002]}>
+              <meshBasicMaterial color="#000000" />
             </mesh>
           </group>
         </group>
       </group>
 
       {/* SMARTPHONE PART */}
-      <group name="part-phone" ref={phoneGroupRef} position={[1.8, -0.1, 0.6]} rotation={[0.1, -0.35, 0.05]}>
+      <group name="part-phone" ref={phoneGroupRef} position={[1.65, -0.1, 0.5]} rotation={[0.12, -0.3, 0.05]}>
         {/* Titanium Body Frame */}
         <mesh geometry={g.phoneBody} material={f.paint} castShadow receiveShadow />
 
@@ -827,17 +747,17 @@ export default function Arivelune3DExperience() {
         </mesh>
 
         {/* Dynamic Island */}
-        <mesh geometry={g.dynamicIsland} position={[0, PHONE_H / 2 - 0.12, PHONE_T / 2 + 0.002]} rotation-z={Math.PI / 2}>
+        <mesh geometry={g.dynamicIsland} position={[0, PHONE_H / 2 - 0.1, PHONE_T / 2 + 0.002]} rotation-z={Math.PI / 2}>
           <meshBasicMaterial color="#000000" />
         </mesh>
 
-        {/* Camera Plateau on Back */}
-        <mesh geometry={g.cameraBump} material={f.trim} position={[-0.22, PHONE_H / 2 - 0.3, -PHONE_T / 2 - 0.02]} />
+        {/* Camera Bump on Back */}
+        <mesh geometry={g.cameraBump} material={f.trim} position={[-0.2, PHONE_H / 2 - 0.28, -PHONE_T / 2 - 0.015]} />
 
         {/* Camera Lenses */}
-        {[-0.28, -0.16].map((cx, idx1) =>
-          [PHONE_H / 2 - 0.22, PHONE_H / 2 - 0.38].map((cy, idx2) => (
-            <mesh key={`${idx1}-${idx2}`} geometry={g.cameraLens} material={f.chrome} position={[cx, cy, -PHONE_T / 2 - 0.04]} rotation-x={Math.PI / 2} />
+        {[-0.25, -0.15].map((cx, idx1) =>
+          [PHONE_H / 2 - 0.2, PHONE_H / 2 - 0.35].map((cy, idx2) => (
+            <mesh key={`${idx1}-${idx2}`} geometry={g.cameraLens} material={f.chrome} position={[cx, cy, -PHONE_T / 2 - 0.03]} rotation-x={Math.PI / 2} />
           ))
         )}
       </group>

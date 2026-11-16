@@ -45,7 +45,7 @@ export default function HomePage() {
           }}
           secondaryButton={{
             text: "Explore Our Work",
-            href: "#services"
+            href: "#gallery"
           }}
           scrollLabel="Scroll to discover 3D experience"
           introDelay={1.7}
@@ -142,31 +142,47 @@ export default function HomePage() {
           items={[
             {
               title: "Apex",
-              category: "Web & AI System",
-              description: "A tailored digital foundation with automated enquiry routing for a luxury Berkshire builder.",
-              imageSrc: "https://img.b2bpic.net/free-photo/adult-man-young-women-working-together_23-2148431338.jpg",
-              imageAlt: "Adult man and young women working together"
+              category: "High-End Builder",
+              description: "A tailored digital foundation with automated enquiry routing for a luxury Berkshire commercial builder.",
+              imageSrc: "https://images.pexels.com/photos/4906412/pexels-photo-4906412.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+              imageAlt: "Apex Construction luxury architectural build website preview",
+              clientLocation: "Berkshire, UK",
+              results: "+340% Monthly Lead Conversion",
+              deliverables: ["Bespoke Editorial Website", "24/7 AI Lead Assistant", "Instant SMS Alerts"],
+              url: "#contact"
             },
             {
               title: "Verve",
-              category: "Lead Capture Setup",
-              description: "High-converting online presence and instant 24/7 AI enquiry assistant for an automotive brand.",
-              imageSrc: "https://img.b2bpic.net/free-photo/businesswoman-working-with-modern-virtual-technologies-hands-touching-screen_1212-722.jpg",
-              imageAlt: "Businesswoman working with modern virtual technologies hands touching the screen"
+              category: "Automotive Specialist",
+              description: "High-converting online presence and instant 24/7 AI enquiry assistant for an automotive brand in Reading.",
+              imageSrc: "https://images.pexels.com/photos/39280825/pexels-photo-39280825.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+              imageAlt: "Verve Detailing luxury sports car detailing website preview",
+              clientLocation: "Reading, UK",
+              results: "24/7 Automated Booking System",
+              deliverables: ["High-Impact Dark Theme", "Automated Intake Chatbot", "Local Search Optimization"],
+              url: "#contact"
             },
             {
               title: "Crest",
-              category: "Brand & SEO Site",
-              description: "Cinematic layout with local search visibility setup for a regional professional service provider.",
-              imageSrc: "https://img.b2bpic.net/free-photo/portrait-happy-businessman-using-telephone-outdoors_1150-3008.jpg",
-              imageAlt: "Portrait of happy businessman using telephone outdoors"
+              category: "Professional Services",
+              description: "Cinematic layout with local search visibility setup for a regional financial and advisory provider.",
+              imageSrc: "https://images.pexels.com/photos/5833861/pexels-photo-5833861.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+              imageAlt: "Crest Advisory corporate office web design preview",
+              clientLocation: "Slough, UK",
+              results: "3.8x Qualified Prospect Pipeline",
+              deliverables: ["Corporate Brand Architecture", "Schema & Local SEO", "Client Intake Portal"],
+              url: "#contact"
             },
             {
               title: "Slate",
-              category: "Digital Platform",
-              description: "Automated booking and lead qualification workspace crafted for a boutique hair salon.",
-              imageSrc: "https://img.b2bpic.net/free-photo/woman-using-make-up-brush-mirror_23-2148752498.jpg",
-              imageAlt: "Woman using a make-up brush in the mirror"
+              category: "Boutique Salon",
+              description: "Automated booking and lead qualification workspace crafted for a premium hair and beauty studio.",
+              imageSrc: "https://images.pexels.com/photos/39190730/pexels-photo-39190730.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+              imageAlt: "Slate Salon luxury beauty studio web preview",
+              clientLocation: "Windsor, UK",
+              results: "+210% Online Booking Rate",
+              deliverables: ["Mobile-First Reservation Engine", "Automated SMS Follow-Ups", "Fast-Load Media Gallery"],
+              url: "#contact"
             }
           ]}
         />
@@ -186,9 +202,9 @@ export default function HomePage() {
           description="Transparent starting prices tailored for local service providers, regional firms, and growing UK businesses."
           items={[
             {
-              title: "Essentials",
+              title: "Essential",
               description: "For local service providers seeking a distinct online presence.",
-              price: "From £1,500",
+              price: "£1,000",
               period: "GBP / Starting project",
               specs: [
                 {
@@ -216,7 +232,7 @@ export default function HomePage() {
             {
               title: "Professional",
               description: "For businesses ready to automate customer intake and lead follow-up.",
-              price: "From £3,500",
+              price: "£2,000",
               period: "GBP / Full digital system",
               specs: [
                 {
@@ -244,8 +260,8 @@ export default function HomePage() {
             {
               title: "Bespoke",
               description: "Tailored multi-location systems and lead-generation automation.",
-              price: "From £6,500",
-              period: "Scoped to brief",
+              price: "£5,000+",
+              period: "GBP / Scoped to brief",
               specs: [
                 {
                   label: "Scope",
